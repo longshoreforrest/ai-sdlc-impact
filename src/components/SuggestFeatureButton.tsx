@@ -137,7 +137,10 @@ function SuggestionCard({
         <p className="text-xs text-muted mt-1 line-clamp-2">{s.description}</p>
         <div className="flex items-center justify-between mt-2">
           <div className="text-[10px] text-muted">
-            <p>{t('fromUsers.suggested')} {new Date(s.createdAt).toLocaleDateString('en-GB')}</p>
+            <p>
+              {t('fromUsers.suggested')} {new Date(s.createdAt).toLocaleDateString('en-GB')}
+              {s.submitterName && <> · {t('suggestFeature.submittedBy', { name: s.submitterName })}</>}
+            </p>
           </div>
         <div className="flex gap-1">
           {STATUS_ACTIONS.map(({ status: actionStatus, icon: Icon, titleKey }) => (
@@ -168,6 +171,7 @@ export default function SuggestFeatureButton() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<Priority>('nice-to-have');
+  const [submitterName, setSubmitterName] = useState('');
   const [success, setSuccess] = useState(false);
   const [showList, setShowList] = useState(false);
   const [suggestions, setSuggestions] = useState<FeatureSuggestion[]>([]);
@@ -200,11 +204,13 @@ export default function SuggestFeatureButton() {
       title: title.trim(),
       description: description.trim(),
       priority,
+      ...(submitterName.trim() && { submitterName: submitterName.trim() }),
     });
 
     setTitle('');
     setDescription('');
     setPriority('nice-to-have');
+    setSubmitterName('');
     setSuggestions(getFeatureSuggestions());
     setSuccess(true);
     setTimeout(() => setSuccess(false), 2500);
@@ -309,6 +315,20 @@ export default function SuggestFeatureButton() {
                         </button>
                       ))}
                     </div>
+                  </div>
+
+                  {/* Submitter name (optional) */}
+                  <div>
+                    <label className="text-sm text-foreground mb-2 block">
+                      {t('suggestFeature.submitterName')}
+                    </label>
+                    <input
+                      type="text"
+                      value={submitterName}
+                      onChange={(e) => setSubmitterName(e.target.value)}
+                      placeholder={t('suggestFeature.submitterNamePlaceholder')}
+                      className="w-full bg-zinc-50 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+                    />
                   </div>
 
                   {/* Submit */}

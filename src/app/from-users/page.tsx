@@ -11,6 +11,9 @@ import {
   Clock,
   Ban,
   Filter,
+  Bot,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import {
   getFeatureSuggestions,
@@ -20,6 +23,7 @@ import {
   FeatureSuggestion,
   SourceSuggestion,
   SuggestionStatus,
+  AgentVerdict,
 } from '@/lib/suggestions';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
@@ -42,6 +46,13 @@ const STATUS_ACTIONS: { status: SuggestionStatus; icon: React.ElementType; title
   { status: 'postponed', icon: Clock, titleKey: 'common.postpone' },
   { status: 'rejected', icon: Ban, titleKey: 'common.reject' },
 ];
+
+const VERDICT_CONFIG: Record<AgentVerdict, { labelKey: TranslationKey; bg: string; dot: string }> = {
+  implement: { labelKey: 'agentAnalysis.verdictImplement', bg: 'bg-emerald-500/10 text-emerald-500', dot: 'bg-emerald-500' },
+  defer: { labelKey: 'agentAnalysis.verdictDefer', bg: 'bg-amber-500/10 text-amber-500', dot: 'bg-amber-500' },
+  reject: { labelKey: 'agentAnalysis.verdictReject', bg: 'bg-red-500/10 text-red-500', dot: 'bg-red-500' },
+  'needs-clarification': { labelKey: 'agentAnalysis.verdictClarify', bg: 'bg-blue-500/10 text-blue-500', dot: 'bg-blue-500' },
+};
 
 type StatusFilter = SuggestionStatus | 'all';
 
@@ -92,6 +103,89 @@ function StatusActionButtons({
   );
 }
 
+function AgentAnalysisPanel({ feature }: { feature: FeatureSuggestion }) {
+  const { t } = useTranslation();
+  const [expanded, setExpanded] = useState(false);
+  const analysis = feature.agentAnalysis;
+
+  if (!analysis) return null;
+
+  const verdictConfig = VERDICT_CONFIG[analysis.verdict];
+
+  return (
+    <div className="mt-4 border border-purple-500/20 rounded-lg overflow-hidden">
+      {/* Collapsible header */}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-between px-4 py-2.5 bg-purple-500/5 hover:bg-purple-500/10 transition-colors text-left"
+      >
+        <div className="flex items-center gap-2">
+          <Bot className="w-4 h-4 text-purple-400" />
+          <span className="text-xs font-medium text-purple-400 uppercase tracking-wider">
+            {t('agentAnalysis.title')}
+          </span>
+          <span className={`inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full ${verdictConfig.bg}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${verdictConfig.dot}`} />
+            {t(verdictConfig.labelKey)}
+          </span>
+        </div>
+        {expanded ? (
+          <ChevronUp className="w-4 h-4 text-purple-400" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-purple-400" />
+        )}
+      </button>
+
+      {expanded && (
+        <div className="px-4 py-4 space-y-4 bg-purple-500/[0.02]">
+          {/* 1. User Story & Intent */}
+          <div>
+            <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">
+              1. {t('agentAnalysis.userStory')}
+            </h4>
+            <div className="text-sm text-muted leading-relaxed space-y-2">
+              {analysis.userStory.split('\n').filter(Boolean).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </div>
+
+          {/* 2. Alignment Analysis */}
+          <div>
+            <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">
+              2. {t('agentAnalysis.alignment')}
+            </h4>
+            <div className="text-sm text-muted leading-relaxed space-y-2">
+              {analysis.alignmentAnalysis.split('\n').filter(Boolean).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </div>
+
+          {/* 3. Verdict */}
+          <div>
+            <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">
+              3. {t('agentAnalysis.verdict')}
+            </h4>
+            <div className="flex items-center gap-2 mb-2">
+              <span className={`inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1 rounded-full ${verdictConfig.bg}`}>
+                <span className={`w-2 h-2 rounded-full ${verdictConfig.dot}`} />
+                {t(verdictConfig.labelKey)}
+              </span>
+            </div>
+            <p className="text-sm text-muted leading-relaxed">{analysis.verdictReason}</p>
+          </div>
+
+          {/* Timestamp */}
+          <p className="text-[10px] text-muted/60 pt-2 border-t border-purple-500/10">
+            {t('agentAnalysis.analyzedOn', { date: formatDate(analysis.analyzedAt) })}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function FeatureCard({
   feature,
   onStatusChange,
@@ -132,6 +226,9 @@ function FeatureCard({
           <StatusActionButtons currentStatus={status} onStatusChange={onStatusChange} />
         </div>
 
+        {/* Agent Analysis Panel */}
+        <AgentAnalysisPanel feature={feature} />
+
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/50">
           <div className="flex items-center gap-2">
             <StatusBadge status={status} />
@@ -141,6 +238,7 @@ function FeatureCard({
           </div>
           <span className="text-xs text-muted">
             {t('fromUsers.suggested')} {formatDate(feature.createdAt)}
+            {feature.submitterName && <> · {t('suggestFeature.submittedBy', { name: feature.submitterName })}</>}
           </span>
         </div>
       </div>

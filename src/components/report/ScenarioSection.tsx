@@ -29,6 +29,12 @@ const SCENARIO_LABEL_KEYS: Record<ScenarioType, TranslationKey> = {
   optimistic: 'roi.optimistic',
 };
 
+const SCENARIO_MODEL_KEYS: Record<ScenarioType, TranslationKey> = {
+  pessimistic: 'scenario.modelPessimistic',
+  realistic: 'scenario.modelRealistic',
+  optimistic: 'scenario.modelOptimistic',
+};
+
 export default function ScenarioSection({ scenarioType, config, metrConfig, factGroups, allFacts, index }: ScenarioSectionProps) {
   const { t } = useTranslation();
   const color = SCENARIO_COLORS[scenarioType];
@@ -50,9 +56,10 @@ export default function ScenarioSection({ scenarioType, config, metrConfig, fact
 
   return (
     <div className="mb-8 break-inside-avoid">
-      <h3 className="text-lg font-bold mb-2" style={{ color }}>
+      <h3 className="text-lg font-bold mb-1" style={{ color }}>
         3.{index + 1} {t(SCENARIO_LABEL_KEYS[scenarioType])}
       </h3>
+      <p className="text-xs text-zinc-500 mb-2 font-medium">{t(SCENARIO_MODEL_KEYS[scenarioType])}</p>
 
       <p className="text-sm text-zinc-600 mb-4">{description}</p>
 

@@ -26,10 +26,10 @@ interface ExecutiveSummaryProps {
   inputs: CalculatorInputs;
 }
 
-const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; color: string }> = {
-  pessimistic: { labelKey: 'roi.pessimistic', color: '#ef4444' },
-  realistic:   { labelKey: 'roi.realistic',   color: '#f59e0b' },
-  optimistic:  { labelKey: 'roi.optimistic',  color: '#10b981' },
+const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string }> = {
+  pessimistic: { labelKey: 'roi.pessimistic', modelKey: 'scenario.modelPessimistic', color: '#ef4444' },
+  realistic:   { labelKey: 'roi.realistic',   modelKey: 'scenario.modelRealistic',   color: '#f59e0b' },
+  optimistic:  { labelKey: 'roi.optimistic',  modelKey: 'scenario.modelOptimistic',  color: '#10b981' },
 };
 
 export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, totalFacts, uniqueSources, yearSpan, hoursPerYear, inputs }: ExecutiveSummaryProps) {
@@ -85,10 +85,11 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
           const result = scenarios[key];
           return (
             <div key={key} className="border border-zinc-200 rounded-lg p-4">
-              <p className="text-xs font-medium uppercase tracking-wider mb-3" style={{ color: meta.color }}>
+              <p className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: meta.color }}>
                 {t(meta.labelKey)}
                 {timeframeYears > 1 && ` (${timeframeYears} ${t('calculator.years')})`}
               </p>
+              <p className="text-[10px] text-zinc-500 mb-3">{t(meta.modelKey)}</p>
               <div className="space-y-2">
                 <div>
                   <p className="text-xs text-zinc-500">{t('roi.hoursSaved')}</p>

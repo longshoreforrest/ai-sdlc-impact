@@ -33,10 +33,10 @@ interface ROIReportProps {
   transformationCosts?: TransformationCosts;
 }
 
-const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; color: string; bgClass: string; icon: React.ReactNode }> = {
-  pessimistic: { labelKey: 'roi.pessimistic', color: '#ef4444', bgClass: 'card-glow-red', icon: <TrendingDown className="w-4 h-4 text-red-400" /> },
-  realistic:   { labelKey: 'roi.realistic',   color: '#f59e0b', bgClass: 'card-glow-amber', icon: <Minus className="w-4 h-4 text-amber-400" /> },
-  optimistic:  { labelKey: 'roi.optimistic',  color: '#10b981', bgClass: 'card-glow-green', icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
+const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string; bgClass: string; icon: React.ReactNode }> = {
+  pessimistic: { labelKey: 'roi.pessimistic', modelKey: 'scenario.modelPessimistic', color: '#ef4444', bgClass: 'card-glow-red', icon: <TrendingDown className="w-4 h-4 text-red-400" /> },
+  realistic:   { labelKey: 'roi.realistic',   modelKey: 'scenario.modelRealistic',   color: '#f59e0b', bgClass: 'card-glow-amber', icon: <Minus className="w-4 h-4 text-amber-400" /> },
+  optimistic:  { labelKey: 'roi.optimistic',  modelKey: 'scenario.modelOptimistic',  color: '#10b981', bgClass: 'card-glow-green', icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
 };
 
 const PHASE_COLORS = ['#f59e0b', '#8b5cf6', '#06b6d4', '#3b82f6', '#10b981', '#f97316'];
@@ -153,12 +153,13 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
               key={key}
               className={`bg-surface rounded-xl border border-border p-5 ${meta.bgClass}`}
             >
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-1">
                 {meta.icon}
                 <span className="text-xs font-medium uppercase tracking-wider" style={{ color: meta.color }}>
                   {t(meta.labelKey)}
                 </span>
               </div>
+              <p className="text-[10px] text-muted mb-4">{t(meta.modelKey)}</p>
 
               <div className="space-y-3">
                 <div>

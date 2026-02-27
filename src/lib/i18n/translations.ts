@@ -226,19 +226,33 @@ const en = {
   'suggestSource.dataSourceName': 'Data source name (optional)',
 
   // Suggest Feature
-  'suggestFeature.button': 'Suggest Feature',
-  'suggestFeature.title': 'Suggest a Feature',
+  'suggestFeature.button': 'Suggest Feature Request',
+  'suggestFeature.title': 'Suggest a Feature Request',
   'suggestFeature.featureTitle': 'Feature Title',
   'suggestFeature.titlePlaceholder': 'Short summary of the feature',
   'suggestFeature.description': 'Description',
   'suggestFeature.descPlaceholder': "Detailed explanation of what you'd like...",
   'suggestFeature.priority': 'Priority',
+  'suggestFeature.submitterName': 'Your name or nickname',
+  'suggestFeature.submitterNamePlaceholder': 'Optional — leave blank for anonymous',
+  'suggestFeature.submittedBy': 'by {{name}}',
   'suggestFeature.submit': 'Submit Suggestion',
   'suggestFeature.submitted': '({{count}} submitted)',
   'suggestFeature.success': 'Feature suggestion saved!',
   'suggestFeature.previousCount': '{{count}} previous suggestion(s)',
   'suggestFeature.stopRecording': 'Stop recording',
   'suggestFeature.speechToText': 'Speech-to-text',
+
+  // Agent Analysis (Feature Requests)
+  'agentAnalysis.title': 'Agent Analysis',
+  'agentAnalysis.userStory': 'User Story & Intent',
+  'agentAnalysis.alignment': 'System Alignment',
+  'agentAnalysis.verdict': 'Verdict',
+  'agentAnalysis.analyzedOn': 'Analyzed on {{date}}',
+  'agentAnalysis.verdictImplement': 'Implement',
+  'agentAnalysis.verdictDefer': 'Defer',
+  'agentAnalysis.verdictReject': 'Reject',
+  'agentAnalysis.verdictClarify': 'Needs Clarification',
 
   // From Users page
   'fromUsers.title': 'From Users',
@@ -259,7 +273,7 @@ const en = {
   'welcome.title': 'SDLC AI-Impact Analyzer',
   'welcome.subtitle': "Quantifying AI\u2019s impact on the Software Development Lifecycle",
   'welcome.intro1': 'This application aggregates <strong>210+ real-world data points</strong> from academic papers, industry surveys, vendor reports, and practitioner anecdotes to quantify how AI tools are transforming each phase of the software development lifecycle \u2014 from Strategy through DevOps.',
-  'welcome.intro2': 'Use the interactive dashboards to explore productivity impacts by phase, filter by data type and year, compare early AI era vs. agentic AI era, and build a data-driven business case with the ROI calculator.',
+  'welcome.intro2': 'Use the interactive dashboards to explore productivity impacts by phase, filter by data type and year, compare early AI era vs. agentic AI era, and build a data-driven business case with the ROI calculator. The analysis uses three projection models (Conservative, Baseline, Forward) to provide a range of outcomes.',
   'welcome.intro3': 'All data is sourced from publicly available research (2023\u20132026). Sources include McKinsey, Gartner, Harvard Business School, Google Research, Microsoft Research, arXiv papers, and more.',
   'welcome.learnMore': 'Learn More',
   'welcome.videoTitle': 'Video Walkthrough',
@@ -463,10 +477,10 @@ const en = {
   'scenario.resetDefaults': 'Reset to Defaults',
   'scenario.configure': 'Configure Scenarios',
   'scenario.scenarios': 'Scenarios',
-  'scenario.descPessimistic': 'Conservative estimate using {{count}} data points from {{years}}, covering {{types}} sources. Reflects early AI adoption outcomes before agentic capabilities emerged, representing a lower-bound view.',
-  'scenario.descRealistic': 'Balanced estimate using {{count}} data points spanning {{years}}, including {{types}} source types across the full observation period.',
-  'scenario.descOptimisticMetr': 'Forward-looking estimate using {{count}} data points from {{years}}. Based on METR research, AI task-completion capability doubles every ~4 months (2023–2026 trend). A {{multiplier}}x progress multiplier is applied, modeling a {{doubling}}-month doubling period with a {{horizon}}-month forward projection.',
-  'scenario.descOptimistic': 'Forward-looking estimate using {{count}} data points from {{years}}, covering {{types}} sources. Represents the upper-bound view of AI impact based on recent agentic era data.',
+  'scenario.descPessimistic': 'Conservative projection model using {{count}} data points from {{years}}, covering {{types}} sources. Reflects early AI adoption outcomes before agentic capabilities emerged, representing a lower-bound view.',
+  'scenario.descRealistic': 'Baseline projection model using {{count}} data points spanning {{years}}, including {{types}} source types across the full observation period.',
+  'scenario.descOptimisticMetr': 'Forward projection model with METR capability scaling, using {{count}} data points from {{years}}. Based on METR research, AI task-completion capability doubles every ~4 months (2023–2026 trend). A {{multiplier}}x progress multiplier is applied, modeling a {{doubling}}-month doubling period with a {{horizon}}-month forward projection.',
+  'scenario.descOptimistic': 'Forward projection model using {{count}} data points from {{years}}, covering {{types}} sources. Represents the upper-bound view of AI impact based on recent agentic era data.',
   'scenario.all': 'All',
 
   // PDF
@@ -481,14 +495,14 @@ const en = {
   'report.tableOfContents': 'Table of Contents',
   'report.executiveSummary': 'Executive Summary',
   'report.dataFoundation': 'Data Foundation',
-  'report.scenarioDefinitions': 'Scenario Definitions',
+  'report.scenarioDefinitions': 'Projection Models & Scenario Definitions',
   'report.roiConfiguration': 'ROI Configuration & Assumptions',
   'report.sourceAppendix': 'Source Appendix',
   'report.howToRead': 'How to Read This Report',
   'report.generating': 'Generating report...',
   'report.noData': 'No report data available. Please configure and run the ROI Calculator first.',
   'report.goToCalculator': 'Go to Calculator',
-  'report.narrative': 'Based on {{totalFacts}} data points from {{uniqueSources}} independent sources spanning {{yearSpan}}, AI-powered development tools are projected to save {{hoursSaved}} hours annually for a {{teamSize}}-person team. Under the realistic scenario, this translates to {{costSavings}} in cost savings with a {{roiRatio}}x return on investment.',
+  'report.narrative': 'Based on {{totalFacts}} data points from {{uniqueSources}} independent sources spanning {{yearSpan}}, AI-powered development tools are projected to save {{hoursSaved}} hours annually for a {{teamSize}}-person team. Under the Baseline projection model (realistic scenario), this translates to {{costSavings}} in cost savings with a {{roiRatio}}x return on investment.',
   'report.totalFacts': 'Total Data Points',
   'report.uniqueSources': 'Independent Sources',
   'report.yearSpan': 'Year Span',
@@ -508,7 +522,7 @@ const en = {
   'report.phaseBreakdownTitle': 'Savings Breakdown by SDLC Phase',
   'report.phaseBreakdownIntro': 'The table below shows how projected savings distribute across each phase of the software development lifecycle. The "Inhouse %" column reflects what portion of each phase is performed by your own staff (only inhouse work benefits from AI tool adoption). Phases with low inhouse ratios show reduced savings because outsourced work is unaffected by your organisation\'s AI investment.',
   'report.strategyContext': 'Strategic Context',
-  'report.strategyContextText': 'AI-augmented software development is rapidly becoming an industry standard. Organisations that delay adoption risk falling behind competitors in delivery speed, developer experience, and cost efficiency. This analysis quantifies the expected financial impact for your specific organisation based on published, peer-reviewed research — not vendor marketing claims. The three-scenario model ensures decision-makers can evaluate outcomes under conservative, moderate, and optimistic assumptions.',
+  'report.strategyContextText': 'AI-augmented software development is rapidly becoming an industry standard. Organisations that delay adoption risk falling behind competitors in delivery speed, developer experience, and cost efficiency. This analysis quantifies the expected financial impact for your specific organisation based on published, peer-reviewed research — not vendor marketing claims. The three projection models (Conservative, Baseline, Forward) ensure decision-makers can evaluate outcomes under conservative, moderate, and optimistic assumptions.',
   'report.investorContext': 'Scalability Note',
   'report.investorContextText': 'The projected savings scale approximately linearly with team size. As the organisation grows or brings more development inhouse, the absolute return on AI tooling increases proportionally while the per-seat cost remains fixed. This creates a compounding advantage for larger or growing engineering organisations.',
 
@@ -524,9 +538,9 @@ const en = {
   'report.howToReadInvestor': 'Investor / Board Observer: Section 1 provides the three-scenario financial range. The "Scalability Note" explains how returns grow with team size. Section 6 provides a balanced risk disclosure. Section 2 shows the breadth and quality of the underlying evidence base.',
 
   // Report: section introductions
-  'report.execSummaryIntro': 'This section presents the projected financial outcomes of adopting AI-powered tools across your software development lifecycle (SDLC). Three scenarios — Pessimistic, Realistic, and Optimistic — provide a range of outcomes to support decision-making under uncertainty. All figures are annual projections based on your configured team size, salary levels, budget allocation, and the proportion of work performed inhouse versus outsourced. Cost savings reflect efficiency gains only for inhouse staff, since outsourced work is unaffected by your organisation\'s AI tool investment.',
+  'report.execSummaryIntro': 'This section presents the projected financial outcomes of adopting AI-powered tools across your software development lifecycle (SDLC). Three projection models — Conservative (Pessimistic), Baseline (Realistic), and Forward (Optimistic) — provide a range of outcomes to support decision-making under uncertainty. All figures are annual projections based on your configured team size, salary levels, budget allocation, and the proportion of work performed inhouse versus outsourced. Cost savings reflect efficiency gains only for inhouse staff, since outsourced work is unaffected by your organisation\'s AI tool investment.',
   'report.dataFoundationIntro': 'The projections in this report are grounded in a curated evidence base of publicly available research — including peer-reviewed academic studies, controlled experiments, industry surveys, and practitioner reports. This section summarises the scope, diversity, and credibility of the underlying data so that reviewers can assess the robustness of the analysis. A diverse mix of evidence types strengthens confidence in the overall findings, while the credibility rating system helps distinguish rigorous research from anecdotal reports.',
-  'report.scenarioDefIntro': 'Each scenario filters the evidence base by publication year and data source type to model different assumptions about AI tool maturity. The Pessimistic scenario uses earlier research reflecting first-generation AI tooling (basic code completion); the Realistic scenario spans the full evidence base for a balanced view; the Optimistic scenario focuses on the most recent data capturing the agentic AI era (autonomous multi-step tools). For each filtered dataset, the mean productivity improvement per SDLC phase drives the financial calculations shown in the Executive Summary. This means the scenarios reflect genuinely different generations of AI capability, not just statistical variation.',
+  'report.scenarioDefIntro': 'This section describes the three projection models used to estimate AI productivity impact. Each model filters the evidence base by publication year and data source type to model different assumptions about AI tool maturity. The Conservative Model (Pessimistic scenario) uses earlier research reflecting first-generation AI tooling (basic code completion); the Baseline Model (Realistic scenario) spans the full evidence base for a balanced view; the Forward Model (Optimistic scenario) focuses on the most recent data capturing the agentic AI era (autonomous multi-step tools). For each filtered dataset, the mean productivity improvement per SDLC phase drives the financial calculations shown in the Executive Summary. This means the projection models reflect genuinely different generations of AI capability, not just statistical variation.',
   'report.roiConfigIntro': 'This section provides a complete audit trail of every parameter used to generate the projections in this report. All inputs are configurable in the ROI Calculator and are reproduced here for full transparency and reproducibility. Reviewers should verify that the team size, salary levels, budget allocation, inhouse ratios, and transformation costs match their organisation\'s actual or planned context. Any deviation between these assumptions and reality will directly affect the projected outcomes.',
   'report.sourceAppendixIntro': 'Every data point cited in this report can be traced back to its original source. This appendix lists all data sources with their associated evidence points, impact percentages, and metadata — enabling independent verification by any reviewer. Sources are grouped by publication and include links to original materials where available.',
 
@@ -535,11 +549,11 @@ const en = {
 
   // Report: implications
   'report.keyImplications': 'Key Implications for Decision-Makers',
-  'report.implicationsText': 'Under the realistic scenario, AI-powered development tools would free approximately {{hoursSaved}} of developer capacity annually — equivalent to roughly {{fteSaved}} full-time developer-equivalents (at {{hoursPerYear}} productive hours/year). This freed capacity can be strategically redirected toward: (a) accelerating product delivery and time-to-market, (b) reducing accumulated technical debt, (c) enabling innovation and R&D initiatives, or (d) absorbing growth without proportional headcount increases. Even the pessimistic scenario projects a positive return on investment, suggesting that the question is not whether to adopt AI tools, but how quickly to scale adoption across the organisation. We recommend starting with a pilot programme in the highest-impact phases to validate these projections before full-scale rollout.',
+  'report.implicationsText': 'Under the Baseline projection model (realistic scenario), AI-powered development tools would free approximately {{hoursSaved}} of developer capacity annually — equivalent to roughly {{fteSaved}} full-time developer-equivalents (at {{hoursPerYear}} productive hours/year). This freed capacity can be strategically redirected toward: (a) accelerating product delivery and time-to-market, (b) reducing accumulated technical debt, (c) enabling innovation and R&D initiatives, or (d) absorbing growth without proportional headcount increases. Even the pessimistic scenario projects a positive return on investment, suggesting that the question is not whether to adopt AI tools, but how quickly to scale adoption across the organisation. We recommend starting with a pilot programme in the highest-impact phases to validate these projections before full-scale rollout.',
 
   // Report: disclaimer
   'report.disclaimerTitle': 'Methodology & Limitations',
-  'report.disclaimerText': 'This analysis aggregates productivity-improvement percentages from published research and applies them to your organisation\'s specific parameters (team size, salaries, budget allocation, and inhouse ratios). It is designed as a strategic decision-support tool, not a guarantee of outcomes.\n\nKey limitations to consider:\n\n(1) Publication bias: Published studies may over-represent positive outcomes. Negative or null results are less likely to be published.\n\n(2) Context sensitivity: Productivity gains vary significantly by team maturity, codebase complexity, existing tooling, programming languages, and AI tool selection. Actual results will differ from these projections.\n\n(3) Cost savings ≠ budget cuts: The "cost savings" in this report represent efficiency gains — time freed for higher-value work. Realising the financial benefit requires deliberate redeployment of freed capacity (e.g., into feature development, debt reduction, or innovation). Without intentional reallocation, the time savings may dissipate into unstructured work.\n\n(4) Scenario simplification: The three-scenario model uses publication-year filtering as a proxy for AI tool maturity. Real-world AI capability improvement is more nuanced than this time-based approach suggests.\n\n(5) Transformation costs are estimates: Actual implementation costs depend on vendor selection, organisational readiness, change management scope, and the pace of adoption.\n\n(6) Inhouse ratio assumption: Savings are calculated only for the inhouse portion of each SDLC phase. If your outsourcing model changes, these projections should be recalculated.\n\nRecommendation: Validate the projections with a time-limited pilot programme (e.g., 2\u20133 months with one team) before committing to full-scale adoption. Measure actual productivity changes against the phase-level projections in this report to calibrate expectations.',
+  'report.disclaimerText': 'This analysis aggregates productivity-improvement percentages from published research and applies them to your organisation\'s specific parameters (team size, salaries, budget allocation, and inhouse ratios). It is designed as a strategic decision-support tool, not a guarantee of outcomes.\n\nKey limitations to consider:\n\n(1) Publication bias: Published studies may over-represent positive outcomes. Negative or null results are less likely to be published.\n\n(2) Context sensitivity: Productivity gains vary significantly by team maturity, codebase complexity, existing tooling, programming languages, and AI tool selection. Actual results will differ from these projections.\n\n(3) Cost savings ≠ budget cuts: The "cost savings" in this report represent efficiency gains — time freed for higher-value work. Realising the financial benefit requires deliberate redeployment of freed capacity (e.g., into feature development, debt reduction, or innovation). Without intentional reallocation, the time savings may dissipate into unstructured work.\n\n(4) Projection model simplification: The three projection models use publication-year filtering as a proxy for AI tool maturity. Real-world AI capability improvement is more nuanced than this time-based approach suggests.\n\n(5) Transformation costs are estimates: Actual implementation costs depend on vendor selection, organisational readiness, change management scope, and the pace of adoption.\n\n(6) Inhouse ratio assumption: Savings are calculated only for the inhouse portion of each SDLC phase. If your outsourcing model changes, these projections should be recalculated.\n\nRecommendation: Validate the projections with a time-limited pilot programme (e.g., 2\u20133 months with one team) before committing to full-scale adoption. Measure actual productivity changes against the phase-level projections in this report to calibrate expectations.',
 
   // Report: glossary
   'report.glossaryTitle': 'Glossary',
@@ -589,8 +603,8 @@ const en = {
   'report.formulaEffMultiplier': 'Effective Multiplier',
   'report.formulaOptImpact': 'Optimistic Impact',
 
-  'report.formulasGroup5': 'Scenario Selection',
-  'report.formulasGroup5Desc': 'Each scenario maps to a statistical measure of the filtered data:',
+  'report.formulasGroup5': 'Scenario Selection (Projection Models)',
+  'report.formulasGroup5Desc': 'Each projection model maps to a statistical measure of the filtered data:',
   'report.formulaPessimistic': 'Pessimistic',
   'report.formulaRealistic': 'Realistic',
   'report.formulaOptimistic': 'Optimistic',
@@ -616,6 +630,18 @@ const en = {
   'report.legendUnitYears': 'years',
   'report.legendUnitEurHour': '\u20ac/hour',
   'report.legendUnitMonths': 'months',
+
+  // Projection model names
+  'scenario.modelPessimistic': 'Conservative Model',
+  'scenario.modelRealistic': 'Baseline Model',
+  'scenario.modelOptimistic': 'Forward Model',
+
+  // Projection models section
+  'report.projectionModelsTitle': 'Projection Models',
+  'report.projectionModelsIntro': 'This report uses three distinct projection models to estimate AI productivity impact. Each model reflects a different assumption about AI tool maturity and adoption:\n\n• Conservative Model (Pessimistic scenario) — Based on early-era research (2023–2024) when AI tools were limited to basic code completion. Uses the Q1 (first quartile) of impact data, representing a lower-bound view.\n\n• Baseline Model (Realistic scenario) — Draws on the full evidence base across all years (2023–2026), using the median impact. This provides the most balanced projection and is the recommended default for planning.\n\n• Forward Model (Optimistic scenario) — Focuses on recent agentic-era data (2025–2026) where autonomous multi-step AI tools have emerged. Uses Q3 (third quartile) or applies the METR capability scaling multiplier, representing an upper-bound view of near-future AI impact.\n\nThe choice of model should align with your organisation\'s risk appetite and planning horizon. Conservative organisations may prefer the Conservative Model; those planning for 2–3 year horizons should consider the Forward Model\'s trajectory.',
+
+  // Glossary entry
+  'report.glossaryProjectionModel': 'Projection Model — A structured approach to estimating future AI productivity impact based on a specific subset of evidence and statistical method. This report uses three projection models: Conservative (early-era data, Q1), Baseline (full data, median), and Forward (agentic-era data, Q3 or METR-scaled). Each model answers the question "What productivity gains can we expect?" under different assumptions about AI tool maturity.',
 };
 
 const fi: typeof en = {
@@ -844,19 +870,33 @@ const fi: typeof en = {
   'suggestSource.dataSourceName': 'Datal\u00e4hteen nimi (valinnainen)',
 
   // Suggest Feature
-  'suggestFeature.button': 'Ehdota ominaisuutta',
-  'suggestFeature.title': 'Ehdota ominaisuutta',
+  'suggestFeature.button': 'Ehdota ominaisuuspyynt\u00f6\u00e4',
+  'suggestFeature.title': 'Ehdota ominaisuuspyynt\u00f6\u00e4',
   'suggestFeature.featureTitle': 'Ominaisuuden nimi',
   'suggestFeature.titlePlaceholder': 'Lyhyt yhteenveto ominaisuudesta',
   'suggestFeature.description': 'Kuvaus',
   'suggestFeature.descPlaceholder': 'Tarkempi kuvaus siit\u00e4 mit\u00e4 haluaisit...',
   'suggestFeature.priority': 'Prioriteetti',
+  'suggestFeature.submitterName': 'Nimesi tai nimimerkki',
+  'suggestFeature.submitterNamePlaceholder': 'Valinnainen \u2014 j\u00e4t\u00e4 tyhj\u00e4ksi anonyymi\u00e4 varten',
+  'suggestFeature.submittedBy': 'l\u00e4hett\u00e4j\u00e4 {{name}}',
   'suggestFeature.submit': 'L\u00e4het\u00e4 ehdotus',
   'suggestFeature.submitted': '({{count}} l\u00e4hetetty)',
   'suggestFeature.success': 'Ominaisuusehdotus tallennettu!',
   'suggestFeature.previousCount': '{{count}} aikaisempaa ehdotusta',
   'suggestFeature.stopRecording': 'Lopeta nauhoitus',
   'suggestFeature.speechToText': 'Puhe tekstiksi',
+
+  // Agent Analysis (Feature Requests)
+  'agentAnalysis.title': 'Agenttianalyysi',
+  'agentAnalysis.userStory': 'K\u00e4ytt\u00e4j\u00e4tarina ja tarkoitus',
+  'agentAnalysis.alignment': 'J\u00e4rjestelm\u00e4yhteensopivuus',
+  'agentAnalysis.verdict': 'P\u00e4\u00e4t\u00f6s',
+  'agentAnalysis.analyzedOn': 'Analysoitu {{date}}',
+  'agentAnalysis.verdictImplement': 'Toteuta',
+  'agentAnalysis.verdictDefer': 'Lykkää',
+  'agentAnalysis.verdictReject': 'Hylk\u00e4\u00e4',
+  'agentAnalysis.verdictClarify': 'Vaatii tarkennusta',
 
   // From Users page
   'fromUsers.title': 'K\u00e4ytt\u00e4jilt\u00e4',
@@ -877,7 +917,7 @@ const fi: typeof en = {
   'welcome.title': 'SDLC AI-vaikutus\u00adanalysaattori',
   'welcome.subtitle': 'AI:n vaikutusten kvantifiointi ohjelmistokehityksen elinkaaressa',
   'welcome.intro1': 'T\u00e4m\u00e4 sovellus kokoaa <strong>210+ reaalimaailman datapistett\u00e4</strong> akateemisista julkaisuista, alan kyselyist\u00e4, toimittajaraporteista ja k\u00e4yt\u00e4nn\u00f6n kokemuksista kvantifioidakseen miten AI-ty\u00f6kalut muuttavat ohjelmistokehityksen elinkaaren jokaista vaihetta \u2014 strategiasta DevOpsiin.',
-  'welcome.intro2': 'K\u00e4yt\u00e4 interaktiivisia hallintapaneeleja tutki\u00e4ksesi tuottavuusvaikutuksia vaiheittain, suodata datatyypin ja vuoden mukaan, vertaa varhaista AI-aikakautta agenttiseen aikakauteen ja rakenna datapohjainen business case ROI-laskurilla.',
+  'welcome.intro2': 'K\u00e4yt\u00e4 interaktiivisia hallintapaneeleja tutki\u00e4ksesi tuottavuusvaikutuksia vaiheittain, suodata datatyypin ja vuoden mukaan, vertaa varhaista AI-aikakautta agenttiseen aikakauteen ja rakenna datapohjainen business case ROI-laskurilla. Analyysi k\u00e4ytt\u00e4\u00e4 kolmea projektiomallia (konservatiivinen, perusmalli, tulevaisuusmalli) tulosvaihteluv\u00e4lin tuottamiseen.',
   'welcome.intro3': 'Kaikki data on per\u00e4isin julkisesti saatavilla olevasta tutkimuksesta (2023\u20132026). L\u00e4hteit\u00e4 ovat mm. McKinsey, Gartner, Harvard Business School, Google Research, Microsoft Research, arXiv-julkaisut ja muut.',
   'welcome.learnMore': 'Lis\u00e4tietoa',
   'welcome.videoTitle': 'Videon l\u00e4pik\u00e4ynti',
@@ -1081,10 +1121,10 @@ const fi: typeof en = {
   'scenario.resetDefaults': 'Palauta oletukset',
   'scenario.configure': 'Määritä skenaariot',
   'scenario.scenarios': 'Skenaariot',
-  'scenario.descPessimistic': 'Varovainen arvio k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}, kattaen {{types}} l\u00e4hteet. Heijastaa varhaisen AI-k\u00e4ytt\u00f6\u00f6noton tuloksia ennen agenttisia kyvykkyyksi\u00e4, edustaen alaraja-n\u00e4kym\u00e4\u00e4.',
-  'scenario.descRealistic': 'Tasapainoinen arvio k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}, sis\u00e4lt\u00e4en {{types}} l\u00e4hdetyypit koko tarkastelujaksolta.',
-  'scenario.descOptimisticMetr': 'Tulevaisuuteen suuntautuva arvio k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}. METR-tutkimuksen mukaan AI:n teht\u00e4v\u00e4nsuorituskyky tuplaantuu ~4 kuukauden v\u00e4lein (2023\u20132026 trendi). {{multiplier}}x edistymiskerroin on k\u00e4yt\u00f6ss\u00e4, mallintaen {{doubling}} kuukauden tuplaantumisjakson {{horizon}} kuukauden ennusteella.',
-  'scenario.descOptimistic': 'Tulevaisuuteen suuntautuva arvio k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}, kattaen {{types}} l\u00e4hteet. Edustaa yl\u00e4raja-n\u00e4kym\u00e4\u00e4 AI:n vaikutuksesta perustuen tuoreen agenttiaikakauden dataan.',
+  'scenario.descPessimistic': 'Konservatiivinen projektiomalli k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}, kattaen {{types}} l\u00e4hteet. Heijastaa varhaisen AI-k\u00e4ytt\u00f6\u00f6noton tuloksia ennen agenttisia kyvykkyyksi\u00e4, edustaen alaraja-n\u00e4kym\u00e4\u00e4.',
+  'scenario.descRealistic': 'Perus-projektiomalli k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}, sis\u00e4lt\u00e4en {{types}} l\u00e4hdetyypit koko tarkastelujaksolta.',
+  'scenario.descOptimisticMetr': 'Tulevaisuus-projektiomalli METR-kyvykkyysskaalauksineen, k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}. METR-tutkimuksen mukaan AI:n teht\u00e4v\u00e4nsuorituskyky tuplaantuu ~4 kuukauden v\u00e4lein (2023\u20132026 trendi). {{multiplier}}x edistymiskerroin on k\u00e4yt\u00f6ss\u00e4, mallintaen {{doubling}} kuukauden tuplaantumisjakson {{horizon}} kuukauden ennusteella.',
+  'scenario.descOptimistic': 'Tulevaisuus-projektiomalli k\u00e4ytt\u00e4en {{count}} datapistett\u00e4 vuosilta {{years}}, kattaen {{types}} l\u00e4hteet. Edustaa yl\u00e4raja-n\u00e4kym\u00e4\u00e4 AI:n vaikutuksesta perustuen tuoreen agenttiaikakauden dataan.',
   'scenario.all': 'Kaikki',
 
   // PDF
@@ -1099,14 +1139,14 @@ const fi: typeof en = {
   'report.tableOfContents': 'Sis\u00e4llysluettelo',
   'report.executiveSummary': 'Yhteenveto',
   'report.dataFoundation': 'Datapohja',
-  'report.scenarioDefinitions': 'Skenaariom\u00e4\u00e4rittelyt',
+  'report.scenarioDefinitions': 'Projektiomallit ja skenaariom\u00e4\u00e4rittelyt',
   'report.roiConfiguration': 'ROI-asetukset ja oletukset',
   'report.sourceAppendix': 'L\u00e4hdeliite',
   'report.howToRead': 'Miten lukea t\u00e4m\u00e4 raportti',
   'report.generating': 'Luodaan raporttia...',
   'report.noData': 'Raporttidataa ei saatavilla. M\u00e4\u00e4rit\u00e4 ja suorita ROI-laskuri ensin.',
   'report.goToCalculator': 'Siirry laskuriin',
-  'report.narrative': '{{totalFacts}} datapisteen ja {{uniqueSources}} riippumattoman l\u00e4hteen perusteella vuosilta {{yearSpan}} AI-kehitysty\u00f6kalujen arvioidaan s\u00e4\u00e4st\u00e4v\u00e4n {{hoursSaved}} tuntia vuosittain {{teamSize}} hengen tiimille. Realistisessa skenaariossa t\u00e4m\u00e4 tarkoittaa {{costSavings}} kustannuss\u00e4\u00e4st\u00f6j\u00e4 ja {{roiRatio}}x investoinnin tuottoa.',
+  'report.narrative': '{{totalFacts}} datapisteen ja {{uniqueSources}} riippumattoman l\u00e4hteen perusteella vuosilta {{yearSpan}} AI-kehitysty\u00f6kalujen arvioidaan s\u00e4\u00e4st\u00e4v\u00e4n {{hoursSaved}} tuntia vuosittain {{teamSize}} hengen tiimille. Perusmallin (realistisen skenaarion) mukaan t\u00e4m\u00e4 tarkoittaa {{costSavings}} kustannuss\u00e4\u00e4st\u00f6j\u00e4 ja {{roiRatio}}x investoinnin tuottoa.',
   'report.totalFacts': 'Datapisteit\u00e4 yhteens\u00e4',
   'report.uniqueSources': 'Riippumattomat l\u00e4hteet',
   'report.yearSpan': 'Vuosijakso',
@@ -1126,7 +1166,7 @@ const fi: typeof en = {
   'report.phaseBreakdownTitle': 'S\u00e4\u00e4st\u00f6jen jakauma SDLC-vaiheittain',
   'report.phaseBreakdownIntro': 'Alla oleva taulukko n\u00e4ytt\u00e4\u00e4, miten ennustetut s\u00e4\u00e4st\u00f6t jakautuvat ohjelmistokehityksen elinkaaren eri vaiheisiin. "Oma ty\u00f6 %" -sarake kertoo, kuinka suuri osa kunkin vaiheen ty\u00f6st\u00e4 tehd\u00e4\u00e4n omalla henkil\u00f6st\u00f6ll\u00e4 (vain oma ty\u00f6 hy\u00f6tyy AI-ty\u00f6kaluista). Matalalla oma-ty\u00f6-osuudella olevat vaiheet n\u00e4ytt\u00e4v\u00e4t pienempi\u00e4 s\u00e4\u00e4st\u00f6j\u00e4, koska ulkoistettu ty\u00f6 ei hy\u00f6dy organisaationne AI-investoinnista.',
   'report.strategyContext': 'Strateginen konteksti',
-  'report.strategyContextText': 'AI-avusteinen ohjelmistokehitys on nopeasti muodostumassa alan standardiksi. Organisaatiot, jotka viiv\u00e4stytt\u00e4v\u00e4t k\u00e4ytt\u00f6\u00f6nottoa, riskeeraavat j\u00e4\u00e4v\u00e4ns\u00e4 kilpailijoiden taakse toimitusnopeudessa, kehitt\u00e4j\u00e4kokemuksessa ja kustannustehokkuudessa. T\u00e4m\u00e4 analyysi kvantifioi odotetun taloudellisen vaikutuksen juuri teid\u00e4n organisaatiollenne julkaistun, vertaisarvioidun tutkimuksen perusteella \u2014 ei toimittajien markkinointiv\u00e4itteiden.',
+  'report.strategyContextText': 'AI-avusteinen ohjelmistokehitys on nopeasti muodostumassa alan standardiksi. Organisaatiot, jotka viiv\u00e4stytt\u00e4v\u00e4t k\u00e4ytt\u00f6\u00f6nottoa, riskeeraavat j\u00e4\u00e4v\u00e4ns\u00e4 kilpailijoiden taakse toimitusnopeudessa, kehitt\u00e4j\u00e4kokemuksessa ja kustannustehokkuudessa. T\u00e4m\u00e4 analyysi kvantifioi odotetun taloudellisen vaikutuksen juuri teid\u00e4n organisaatiollenne julkaistun, vertaisarvioidun tutkimuksen perusteella \u2014 ei toimittajien markkinointiv\u00e4itteiden. Kolme projektiomallia (konservatiivinen, perusmalli, tulevaisuusmalli) varmistavat, ett\u00e4 p\u00e4\u00e4t\u00f6ksentekij\u00e4t voivat arvioida tulokset varovaisilla, kohtuullisilla ja optimistisilla oletuksilla.',
   'report.investorContext': 'Skaalautuvuushuomio',
   'report.investorContextText': 'Ennustetut s\u00e4\u00e4st\u00f6t skaalautuvat suunnilleen lineaarisesti tiimikoon mukaan. Organisaation kasvaessa tai tuodessa enemm\u00e4n kehitysty\u00f6t\u00e4 sis\u00e4iseksi, AI-ty\u00f6kalujen absoluuttinen tuotto kasvaa suhteellisesti samalla kun per-k\u00e4ytt\u00e4j\u00e4-kustannus pysyy kiinte\u00e4n\u00e4.',
 
@@ -1142,9 +1182,9 @@ const fi: typeof en = {
   'report.howToReadInvestor': 'Sijoittaja / hallituksen j\u00e4sen: Osio 1 antaa kolmen skenaarion talousvaihtelv\u00e4lin. "Skaalautuvuushuomio" selitt\u00e4\u00e4 tuottojen kasvun tiimikoon mukana. Osio 6 tarjoaa tasapainoisen riskiselvityksen.',
 
   // Report: section introductions
-  'report.execSummaryIntro': 'T\u00e4ss\u00e4 osiossa esitet\u00e4\u00e4n AI-ty\u00f6kalujen k\u00e4ytt\u00f6\u00f6noton ennustetut taloudelliset tulokset ohjelmistokehityksen elinkaaressa (SDLC). Kolme skenaariota \u2014 pessimistinen, realistinen ja optimistinen \u2014 tarjoavat tulosvaihteluv\u00e4lin p\u00e4\u00e4t\u00f6ksenteon tueksi ep\u00e4varmuuden vallitessa. Kaikki luvut ovat vuosiprojektioita, jotka perustuvat asetettuihin tiimi-, palkka- ja budjettiparametreihin sek\u00e4 oma-ty\u00f6-osuuksiin. Kustannuss\u00e4\u00e4st\u00f6t koskevat vain omaa henkil\u00f6st\u00f6\u00e4, sill\u00e4 ulkoistettu ty\u00f6 ei hy\u00f6dy organisaation AI-investoinnista.',
+  'report.execSummaryIntro': 'T\u00e4ss\u00e4 osiossa esitet\u00e4\u00e4n AI-ty\u00f6kalujen k\u00e4ytt\u00f6\u00f6noton ennustetut taloudelliset tulokset ohjelmistokehityksen elinkaaressa (SDLC). Kolme projektiomallia \u2014 konservatiivinen (pessimistinen), perusmalli (realistinen) ja tulevaisuusmalli (optimistinen) \u2014 tarjoavat tulosvaihteluv\u00e4lin p\u00e4\u00e4t\u00f6ksenteon tueksi ep\u00e4varmuuden vallitessa. Kaikki luvut ovat vuosiprojektioita, jotka perustuvat asetettuihin tiimi-, palkka- ja budjettiparametreihin sek\u00e4 oma-ty\u00f6-osuuksiin. Kustannuss\u00e4\u00e4st\u00f6t koskevat vain omaa henkil\u00f6st\u00f6\u00e4, sill\u00e4 ulkoistettu ty\u00f6 ei hy\u00f6dy organisaation AI-investoinnista.',
   'report.dataFoundationIntro': 'T\u00e4m\u00e4n raportin ennusteet pohjautuvat kuratoituun n\u00e4ytt\u00f6pohjaan julkisesti saatavilla olevasta tutkimuksesta \u2014 mukaan lukien vertaisarvioidut akateemiset tutkimukset, kontrolloidut kokeet, toimialakyselyt ja k\u00e4yt\u00e4nn\u00f6n raportit. T\u00e4m\u00e4 osio tivist\u00e4\u00e4 datan laajuuden, monimuotoisuuden ja uskottavuuden, jotta arvioijat voivat arvioida analyysin luotettavuutta. Monipuolinen n\u00e4ytt\u00f6tyyppijakauma vahvistaa luottamusta kokonaistuloksiin, ja uskottavuusluokitusj\u00e4rjestelm\u00e4 auttaa erottamaan tiukan tutkimuksen anekdoottisista raporteista.',
-  'report.scenarioDefIntro': 'Kukin skenaario suodattaa n\u00e4ytt\u00f6pohjan julkaisuvuoden ja datal\u00e4hdetyypin mukaan mallintaakseen erilaisia oletuksia AI-ty\u00f6kalujen kypsyydest\u00e4. Pessimistinen skenaario k\u00e4ytt\u00e4\u00e4 varhaisempaa tutkimusta ensimm\u00e4isen sukupolven AI-ty\u00f6kaluista (perus koodit\u00e4ydennys); realistinen skenaario kattaa koko n\u00e4ytt\u00f6pohjan tasapainoiseen arvioon; optimistinen skenaario keskittyy uusimpaan dataan agenttisen AI-aikakauden tuloksista (itsen\u00e4iset monivaiheity\u00f6kalut). Kunkin suodatetun aineiston keskiarvo tuottavuusparannuksesta SDLC-vaiheittain ohjaa yhteenvedon talouslaskelmia.',
+  'report.scenarioDefIntro': 'T\u00e4m\u00e4 osio kuvaa kolme projektiomallia, joita k\u00e4ytet\u00e4\u00e4n AI-tuottavuusvaikutuksen arviointiin. Kukin malli suodattaa n\u00e4ytt\u00f6pohjan julkaisuvuoden ja datal\u00e4hdetyypin mukaan mallintaakseen erilaisia oletuksia AI-ty\u00f6kalujen kypsyydest\u00e4. Konservatiivinen malli (pessimistinen skenaario) k\u00e4ytt\u00e4\u00e4 varhaisempaa tutkimusta ensimm\u00e4isen sukupolven AI-ty\u00f6kaluista (perus koodit\u00e4ydennys); perusmalli (realistinen skenaario) kattaa koko n\u00e4ytt\u00f6pohjan tasapainoiseen arvioon; tulevaisuusmalli (optimistinen skenaario) keskittyy uusimpaan dataan agenttisen AI-aikakauden tuloksista (itsen\u00e4iset monivaiheity\u00f6kalut). Kunkin suodatetun aineiston keskiarvo tuottavuusparannuksesta SDLC-vaiheittain ohjaa yhteenvedon talouslaskelmia. Projektiomallit heijastavat siten aidosti eri sukupolvien AI-kyvykkyyksi\u00e4, eiv\u00e4t pelkk\u00e4\u00e4 tilastollista vaihtelua.',
   'report.roiConfigIntro': 'T\u00e4m\u00e4 osio tarjoaa t\u00e4ydellisen tarkastusj\u00e4ljen jokaisesta ennusteiden tuottamiseen k\u00e4ytetyst\u00e4 parametrista. Kaikki sy\u00f6tteet ovat muokattavissa ROI-laskurissa ja toistetaan t\u00e4ss\u00e4 l\u00e4pin\u00e4kyvyyden ja toistettavuuden vuoksi. Arvioijien tulee varmistaa, ett\u00e4 tiimikoko, palkkatasot, budjettijakauma, oma-ty\u00f6-osuudet ja transformaatiokustannukset vastaavat organisaation todellista tai suunniteltua kontekstia.',
   'report.sourceAppendixIntro': 'Jokainen t\u00e4ss\u00e4 raportissa viitattu datapiste on j\u00e4ljitett\u00e4viss\u00e4 alkuper\u00e4iseen l\u00e4hteeseen. T\u00e4m\u00e4 liite listaa kaikki datal\u00e4hteet niihin liittyvine todisteineen, vaikutusprosentteineen ja metatietoineen \u2014 mahdollistaen itsen\u00e4isen todennuksen. L\u00e4hteet on ryhmitelty julkaisun mukaan ja sis\u00e4lt\u00e4v\u00e4t linkit alkuper\u00e4ismateriaaleihin.',
 
@@ -1153,11 +1193,11 @@ const fi: typeof en = {
 
   // Report: implications
   'report.keyImplications': 'Keskeiset vaikutukset p\u00e4\u00e4t\u00f6ksentekij\u00f6ille',
-  'report.implicationsText': 'Realistisessa skenaariossa AI-kehitysty\u00f6kalut vapauttaisivat noin {{hoursSaved}} kehitt\u00e4j\u00e4kapasiteettia vuosittain \u2014 vastaten noin {{fteSaved}} kokoaikaista kehitt\u00e4j\u00e4\u00e4 ({{hoursPerYear}} tuottavaa tuntia/vuosi). Vapautunut kapasiteetti voidaan strategisesti suunnata: (a) tuotekehityksen ja markkinoilletuloajan nopeuttamiseen, (b) kertyneen teknisen velan v\u00e4hent\u00e4miseen, (c) innovointi- ja T&K-hankkeisiin, tai (d) kasvun hallintaan ilman suhteellista henkil\u00f6st\u00f6lis\u00e4yst\u00e4. My\u00f6s pessimistinen skenaario ennustaa positiivista investoinnin tuottoa. Suosittelemme aloittamista pilottiohjelmalla eniten hy\u00f6tyviss\u00e4 vaiheissa ennen t\u00e4ysimittaista k\u00e4ytt\u00f6\u00f6nottoa.',
+  'report.implicationsText': 'Perusmallin (realistisen skenaarion) mukaan AI-kehitysty\u00f6kalut vapauttaisivat noin {{hoursSaved}} kehitt\u00e4j\u00e4kapasiteettia vuosittain \u2014 vastaten noin {{fteSaved}} kokoaikaista kehitt\u00e4j\u00e4\u00e4 ({{hoursPerYear}} tuottavaa tuntia/vuosi). Vapautunut kapasiteetti voidaan strategisesti suunnata: (a) tuotekehityksen ja markkinoilletuloajan nopeuttamiseen, (b) kertyneen teknisen velan v\u00e4hent\u00e4miseen, (c) innovointi- ja T&K-hankkeisiin, tai (d) kasvun hallintaan ilman suhteellista henkil\u00f6st\u00f6lis\u00e4yst\u00e4. My\u00f6s pessimistinen skenaario ennustaa positiivista investoinnin tuottoa. Suosittelemme aloittamista pilottiohjelmalla eniten hy\u00f6tyviss\u00e4 vaiheissa ennen t\u00e4ysimittaista k\u00e4ytt\u00f6\u00f6nottoa.',
 
   // Report: disclaimer
   'report.disclaimerTitle': 'Metodologia ja rajoitukset',
-  'report.disclaimerText': 'T\u00e4m\u00e4 analyysi kokoaa tuottavuusparannusprosentteja julkaistuista tutkimuksista ja soveltaa niit\u00e4 organisaatiosi parametreihin (tiimikoko, palkat, budjettijakauma ja oma-ty\u00f6-osuudet). Se on tarkoitettu strategiseksi p\u00e4\u00e4t\u00f6ksenteon tueksi, ei tuloslupaukseksi.\n\nHuomioitavat rajoitukset:\n\n(1) Julkaisuharhaa: Julkaistut tutkimukset saattavat yliedustaa positiivisia tuloksia.\n\n(2) Kontekstisidonnaisuus: Tuottavuushy\u00f6dyt vaihtelevat merkitt\u00e4v\u00e4sti tiimin kypsyyden, koodipohjan monimutkaisuuden, ohjelmointikielten ja AI-ty\u00f6kaluvalinnan mukaan.\n\n(3) Kustannuss\u00e4\u00e4st\u00f6t \u2260 budjettileikkaukset: "Kustannuss\u00e4\u00e4st\u00f6t" edustavat tehokkuushy\u00f6tyj\u00e4 \u2014 vapautettua aikaa korkeampiarvoiseen ty\u00f6h\u00f6n. Taloudellisen hy\u00f6dyn realisointi edellytt\u00e4\u00e4 kapasiteetin suunnitelmallista uudelleenkohdentamista.\n\n(4) Skenaarioyksinkertaistus: Kolmen skenaarion malli k\u00e4ytt\u00e4\u00e4 julkaisuvuosisuodatusta AI-kypsyyden sijaismuuttujana.\n\n(5) Transformaatiokustannukset ovat arvioita: Todelliset kustannukset riippuvat toimittajavalinnoista, organisaation valmiudesta ja muutosjohtamisen laajuudesta.\n\n(6) Oma-ty\u00f6-oletukset: S\u00e4\u00e4st\u00f6t lasketaan vain kunkin SDLC-vaiheen omalle ty\u00f6lle. Jos ulkoistusmallinne muuttuu, n\u00e4m\u00e4 ennusteet tulee laskea uudelleen.\n\nSuositus: Validoi ennusteet aikasidotulla pilottiohjelmalla (esim. 2\u20133 kuukautta yhdell\u00e4 tiimill\u00e4) ennen t\u00e4ysimittaista k\u00e4ytt\u00f6\u00f6nottoa.',
+  'report.disclaimerText': 'T\u00e4m\u00e4 analyysi kokoaa tuottavuusparannusprosentteja julkaistuista tutkimuksista ja soveltaa niit\u00e4 organisaatiosi parametreihin (tiimikoko, palkat, budjettijakauma ja oma-ty\u00f6-osuudet). Se on tarkoitettu strategiseksi p\u00e4\u00e4t\u00f6ksenteon tueksi, ei tuloslupaukseksi.\n\nHuomioitavat rajoitukset:\n\n(1) Julkaisuharhaa: Julkaistut tutkimukset saattavat yliedustaa positiivisia tuloksia.\n\n(2) Kontekstisidonnaisuus: Tuottavuushy\u00f6dyt vaihtelevat merkitt\u00e4v\u00e4sti tiimin kypsyyden, koodipohjan monimutkaisuuden, ohjelmointikielten ja AI-ty\u00f6kaluvalinnan mukaan.\n\n(3) Kustannuss\u00e4\u00e4st\u00f6t \u2260 budjettileikkaukset: "Kustannuss\u00e4\u00e4st\u00f6t" edustavat tehokkuushy\u00f6tyj\u00e4 \u2014 vapautettua aikaa korkeampiarvoiseen ty\u00f6h\u00f6n. Taloudellisen hy\u00f6dyn realisointi edellytt\u00e4\u00e4 kapasiteetin suunnitelmallista uudelleenkohdentamista.\n\n(4) Projektiomallien yksinkertaistus: Kolme projektiomallia k\u00e4ytt\u00e4v\u00e4t julkaisuvuosisuodatusta AI-kypsyyden sijaismuuttujana.\n\n(5) Transformaatiokustannukset ovat arvioita: Todelliset kustannukset riippuvat toimittajavalinnoista, organisaation valmiudesta ja muutosjohtamisen laajuudesta.\n\n(6) Oma-ty\u00f6-oletukset: S\u00e4\u00e4st\u00f6t lasketaan vain kunkin SDLC-vaiheen omalle ty\u00f6lle. Jos ulkoistusmallinne muuttuu, n\u00e4m\u00e4 ennusteet tulee laskea uudelleen.\n\nSuositus: Validoi ennusteet aikasidotulla pilottiohjelmalla (esim. 2\u20133 kuukautta yhdell\u00e4 tiimill\u00e4) ennen t\u00e4ysimittaista k\u00e4ytt\u00f6\u00f6nottoa.',
 
   // Report: glossary
   'report.glossaryTitle': 'Sanasto',
@@ -1207,8 +1247,8 @@ const fi: typeof en = {
   'report.formulaEffMultiplier': 'Efektiivinen kerroin',
   'report.formulaOptImpact': 'Optimistinen vaikutus',
 
-  'report.formulasGroup5': 'Skenaariovalinta',
-  'report.formulasGroup5Desc': 'Kukin skenaario vastaa suodatetun datan tilastollista mittaria:',
+  'report.formulasGroup5': 'Skenaariovalinta (projektiomallit)',
+  'report.formulasGroup5Desc': 'Kukin projektiomalli vastaa suodatetun datan tilastollista mittaria:',
   'report.formulaPessimistic': 'Pessimistinen',
   'report.formulaRealistic': 'Realistinen',
   'report.formulaOptimistic': 'Optimistinen',
@@ -1234,6 +1274,18 @@ const fi: typeof en = {
   'report.legendUnitYears': 'vuotta',
   'report.legendUnitEurHour': '\u20ac/tunti',
   'report.legendUnitMonths': 'kuukautta',
+
+  // Projection model names
+  'scenario.modelPessimistic': 'Konservatiivinen malli',
+  'scenario.modelRealistic': 'Perusmalli',
+  'scenario.modelOptimistic': 'Tulevaisuusmalli',
+
+  // Projection models section
+  'report.projectionModelsTitle': 'Projektiomallit',
+  'report.projectionModelsIntro': 'Tämä raportti käyttää kolmea erillistä projektiomallia AI-tuottavuusvaikutuksen arviointiin. Kukin malli heijastaa erilaista oletusta AI-työkalujen kypsyydestä ja käyttöönotosta:\n\n• Konservatiivinen malli (pessimistinen skenaario) — Perustuu varhaisen aikakauden tutkimukseen (2023–2024), jolloin AI-työkalut rajoittuivat peruskooditäydennykseen. Käyttää Q1-kvartiilia (ensimmäinen neljännes) vaikutusdatasta, edustaen alarajanäkymää.\n\n• Perusmalli (realistinen skenaario) — Hyödyntää koko näyttöpohjaa kaikilta vuosilta (2023–2026) mediaanivaikutuksella. Tarjoaa tasapainoisimman projektion ja on suositeltu oletusvalinta suunnitteluun.\n\n• Tulevaisuusmalli (optimistinen skenaario) — Keskittyy tuoreen agenttisen aikakauden dataan (2025–2026), jolloin itsenäiset monivaihetyökalut ovat syntyneet. Käyttää Q3-kvartiilia (kolmas neljännes) tai soveltaa METR-kyvykkyyskerrointa, edustaen ylärajanäkymää lähitulevaisuuden AI-vaikutuksesta.\n\nMallin valinta tulisi perustua organisaation riskinottohalukkuuteen ja suunnitteluhorisonttiin. Varovaiset organisaatiot voivat suosia konservatiivista mallia; 2–3 vuoden aikajänteelle suunnittelevien kannattaa huomioida tulevaisuusmallin kehityskäyrä.',
+
+  // Glossary entry
+  'report.glossaryProjectionModel': 'Projektiomalli — Rakenteellinen lähestymistapa tulevaisuuden AI-tuottavuusvaikutuksen arviointiin, joka perustuu tiettyyn näyttöpohjan osajoukkoon ja tilastolliseen menetelmään. Tämä raportti käyttää kolmea projektiomallia: konservatiivinen (varhaisen aikakauden data, Q1), perusmalli (koko data, mediaani) ja tulevaisuusmalli (agenttisen aikakauden data, Q3 tai METR-kerroin). Kukin malli vastaa kysymykseen "Mitä tuottavuushyötyjä voidaan odottaa?" erilaisilla oletuksilla AI-työkalujen kypsyydestä.',
 };
 
 export type TranslationKey = keyof typeof en;

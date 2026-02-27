@@ -27,24 +27,28 @@ function formatYearLabel(years: number[]): string {
 
 const SCENARIO_STYLES: Record<ScenarioType, {
   labelKey: TranslationKey;
+  modelKey: TranslationKey;
   color: string;
   activeBg: string;
   activeBorder: string;
 }> = {
   pessimistic: {
     labelKey: 'roi.pessimistic',
+    modelKey: 'scenario.modelPessimistic',
     color: '#ef4444',
     activeBg: 'bg-red-500/15',
     activeBorder: 'border-red-500/50',
   },
   realistic: {
     labelKey: 'roi.realistic',
+    modelKey: 'scenario.modelRealistic',
     color: '#f59e0b',
     activeBg: 'bg-amber-500/15',
     activeBorder: 'border-amber-500/50',
   },
   optimistic: {
     labelKey: 'roi.optimistic',
+    modelKey: 'scenario.modelOptimistic',
     color: '#10b981',
     activeBg: 'bg-emerald-500/15',
     activeBorder: 'border-emerald-500/50',
@@ -86,14 +90,15 @@ export default function ScenarioSelector({ onActivate, onDeactivate }: ScenarioS
             <button
               key={key}
               onClick={() => handleClick(key)}
-              className={`px-3 py-1.5 text-xs rounded-md transition-colors border ${
+              className={`px-3 py-1.5 text-xs rounded-md transition-colors border text-center ${
                 isActive
                   ? `${style.activeBg} ${style.activeBorder}`
                   : 'bg-surface text-muted border-border hover:text-foreground hover:border-muted'
               }`}
               style={isActive ? { color: style.color } : undefined}
             >
-              {t(style.labelKey)} {yearLabel}{metrSuffix}
+              <span className="block">{t(style.labelKey)} {yearLabel}{metrSuffix}</span>
+              <span className="block text-[10px] opacity-70">{t(style.modelKey)}</span>
             </button>
           );
         })}

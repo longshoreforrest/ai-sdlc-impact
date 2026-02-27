@@ -21,10 +21,10 @@ const DATA_TYPE_SHORT: Record<DataType, string> = {
   anecdotal: 'Anc',
 };
 
-const SCENARIO_STYLES: Record<ScenarioType, { labelKey: TranslationKey; color: string; activeClass: string; bgClass: string }> = {
-  pessimistic: { labelKey: 'roi.pessimistic', color: '#ef4444', activeClass: 'bg-red-500/15 text-red-400 border-red-500/30', bgClass: 'border-red-500/20' },
-  realistic:   { labelKey: 'roi.realistic',   color: '#f59e0b', activeClass: 'bg-amber-500/15 text-amber-400 border-amber-500/30', bgClass: 'border-amber-500/20' },
-  optimistic:  { labelKey: 'roi.optimistic',  color: '#10b981', activeClass: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30', bgClass: 'border-emerald-500/20' },
+const SCENARIO_STYLES: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string; activeClass: string; bgClass: string }> = {
+  pessimistic: { labelKey: 'roi.pessimistic', modelKey: 'scenario.modelPessimistic', color: '#ef4444', activeClass: 'bg-red-500/15 text-red-400 border-red-500/30', bgClass: 'border-red-500/20' },
+  realistic:   { labelKey: 'roi.realistic',   modelKey: 'scenario.modelRealistic',   color: '#f59e0b', activeClass: 'bg-amber-500/15 text-amber-400 border-amber-500/30', bgClass: 'border-amber-500/20' },
+  optimistic:  { labelKey: 'roi.optimistic',  modelKey: 'scenario.modelOptimistic',  color: '#10b981', activeClass: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30', bgClass: 'border-emerald-500/20' },
 };
 
 export default function ScenarioConfigurator() {
@@ -99,6 +99,7 @@ export default function ScenarioConfigurator() {
                   <h3 className="text-sm font-semibold" style={{ color: style.color }}>
                     {t(style.labelKey)}
                   </h3>
+                  <p className="text-[10px] text-muted -mt-1">{t(style.modelKey)}</p>
 
                   {/* Year toggles */}
                   <div>

@@ -196,6 +196,17 @@ export default function ReportPage() {
           <p className="text-sm text-zinc-600 leading-relaxed mb-6">
             {t('report.scenarioDefIntro')}
           </p>
+
+          {/* Projection Models info box */}
+          <div className="border-l-4 border-blue-400 bg-blue-50 rounded-r-lg p-4 mb-6">
+            <h3 className="text-sm font-bold text-zinc-800 mb-2">{t('report.projectionModelsTitle')}</h3>
+            <div className="text-sm text-zinc-700 leading-relaxed space-y-2">
+              {t('report.projectionModelsIntro').split('\n').filter(Boolean).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </div>
+
           {scenarioKeys.map((key, i) => (
             <ScenarioSection
               key={key}
@@ -235,6 +246,7 @@ export default function ReportPage() {
           <dl className="text-sm space-y-3">
             {([
               'report.glossarySDLC',
+              'report.glossaryProjectionModel',
               'report.glossaryROI',
               'report.glossaryCostSavings',
               'report.glossaryFTE',

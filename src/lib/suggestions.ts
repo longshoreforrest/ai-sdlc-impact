@@ -31,14 +31,26 @@ export interface SourceSuggestion {
 
 export type FeatureStatus = SuggestionStatus;
 
+export type AgentVerdict = 'implement' | 'defer' | 'reject' | 'needs-clarification';
+
+export interface AgentAnalysis {
+  userStory: string;
+  alignmentAnalysis: string;
+  verdict: AgentVerdict;
+  verdictReason: string;
+  analyzedAt: string;
+}
+
 export interface FeatureSuggestion {
   id: string;
   title: string;
   description: string;
   priority: 'nice-to-have' | 'important' | 'critical';
+  submitterName?: string;
   status: FeatureStatus;
   createdAt: string;
   implementedAt?: string;
+  agentAnalysis?: AgentAnalysis;
 }
 
 // ---------------------------------------------------------------------------
@@ -171,13 +183,34 @@ const IMPLEMENTED_FEATURES: Record<string, string> = {
   'ROI sliders': '2026-02-26T18:31:00.000Z',
 };
 
+// ---------------------------------------------------------------------------
+// Agent analyses registry
+// When an agent analyses a feature request, the result is stored here so it
+// is displayed regardless of Firestore / localStorage state.
+// ---------------------------------------------------------------------------
+const AGENT_ANALYSES: Record<string, AgentAnalysis> = {
+  'ROI sliders': {
+    userStory: 'As a business decision-maker, I want to adjust ROI calculation parameters using interactive sliders so that I can quickly model different scenarios (team size, salary levels, budget allocation) without manually typing numbers, enabling faster "what-if" exploration during stakeholder meetings.\n\nAs a consultant preparing a client presentation, I want real-time visual feedback when adjusting cost parameters so that I can demonstrate the sensitivity of AI investment returns to different assumptions.\n\nThe core intent is to make the ROI Calculator more interactive and tactile — replacing static number inputs with dynamic sliders that update results in real time, lowering the barrier to experimentation.',
+    alignmentAnalysis: 'System alignment: HIGH. The SDLC AI-Impact Analyzer\'s core purpose is to help organisations build data-driven business cases for AI tool adoption. Interactive sliders directly serve this mission by making the ROI Calculator more accessible to non-technical stakeholders (CEOs, CFOs, board members) who are the primary audience for business case decisions.\n\nFit with current architecture: EXCELLENT. The calculator page already has input parameters (team size, salary, budget, phase weights, inhouse ratios, transformation costs) that map naturally to slider controls. The existing React state management and real-time recalculation pipeline can accommodate slider inputs with minimal refactoring. The transformation costs section already uses slider-like range inputs for consulting/training/internal costs.\n\nRisk assessment: LOW. Sliders are a UI enhancement that doesn\'t alter the underlying calculation logic, data model, or report generation. The change is additive and backward-compatible.',
+    verdict: 'implement',
+    verdictReason: 'This feature directly improves the core user experience of the ROI Calculator — the application\'s most business-critical page. It aligns perfectly with the target audience (executives, consultants) who need quick parameter exploration. The technical implementation is straightforward given the existing architecture. The feature has been implemented as of 2026-02-26.',
+    analyzedAt: '2026-02-27T10:00:00.000Z',
+  },
+};
+
 function applyImplementedOverrides(suggestions: FeatureSuggestion[]): FeatureSuggestion[] {
   return suggestions.map((s) => {
     const implementedAt = IMPLEMENTED_FEATURES[s.title];
+    const agentAnalysis = AGENT_ANALYSES[s.title];
+    const overrides: Partial<FeatureSuggestion> = {};
     if (implementedAt) {
-      return { ...s, status: 'accepted', implementedAt };
+      overrides.status = 'accepted';
+      overrides.implementedAt = implementedAt;
     }
-    return s;
+    if (agentAnalysis) {
+      overrides.agentAnalysis = agentAnalysis;
+    }
+    return Object.keys(overrides).length > 0 ? { ...s, ...overrides } : s;
   });
 }
 
