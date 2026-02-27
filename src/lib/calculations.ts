@@ -118,7 +118,7 @@ export function computeDefaultWeightsFromData(allFacts: Fact[]): Record<Phase, n
 }
 
 export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[]): ROIResult {
-  const { teamSize, avgSalary, hoursPerYear, includedPhases, phaseWeights, transformationCosts } = inputs;
+  const { teamSize, avgSalary, hoursPerYear, includedPhases, phaseWeights, inhouseRatios, transformationCosts } = inputs;
   const hourlyRate = avgSalary / hoursPerYear;
 
   const phaseBreakdown: ROIPhaseBreakdown[] = PHASES.map((phase) => {
@@ -126,8 +126,9 @@ export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[])
     const medianImpact = stats ? stats.median / 100 : 0;
     const weight = phaseWeights[phase];
     const included = includedPhases.includes(phase);
+    const inhouseRatio = inhouseRatios?.[phase] ?? 1;
 
-    const hoursSaved = included ? teamSize * hoursPerYear * weight * medianImpact : 0;
+    const hoursSaved = included ? teamSize * hoursPerYear * weight * medianImpact * inhouseRatio : 0;
     const costSavings = hoursSaved * hourlyRate;
 
     return {
@@ -169,7 +170,7 @@ function calculateScenario(
   phaseStats: PhaseStats[],
   impactSelector: (stats: PhaseStats) => number
 ): ROIResult {
-  const { teamSize, avgSalary, hoursPerYear, includedPhases, phaseWeights, transformationCosts } = inputs;
+  const { teamSize, avgSalary, hoursPerYear, includedPhases, phaseWeights, inhouseRatios, transformationCosts } = inputs;
   const hourlyRate = avgSalary / hoursPerYear;
 
   const phaseBreakdown: ROIPhaseBreakdown[] = PHASES.map((phase) => {
@@ -178,8 +179,9 @@ function calculateScenario(
     const clampedImpact = Math.max(impact, 0);
     const weight = phaseWeights[phase];
     const included = includedPhases.includes(phase);
+    const inhouseRatio = inhouseRatios?.[phase] ?? 1;
 
-    const hoursSaved = included ? teamSize * hoursPerYear * weight * clampedImpact : 0;
+    const hoursSaved = included ? teamSize * hoursPerYear * weight * clampedImpact * inhouseRatio : 0;
     const costSavings = hoursSaved * hourlyRate;
 
     return {

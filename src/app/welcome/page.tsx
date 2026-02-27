@@ -13,7 +13,7 @@ export default function WelcomePage() {
     {
       title: t('welcome.videoTitle'),
       description: t('welcome.videoDesc'),
-      url: 'https://youtu.be/HSdznqcWzbw',
+      url: 'https://youtu.be/yuJbcadA06U',
       icon: Play,
       color: 'text-red-400',
       bgColor: 'bg-red-500/10 border-red-500/20',
@@ -21,7 +21,7 @@ export default function WelcomePage() {
     {
       title: t('welcome.podcastTitle'),
       description: t('welcome.podcastDesc'),
-      url: 'https://youtu.be/ZEfsTJR2gp0',
+      url: 'https://youtu.be/IES2Mba25kM',
       icon: Podcast,
       color: 'text-purple-400',
       bgColor: 'bg-purple-500/10 border-purple-500/20',
@@ -29,7 +29,7 @@ export default function WelcomePage() {
     {
       title: t('welcome.slidesTitle'),
       description: t('welcome.slidesDesc'),
-      url: 'https://drive.google.com/file/d/1_7gRYOM4fU3PjMRTlJ76--VOgf9lHQTP/view?usp=sharing',
+      url: 'https://drive.google.com/file/d/1JHm40yjAUSIQrtIZscsnUQ8M5-4OIHqL/view?usp=sharing',
       icon: Presentation,
       color: 'text-amber-400',
       bgColor: 'bg-amber-500/10 border-amber-500/20',

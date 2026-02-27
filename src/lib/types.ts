@@ -98,6 +98,7 @@ export interface CalculatorInputs {
   itBudget: number;
   includedPhases: Phase[];
   phaseWeights: Record<Phase, number>;
+  inhouseRatios: Record<Phase, number>; // 0-1, where 1 = 100% inhouse
   scenarioConfigs: ScenarioConfigs;
   transformationCosts: TransformationCosts;
 }

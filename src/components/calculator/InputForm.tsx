@@ -332,6 +332,48 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
         </div>
       </div>
 
+      {/* Inhouse vs Outsourced */}
+      <div>
+        <p className="text-sm text-foreground mb-1">
+          {t('calculator.inhouseRatios')}
+        </p>
+        <p className="text-xs text-muted mb-3">
+          {t('calculator.inhouseRatiosHint')}
+        </p>
+
+        <div className="space-y-2">
+          {PHASES.map((phase) => {
+            const isActive = inputs.includedPhases.includes(phase);
+            const ratio = inputs.inhouseRatios[phase] ?? 1;
+
+            return (
+              <div key={phase} className={`${!isActive ? 'opacity-40' : ''}`}>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium w-16 shrink-0 text-left text-foreground">
+                    {phase}
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    value={Math.round(ratio * 100)}
+                    onChange={(e) => {
+                      const updated = { ...inputs.inhouseRatios, [phase]: Number(e.target.value) / 100 };
+                      onChange({ ...inputs, inhouseRatios: updated });
+                    }}
+                    disabled={!isActive}
+                    className="flex-1 accent-accent h-1"
+                  />
+                  <span className={`text-xs tabular-nums w-10 text-right ${isActive ? 'text-foreground font-medium' : 'text-muted'}`}>
+                    {Math.round(ratio * 100)}%
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Scenario Timeframes */}
       <ScenarioConfigPanel
         configs={inputs.scenarioConfigs}
