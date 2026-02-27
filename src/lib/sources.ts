@@ -1,0 +1,252 @@
+import { DataType, Fact } from './types';
+
+export type SourceCategory = 'social-media' | 'scientific' | null;
+
+const SOCIAL_MEDIA_PREFIXES = ['X/Twitter', 'LinkedIn'];
+const SCIENTIFIC_PREFIXES = [
+  'arXiv', 'IEEE', 'ACM', 'MDPI', 'Springer', 'ScienceDirect',
+  'USENIX', 'CACM', 'ACL Industry', 'Advances in HCI',
+];
+const SCIENTIFIC_CONTAINS = ['(arXiv)', '(ResearchGate)', '(ICSE'];
+const SCIENTIFIC_EXACT = [
+  'Noy & Zhang — Science (2023)',
+  'Harvard Business School (Jagged Frontier)',
+  'Google — ML-Assisted Code Review (ICSE 2024)',
+  'Google AI-Assisted Development RCT',
+  'Microsoft Research — Copilot Productivity',
+  'Microsoft Research — LLM Incident Triage',
+];
+
+export function getSourceCategory(name: string): SourceCategory {
+  if (SOCIAL_MEDIA_PREFIXES.some((p) => name.startsWith(p))) return 'social-media';
+  if (SCIENTIFIC_PREFIXES.some((p) => name.startsWith(p))) return 'scientific';
+  if (SCIENTIFIC_CONTAINS.some((s) => name.includes(s))) return 'scientific';
+  if (SCIENTIFIC_EXACT.includes(name)) return 'scientific';
+  return null;
+}
+
+export interface SourceEntry {
+  name: string;
+  url?: string;
+  description: string;
+  dataTypes: DataType[];
+  phases: string[];
+  years: number[];
+  factCount: number;
+  facts: Fact[];
+  category: SourceCategory;
+  earliestDate: string;
+  latestDate: string;
+}
+
+export const sourceDescriptions: Record<string, string> = {
+  // Phase 1 verified sources — Strategy
+  'McKinsey — AI Transforming Strategy': 'McKinsey article on how AI/automation is reshaping corporate strategy, decision-making speed, and competitive dynamics.',
+  'Gartner — Top 10 Strategic Tech Trends 2025': 'Gartner\'s annual strategic technology trends forecast highlighting agentic AI, AI governance, and energy-efficient computing.',
+  'HBR — AI Can Outperform Human CEOs': 'Harvard Business Review article examining research on AI\'s strategic decision-making capabilities compared to human executives.',
+  'Forrester — AI Predictions 2025': 'Forrester\'s annual predictions report covering enterprise AI adoption trends, agentic AI, and organizational readiness.',
+  'Riverbed — Global AI Readiness Survey': 'Riverbed\'s global survey of 1,500+ IT leaders assessing enterprise AI readiness, adoption barriers, and strategic investment priorities.',
+  'Gartner — AI Investment Framework': 'Gartner\'s framework and articles on AI investment strategies, budget allocation, and ROI measurement for enterprise AI initiatives.',
+
+  // Phase 1 verified sources — Design
+  'Nielsen Norman Group — AI in UX Research': 'Nielsen Norman Group research on AI\'s impact on UX research methodologies, including AI-assisted usability testing and analysis.',
+  'Figma — AI Design Trends 2024': 'Figma\'s 2024 report on AI adoption trends in design, covering AI feature usage and workflow impact across their user base.',
+  'ACM CHI 2024 — GenAI and Design Fixation': 'ACM CHI 2024 peer-reviewed study examining how generative AI affects design fixation and creative exploration in UI/UX design.',
+  'State of AI in Design Report': 'Industry report surveying designers on AI tool adoption, workflow changes, and productivity impacts across the design profession.',
+  'Adobe Design — AI-Powered Prototyping': 'Adobe\'s research and tools for AI-powered prototyping, including Firefly integration for rapid design asset generation.',
+  'Supernova — State of AI in Design Systems 2024': 'Supernova\'s 2024 survey on AI adoption in design systems, covering automated component documentation and token management.',
+  'Advances in HCI — AI in UX Evaluation': 'Academic research (Advances in HCI / IntechOpen) on AI-powered UX evaluation methods and automated usability assessment.',
+  'Figma — State of the Designer 2026': 'Figma\'s annual designer survey with 4,000+ respondents covering AI feature adoption rates and measured productivity changes.',
+
+  // Phase 1 verified sources — Spec
+  'IEEE Software — RE and LLMs Panel': 'IEEE Software panel discussion on Large Language Models in requirements engineering, covering capabilities and limitations.',
+  'Atlassian — AI in Jira': 'Atlassian\'s AI features in Jira for automated issue triage, smart suggestions, and requirements linking.',
+  'Product School — AI for PMs 2024': 'Product School\'s resources on AI tools for product managers, covering PRD generation, prioritization, and roadmap automation.',
+  'Requirements Conflicts Detection with AI (ResearchGate)': 'ResearchGate-published research on using AI to detect conflicts and inconsistencies in software requirements documents.',
+  'ThoughtWorks Tech Radar — Spec-Driven Development': 'ThoughtWorks Technology Radar assessment of spec-driven development practices and AI-assisted specification tools.',
+  'Anthropic — How Teams Use Claude Code': 'Anthropic\'s published analysis of how development teams use Claude Code for specifications, architecture, and coding tasks.',
+  'Addy Osmani — Specs for AI Agents': 'Addy Osmani\'s article on writing effective specifications for AI coding agents, covering prompt engineering and context management.',
+
+  // Phase 1 verified sources — Dev
+  'GitHub — Copilot Productivity & Happiness': 'GitHub\'s research on Copilot\'s impact on developer productivity and satisfaction: 55% faster task completion in controlled studies.',
+  'Google — ML-Assisted Code Review (ICSE 2024)': 'Google\'s ICSE 2024 paper on ML-assisted code review, measuring automated comment generation at scale across their codebase.',
+  'Stack Overflow Developer Survey 2024': 'Stack Overflow\'s 2024 annual developer survey covering AI tool adoption, satisfaction, and productivity perceptions among 65,000+ developers.',
+  'Microsoft Research — IntelliCode Completions': 'Microsoft Research publication on IntelliCode\'s whole-line code completions and their measured impact on developer productivity.',
+  'JetBrains — State of Developer Ecosystem 2024': 'JetBrains\' 2024 annual survey of 23,000+ developers covering IDE usage, AI assistant adoption, and workflow preferences.',
+  'Sourcegraph — Cody AI Assistant': 'Sourcegraph\'s AI coding assistant Cody, with published metrics on code search, understanding, and generation capabilities.',
+  'Anthropic — AI Transforming Work at Anthropic': 'Anthropic\'s blog post documenting how their own teams use Claude for development, with internal productivity measurements.',
+  'Cursor — AI-Native IDE': 'Cursor\'s AI-native IDE combining code editing with LLM integration, with published user productivity benchmarks.',
+  'ACM — AI Pair Programming Impact': 'ACM-published research on AI pair programming\'s impact on code quality, development speed, and developer experience.',
+  'Cognition Labs — Devin SWE-bench Report': 'Cognition Labs\' published metrics for Devin, their AI software engineer, achieving 13.86% on the SWE-bench benchmark.',
+  'OpenAI — Codex / HumanEval (arXiv)': 'OpenAI\'s arXiv paper introducing the HumanEval benchmark and reporting Codex\'s 28.8% pass@1 code generation accuracy.',
+  'GitHub Octoverse 2024': 'GitHub\'s 2024 Octoverse report covering global development trends, AI tool adoption rates, and repository activity patterns.',
+  'SWE-bench — AI Coding Benchmark': 'SWE-bench standardized benchmark for evaluating AI systems on real-world software engineering tasks from open-source repos.',
+
+  // Phase 1 verified sources — QA
+  'PractiTest — State of Testing 2024': 'PractiTest\'s annual State of Testing survey covering QA practices, AI adoption, and test automation trends across the industry.',
+  'arXiv — AI Adoption in Testing (Secondary Study)': 'Academic secondary study (arXiv) systematically reviewing AI adoption in software testing across multiple research sources.',
+  'Google Testing Blog — ML Test Selection': 'Google Testing Blog post on ML-based test selection, reducing test suite execution time while maintaining defect detection.',
+  'Applitools — Visual AI Hackathon Report': 'Applitools\' visual AI hackathon results comparing AI-powered visual testing against traditional approaches across 3,000+ participants.',
+  'IEEE — LLMorpheus: LLM-Based Mutation Testing': 'IEEE-published research on LLMorpheus, using LLMs for mutation testing to generate more realistic and harder-to-detect code mutants.',
+  'Tricentis/Testim — AI Self-Healing Tests': 'Tricentis/Testim\'s AI self-healing test technology that automatically adapts tests to UI changes, reducing maintenance effort.',
+  'Tricentis — QA Trends: AI and Agentic Testing': 'Tricentis report on emerging QA trends including agentic testing, AI test generation, and autonomous quality assurance.',
+  'LambdaTest/TestMu AI — Cross-Browser Testing': 'LambdaTest\'s TestMu AI platform for AI-driven cross-browser testing, test generation, and visual regression detection.',
+  'Microsoft Engineering — AI Code Reviews at Scale': 'Microsoft Engineering blog on deploying AI-assisted code reviews at scale across their development organization.',
+  'Forrester — Autonomous Testing Platform Landscape': 'Forrester\'s landscape analysis of autonomous testing platforms, evaluating AI-driven testing tools and market trends.',
+  'Square Enix — AI QA Automation Target': 'Square Enix\'s published target of achieving significant QA automation through AI to handle growing game testing complexity.',
+  'Mabl — Benchmarking AI Agent Architectures for Testing': 'Mabl\'s research benchmarking different AI agent architectures for software testing, comparing autonomous vs. guided approaches.',
+
+  // Phase 1 verified sources — DevOps
+  'DORA Report 2023': 'Google\'s 2023 DORA (DevOps Research and Assessment) report — the definitive annual study on DevOps performance metrics and team capabilities.',
+  'PagerDuty — AIOps Platform': 'PagerDuty\'s AIOps platform capabilities for intelligent alert correlation, noise reduction (91%), and automated incident response.',
+  'HashiCorp — State of Cloud Strategy 2024': 'HashiCorp\'s 2024 State of Cloud Strategy survey covering multi-cloud adoption, IaC practices, and AI-assisted provisioning.',
+  'Google Research — Capacity Planning at Scale': 'Google Research publication on ML-based capacity planning and resource optimization for large-scale distributed systems.',
+  'Platform Engineering — State of AI 2025': 'Industry survey on platform engineering practices including AI-assisted CI/CD optimization and internal developer platforms.',
+  'CNCF — Cloud Native Survey & AI Adoption': 'Cloud Native Computing Foundation survey on cloud-native technology adoption including AI/ML integration in operations.',
+  'Opsera — 2026 AI Coding Impact Benchmark': 'Opsera\'s 2026 benchmark measuring AI\'s impact on software delivery metrics across the CI/CD pipeline.',
+  'Perforce — 2026 State of DevOps': 'Perforce\'s 2026 State of DevOps report covering AI-powered deployment automation and infrastructure management trends.',
+
+  // Deep Research Sources
+  'McKinsey Global Institute': 'McKinsey\'s research arm analyzing the economic potential of generative AI across industries, quantifying $2.6\u20134.4 trillion in annual value creation.',
+  'Harvard Business School (Jagged Frontier)': 'Harvard Business School field experiment (Working Paper 24-013) testing GPT-4 with BCG consultants on strategic analysis tasks.',
+  'Noy & Zhang \u2014 Science (2023)': 'Peer-reviewed experimental study in Science journal measuring productivity effects of generative AI on professional writing tasks.',
+  'Gartner GenAI Adoption Forecast': 'Gartner analyst prediction on enterprise GenAI adoption rates, forecasting >80% deployment by 2026.',
+  'McKinsey State of AI 2023 Survey': 'McKinsey\'s annual global survey on AI adoption, covering 1,684 respondents across industries on GenAI usage and impact.',
+  'Deloitte State of Generative AI 2024': 'Deloitte\'s enterprise survey series tracking GenAI adoption, ROI realization, and strategic impact across large organizations.',
+  'Forrester State of Generative AI 2024': 'Forrester\'s comprehensive report on GenAI market trends, enterprise adoption patterns, and measured business outcomes.',
+  'Gartner Top Predictions 2025': 'Gartner\'s forward-looking predictions for IT organizations covering agentic AI, automation, and workforce transformation.',
+
+  'MDPI \u2014 ChatGPT in Requirements Engineering': 'Peer-reviewed comprehensive review (MDPI Future Internet) evaluating ChatGPT\'s capabilities and limitations in software requirements engineering.',
+  'arXiv \u2014 ChatGPT Requirements Retrieval': 'Academic preprint empirically evaluating ChatGPT on requirements information retrieval tasks across multiple software projects.',
+  'ACM \u2014 LLM-Based Product Requirements': 'ACM-published research on using LLMs to generate and validate product requirements documents with stakeholder feedback.',
+
+  'arXiv \u2014 LLMs for Architectural Design Decisions': 'Academic preprint investigating whether LLMs can generate contextually relevant architectural design records (ADRs).',
+  'Springer \u2014 ArchMind LLM Design Tool': 'Springer-published research on ArchMind, an LLM-powered tool helping novice software architects make quality design decisions.',
+  'arXiv \u2014 SpeCrawler (OpenAPI Generation)': 'Academic preprint on SpeCrawler, a tool using LLMs to automatically generate OpenAPI specifications from API documentation.',
+  'ACL Industry \u2014 OpenAPI from Documentation': 'ACL 2025 Industry Track paper on generating OpenAPI specifications from online API documentation using large language models.',
+  'arXiv \u2014 Requirements to Code Pipeline': 'Academic preprint demonstrating an end-to-end LLM pipeline from requirements through OO models and tests to working code.',
+
+  'arXiv \u2014 GitHub Copilot Controlled Experiment': 'Foundational arXiv paper (2302.06590) reporting the controlled experiment measuring GitHub Copilot\'s impact on developer productivity.',
+  'GitHub/Accenture Enterprise RCT': 'Randomized controlled trial measuring GitHub Copilot\'s productivity impact across 450 Accenture developers in enterprise setting.',
+  'GitHub Accenture Customer Story': 'GitHub\'s published customer story documenting Accenture\'s enterprise-wide Copilot deployment outcomes and measured productivity gains.',
+  'Google AI-Assisted Development RCT': 'Google\'s enterprise-based randomized controlled trial (arXiv 2410.12944) measuring AI\'s actual impact on development speed.',
+  'DORA Report 2025 \u2014 AI in Development': 'Google\'s 2025 DORA report analyzing AI-assisted software development across 39,000+ respondents with throughput and stability metrics.',
+  'DORA GenAI Special Report': 'DORA special report specifically focused on the impact of generative AI in software development, with deployment and quality metrics.',
+  'McKinsey \u2014 Developer Productivity with GenAI': 'McKinsey\'s dedicated study on unleashing developer productivity with generative AI, measuring task-level speed improvements.',
+  'Bain \u2014 Beyond Code Generation': 'Bain & Company\'s technology report examining GenAI efficiency gains beyond simple code generation across the full development lifecycle.',
+  'BCG \u2014 Scaling GenAI in Software': 'Boston Consulting Group\'s report on patterns for successfully scaling generative AI in software engineering organizations.',
+  'ScienceDirect \u2014 ChatGPT Code Refactoring': 'Peer-reviewed empirical study (Expert Systems with Applications) evaluating ChatGPT\'s code refactoring capabilities and quality.',
+  'CACM \u2014 Measuring Copilot Impact': 'Communications of the ACM article combining survey data and usage telemetry to measure GitHub Copilot\'s productivity impact.',
+  'Microsoft Research \u2014 Copilot Productivity': 'Microsoft Research publication page for the controlled experiment on AI\'s impact on developer productivity via GitHub Copilot.',
+
+  'arXiv \u2014 ChatGPT for Unit Test Generation': 'Academic preprint evaluating and improving ChatGPT for automated unit test generation with coverage and correctness metrics.',
+  'ACM ESEC/FSE \u2014 ChatGPT Test Evaluation': 'Top-tier SE conference paper (ESEC/FSE 2024) with peer-reviewed evaluation of ChatGPT for unit test generation.',
+  'IEEE TSE \u2014 LLM Unit Test Generation (Sch\u00e4fer)': 'IEEE Transactions on Software Engineering paper by Sch\u00e4fer et al. providing systematic evaluation of LLMs for automated unit tests.',
+  'arXiv \u2014 Empirical Study of LLM Unit Tests': 'Academic preprint with large-scale empirical study of LLM-generated unit tests across multiple projects and programming languages.',
+  'Veracode \u2014 GenAI Code Security Report': 'Veracode\'s 2025 research report measuring security vulnerabilities in AI-generated code across enterprise development workflows.',
+  'Snyk \u2014 AI Tool Adoption Survey': 'Snyk\'s developer survey on secure AI coding tool adoption, covering perceptions, realities, and security control practices.',
+  'SonarSource \u2014 Verification Gap Report': 'SonarSource press release revealing the "verification gap" \u2014 the disconnect between AI code generation speed and code quality assurance.',
+  'ScienceDirect \u2014 GRACE Vulnerability Detection': 'Peer-reviewed paper (Journal of Systems and Software) on GRACE framework for LLM-empowered software vulnerability detection.',
+  'arXiv \u2014 LLMs in Software Security Survey': 'Comprehensive 2025 survey paper covering LLM applications in vulnerability detection, security testing, and code analysis.',
+
+  'Microsoft Research \u2014 LLM Incident Triage': 'Microsoft Research paper (ISSRE 2024) on using LLMs for accurate and interpretable incident triage in production systems.',
+  'Springer \u2014 LLM Log Analysis Benchmark': 'Springer-published benchmark study evaluating LLMs for log analysis, anomaly detection, and root cause identification.',
+  'arXiv \u2014 IRCopilot (Automated Incident Response)': 'Academic preprint on IRCopilot, an LLM-powered system for automated incident response with diagnosis and remediation capabilities.',
+  'USENIX SOUPS \u2014 LLMs in Security Incident Response': 'USENIX SOUPS 2025 paper studying the integration of LLMs into security incident response workflows and analyst decision-making.',
+  'MDPI \u2014 AI-Augmented SOC Survey': 'MDPI-published survey on AI-augmented Security Operations Centers, covering LLM and agent applications in security operations.',
+  'Uber Engineering \u2014 GenAI in Operations': 'Uber\'s engineering blog post documenting practical GenAI applications for operational automation, log analysis, and incident response.',
+
+  // Siili Solutions / Aalto University Sources
+  'Aalto University / Siili Solutions RCT': 'Randomized controlled trial conducted as an Aalto University master\'s thesis (Petteri Hakkinen, 2025) at Siili Solutions with 25 developers and 130 task observations measuring GenAI\'s impact on speed and code quality.',
+  'Siili Solutions \u2014 AI-Powered Development Whitepaper': 'Siili Solutions whitepaper documenting measured productivity gains from AI-powered development across frontend, backend, and documentation tasks in real projects.',
+  'Siili Solutions \u2014 AI vs Traditional Comparison': 'Siili Solutions blog post comparing AI-assisted vs traditional development by building the same application, measuring output quantity and development speed.',
+  'Siili Solutions \u2014 The AI Ripple Effect': 'Siili Solutions whitepaper on the broader "ripple effect" of AI adoption \u2014 second-order impacts on development speed, quality improvement, and team dynamics.',
+  'Siili Solutions \u2014 Strategy Announcement': 'Siili Solutions official strategy press release announcing measured productivity results from AI tool integration across their development organization.',
+
+  // Round 2: Deep Research Sources (Feb 2026)
+  'Medium \u2014 AI Changing Product Management': 'Medium article documenting real-world examples of how AI software development is transforming product management in 2025, covering time-to-market, cost reduction, and workflow changes.',
+  'Forrester 2025 \u2014 Emerging AI Technologies': 'Forrester\'s 2025 report on emerging AI technologies and their measured impact on enterprise productivity, including content creation and development workflows.',
+  'McKinsey State of AI 2024': 'McKinsey\'s 2024 annual global survey on AI adoption, finding ~65% of organizations regularly use GenAI (nearly doubling from 33% in 2023).',
+  'Gartner \u2014 AI Code Assistants Forecast': 'Gartner 2024 press release predicting 75% of enterprise software engineers will use AI code assistants by 2028, up from less than 10% in early 2023.',
+  'Visualping \u2014 AI Tools for PMs': 'Visualping blog covering AI tools for product managers, documenting PRD generation speed improvements and user research synthesis acceleration of 10\u201350x.',
+  'Figma Make \u2014 AI Design Tools': 'Figma\'s AI PRD generator and design tools enabling non-engineers to create UI/UX variations from natural language prompts and turn PRDs into interactive prototypes.',
+  'monday.com \u2014 AI for Product Managers': 'monday.com blog on AI capabilities for product managers, including automated PRD generation from meeting notes and stakeholder discussion transcripts.',
+  'Zencoder \u2014 AI Code Generation Trends': 'Zencoder blog analyzing AI code generation trends, reporting 30\u201350% technical documentation time reduction across API docs, ADRs, and system design specs.',
+  'Qodo \u2014 State of AI Code Quality 2025': 'Qodo\'s 2025 report on AI code quality, finding refactoring has highest context miss rate, only 3.8% report low hallucinations + high confidence, and seniors report more pain (52% vs 41%).',
+  'Longitudinal Copilot Study (arXiv)': 'Longitudinal field experiment (arXiv 2509.20353) across 3 companies including Microsoft and Accenture, measuring sustained GitHub Copilot productivity gains over months.',
+  'Harness SEI \u2014 Copilot Case Study': 'Harness Software Engineering Intelligence case study measuring GitHub Copilot\'s real-world impact: 10.6% PR throughput increase and 3.5-hour cycle time reduction across 50 developers.',
+  'Second Talent \u2014 GitHub Copilot Statistics': 'Second Talent\'s compilation of GitHub Copilot statistics and adoption trends, including 51% self-reported speed improvement, ~30% acceptance rate, and 11-week ramp-up time.',
+  'METR Study (arXiv 2507.09089)': 'METR\'s rigorous RCT (arXiv 2507.09089) finding experienced open-source developers were 19% SLOWER with AI tools on familiar, complex codebases \u2014 a contrarian result challenging most lab studies.',
+  'METR \u2014 AI Task-Completion Time Horizons': 'METR\'s longitudinal benchmark measuring AI agent task-completion capabilities. Finds AI capability doubles every ~4 months (2023\u20132026 data) in software engineering, ML, and cybersecurity tasks. Claude Opus 4.6 achieves an 870-hour 50%-time horizon.',
+  'McKinsey/Jellyfish \u2014 AI in Software Dev': 'McKinsey interview with Jellyfish CEO on measuring AI in software development, reporting >110% productivity gains for companies with 80\u2013100% Copilot adoption and full workflow redesign.',
+  'McKinsey \u2014 Unlocking Value of AI in Software Dev': 'McKinsey\'s Nov 2025 survey of 300 companies on unlocking AI value in software development, finding top performers achieve 16\u201330% productivity and 31\u201345% quality improvement.',
+  'Uplevel \u2014 Copilot Productivity Study': 'Uplevel Data Labs study of 800 developers (reported via Visual Studio Magazine) finding Copilot users had higher bug rates with no measurable throughput improvement.',
+  'LinearB/GitClear \u2014 AI Code Churn Analysis': 'LinearB analysis using GitClear 2024 data showing AI-generated code has 41% higher churn rate than human-written code, partially offsetting speed gains with rework.',
+  'GitHub Blog \u2014 Copilot Productivity & Happiness': 'GitHub Blog research on Copilot\'s impact on developer productivity and happiness: 88% code retention, 87% mental effort preservation, and 56% faster task completion.',
+  'Stack Overflow Developer Survey 2025 \u2014 AI': 'Stack Overflow 2025 Developer Survey AI section: 84% use AI tools (up from 70%), but trust in accuracy dropped to 29% (from 43%). 49,000+ developer respondents.',
+  'VentureBeat \u2014 Hidden Productivity Tax of AI Code': 'VentureBeat analysis of Stack Overflow data revealing the "almost right" productivity tax: 66% struggle with near-miss AI code, 45% say debugging takes longer than manual coding.',
+  'QAble \u2014 Is AI Helping Testing?': 'QAble analysis of whether AI is truly helping software testing: 75% strategic priority but only 16% adopted. 45% of practitioners believe manual testing is irreplaceable.',
+  'QAble \u2014 Manual Testing Persistence': 'QAble survey finding 45% of QA practitioners believe manual testing remains irreplaceable for exploratory testing, UX evaluation, and edge case identification.',
+  'Virtuoso QA \u2014 AI Test Automation Future': 'Virtuoso QA analysis of AI test automation\'s future: Fortune 500 at 45% adoption, startups at 62%, with 35% of enterprise budgets shifting to AI testing platforms.',
+  'Virtuoso QA \u2014 AI Test Maintenance Claims': 'Virtuoso QA\'s analysis of AI-native testing platforms claiming up to 95% test maintenance reduction through self-healing tests on new platforms.',
+  'Pandhare \u2014 Future of Software Test Automation (ResearchGate)': 'Peer-reviewed ResearchGate publication on the future of software test automation using AI/ML, projecting 65%+ enterprise testing will involve AI by 2027.',
+  'DeviQA \u2014 AI Changes QA 2025': 'DeviQA analysis of how AI changes QA expectations in 2025: top use cases are test case creation (25%), optimization (23%), and automated regression (19%).',
+  'Tricentis \u2014 AI Trends in Testing 2025': 'Tricentis analysis of 5 AI trends shaping software testing in 2025, including 80% team adoption plans and Gartner\'s agentic AI projections for 2028.',
+  'Rainforest QA \u2014 AI in Testing Report 2025': 'Rainforest QA\'s 2025 state of AI in testing report finding early adopters initially spent MORE time on maintenance due to required human review of AI-generated tests.',
+  'AmericanChase \u2014 AI in DevOps': 'AmericanChase analysis of AI in DevOps 2025, aggregating Forrester (67% faster releases), IBM (43% fewer incidents), and Deloitte (31% TCO reduction) data.',
+  'WebProNews \u2014 AI Agents in CI/CD': 'WebProNews coverage of AI agents revolutionizing CI/CD in 2025, documenting GitLab\'s 30% faster releases across 1.5 million developers.',
+  'Gartner \u2014 I&O Leaders AI Survey': 'Gartner Oct 2025 survey of 253 I&O leaders: 54% adopting AI for cost optimization, with budget (50%) and integration (48%) as top barriers.',
+  'Google DORA Report 2025': 'Google\'s 2025 DORA report finding AI adoption correlates positively with delivery throughput but negatively with stability. 39,000+ respondents. AI amplifies existing dynamics.',
+  'Softjourn \u2014 AI Transforming DevOps': 'Softjourn analysis of AI transforming DevOps in 2026, covering market growth from $14.95B to $37.33B by 2029 driven by AI-powered automation.',
+  'Gartner/Tricentis \u2014 Agentic AI Forecast': 'Combined Gartner/Tricentis forecast: 33% of enterprise software will incorporate agentic AI by 2028, up from less than 1% in 2024.',
+
+  // Social Media — Extreme Productivity Claims
+  'X/Twitter \u2014 @karpathy (Andrej Karpathy)': 'Andrej Karpathy, OpenAI co-founder and former Tesla AI lead, coined "vibe coding" in Feb 2025. Posts about building complete apps in new languages in ~1 hour using Cursor + Claude.',
+  'X/Twitter \u2014 @levelsio (Pieter Levels)': 'Pieter Levels, serial indie hacker (NomadList, RemoteOK), built a 3D flight simulator in 3 hours with Cursor and no game dev experience. Hit $1M ARR in 17 days, $138K/month by Nov 2025.',
+  'X/Twitter \u2014 @AlexFinnX (Alex Finn)': 'Alex Finn, non-technical content creator who built Creator Buddy SaaS entirely with Claude Code \u2014 "0 lines of code written." Reached $300K ARR. Founded the Vibe Coding Academy.',
+  'X/Twitter \u2014 @mckaywrigley (McKay Wrigley)': 'McKay Wrigley, AI coding influencer, claims to have replaced 7 B2B SaaS subscriptions in one night (~6 hours) using Cursor + o1 Pro, saving $7,500+/year.',
+  'X/Twitter + TechCrunch \u2014 Maor Shlomo (Base44)': 'Maor Shlomo, solo founder of Base44 vibe-coding platform. Bootstrapped to 250K users and $189K monthly profit in 6 months. Acquired by Wix for $80M cash (TechCrunch verified).',
+  'X/Twitter + 20VC \u2014 Edwin Chen (Surge CEO)': 'Edwin Chen, Surge AI CEO (TIME 100 AI 2025), claims AI creates "100x engineers." Surge reached $1B revenue with no VC funding. Appeared on 20VC podcast.',
+  'X/Twitter \u2014 Michael Truell (Cursor CEO)': 'Michael Truell, Cursor CEO, demonstrated AI agents building a web browser (3M+ lines of Rust) autonomously in 1 week. Cursor valued at $29.3B in 2025.',
+  'X/Twitter \u2014 @bentossell (Ben Tossell)': 'Ben Tossell, founder of Ben\'s Bites (AI newsletter, 200K+ subscribers), reports spending 3 billion tokens in 4 months on Claude Code. Former no-code pioneer (MakerPad), now vibe-coding advocate.',
+  'X/Twitter \u2014 @jonst0kes (Jon Stokes)': 'Jon Stokes, Ars Technica co-founder, went from "vibe coding skeptic" to advocate after shipping a major refactor with Claude Code. Viral tweet: "if you\'re not doing it you will lose."',
+  'LinkedIn/Blog \u2014 Suff Syed (The Vibe Coders Are Lying)': 'Skeptical analysis arguing no verified solo vibe-coded product by a non-engineer has exceeded $5-10M ARR with enterprise-grade reliability. Counters extreme productivity hype.',
+  'X/Twitter \u2014 Michael Truell (Cursor CEO) \u2014 Vibe Coding Warning': 'Cursor CEO warns that vibe coding builds "shaky foundations" \u2014 likens it to building a house without knowing what\'s behind the walls. Fortune interview, Dec 2025.',
+  'X/Twitter \u2014 @levelsio \u2014 2025 Vibe Coding Game Jam': 'Pieter Levels organized the first Vibe Coding Game Jam (March 2025): 7-day deadline, 80%+ code must be AI-generated. Demonstrated community-scale AI-first development adoption.',
+  'LinkedIn \u2014 Alex Finn (AI-Powered SaaS)': 'Alex Finn\'s LinkedIn post documenting his journey from content creator to solo SaaS founder: quit his job, built a $315K/year app with Claude Code and zero programming background.',
+  'LinkedIn \u2014 Addy Osmani (Vibe Coding vs AI-Assisted Engineering)': 'Addy Osmani, Google Chrome engineering lead, distinguishes professional AI-assisted engineering from casual vibe coding. Argues for specs, architecture, and code review even with AI tools.',
+};
+
+export function buildSources(filteredFacts: Fact[]): SourceEntry[] {
+  const sourceMap = new Map<string, SourceEntry>();
+
+  for (const fact of filteredFacts) {
+    const existing = sourceMap.get(fact.source);
+    if (existing) {
+      if (!existing.dataTypes.includes(fact.dataType)) existing.dataTypes.push(fact.dataType);
+      if (!existing.phases.includes(fact.phase)) existing.phases.push(fact.phase);
+      if (!existing.years.includes(fact.year)) existing.years.push(fact.year);
+      existing.factCount++;
+      existing.facts.push(fact);
+      if (fact.sourceUrl && !existing.url) existing.url = fact.sourceUrl;
+      if (fact.publishDate < existing.earliestDate) existing.earliestDate = fact.publishDate;
+      if (fact.publishDate > existing.latestDate) existing.latestDate = fact.publishDate;
+    } else {
+      sourceMap.set(fact.source, {
+        name: fact.source,
+        url: fact.sourceUrl,
+        description: sourceDescriptions[fact.source] || fact.description,
+        dataTypes: [fact.dataType],
+        phases: [fact.phase],
+        years: [fact.year],
+        factCount: 1,
+        facts: [fact],
+        category: getSourceCategory(fact.source),
+        earliestDate: fact.publishDate,
+        latestDate: fact.publishDate,
+      });
+    }
+  }
+
+  return Array.from(sourceMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
