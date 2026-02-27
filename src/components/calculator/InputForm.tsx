@@ -28,8 +28,6 @@ function formatEurShort(n: number): string {
 export default function InputForm({ inputs, onChange, availableYears, factCountsByYear }: InputFormProps) {
   const { t } = useTranslation();
 
-  const personnelBudget = inputs.teamSize * inputs.avgSalary;
-
   const togglePhase = useCallback((phase: Phase) => {
     const wasIncluded = inputs.includedPhases.includes(phase);
     const includedPhases = wasIncluded
@@ -170,17 +168,6 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
         </div>
       </div>
 
-      {/* Total Budget Callout */}
-      <div className="bg-accent/5 border border-accent/20 rounded-lg p-4">
-        <p className="text-xs text-muted uppercase tracking-wider mb-1">{t('calculator.totalBudget')}</p>
-        <p className="text-xl font-bold tabular-nums text-accent">
-          {formatNumber(personnelBudget + inputs.itBudget)} EUR
-        </p>
-        <p className="text-xs text-muted mt-1">
-          {t('calculator.personnel')} {formatNumber(personnelBudget)} + IT {formatNumber(inputs.itBudget)}
-        </p>
-      </div>
-
       {/* Transformation Costs */}
       <div>
         <h3 className="text-sm font-medium text-muted uppercase tracking-wider mb-3">
@@ -300,7 +287,7 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
           {PHASES.map((phase) => {
             const isActive = inputs.includedPhases.includes(phase);
             const weight = inputs.phaseWeights[phase] || 0;
-            const phaseCost = personnelBudget * weight;
+            const phaseCost = inputs.itBudget * weight;
 
             return (
               <div key={phase} className={`${!isActive ? 'opacity-40' : ''}`}>
@@ -353,7 +340,7 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
             </span>
             <span className="text-xs tabular-nums w-16 text-right font-bold text-accent">
               {formatEurShort(
-                inputs.includedPhases.reduce((s, p) => s + personnelBudget * (inputs.phaseWeights[p] || 0), 0)
+                inputs.includedPhases.reduce((s, p) => s + inputs.itBudget * (inputs.phaseWeights[p] || 0), 0)
               )}
             </span>
           </div>

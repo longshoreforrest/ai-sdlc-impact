@@ -19,7 +19,6 @@ const SCENARIO_LABEL_KEYS: Record<ScenarioType, TranslationKey> = {
 
 export default function ROIConfig({ inputs }: ROIConfigProps) {
   const { t } = useTranslation();
-  const totalBudget = inputs.teamSize * inputs.avgSalary + inputs.itBudget;
   const metrMultiplier = computeMETRMultiplier(inputs.scenarioConfigs.metrConfig);
 
   return (
@@ -54,11 +53,7 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
               </tr>
               <tr className="border-b border-zinc-100">
                 <td className="py-1.5 text-zinc-600">{t('calculator.itBudget')}</td>
-                <td className="py-1.5 text-right font-medium tabular-nums">{formatEur(inputs.itBudget)}</td>
-              </tr>
-              <tr className="border-b border-zinc-100">
-                <td className="py-1.5 text-zinc-600">{t('calculator.totalBudget')}</td>
-                <td className="py-1.5 text-right font-bold tabular-nums">{formatEur(totalBudget)}</td>
+                <td className="py-1.5 text-right font-bold tabular-nums">{formatEur(inputs.itBudget)}</td>
               </tr>
               <tr className="border-b border-zinc-100">
                 <td className="py-1.5 text-zinc-600">{t('calculator.timeframe')}</td>
@@ -188,6 +183,9 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
             </p>
             <p className="text-zinc-600 mt-1">
               {t('scenario.horizon')}: {inputs.scenarioConfigs.metrConfig.futureOffsetMonths} {t('scenario.months')}
+            </p>
+            <p className="text-zinc-600 mt-1">
+              {t('scenario.adoptionElasticity')}: {(inputs.scenarioConfigs.metrConfig.adoptionElasticity ?? 0.5).toFixed(1)}
             </p>
             <p className="text-zinc-700 font-medium mt-1">
               {t('scenario.metrMultiplier')}: {metrMultiplier.toFixed(1)}x

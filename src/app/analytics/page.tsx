@@ -120,17 +120,17 @@ export default function AnalyticsPage() {
 
   const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
 
-  // Chart data: impact % per phase per scenario
+  // Chart data: impact % grouped by scenario, with phases as bars
   const impactByPhaseData = useMemo(() => {
-    return PHASES.map((phase) => {
-      const row: Record<string, string | number> = { phase };
-      for (const key of scenarioKeys) {
+    return scenarioKeys.map((key) => {
+      const row: Record<string, string | number> = { scenario: t(SCENARIO_LABEL_KEYS[key]) };
+      for (const phase of PHASES) {
         const breakdown = scenarioResults.scenarios[key].phaseBreakdown.find((p) => p.phase === phase);
-        row[key] = breakdown ? breakdown.medianImpact : 0;
+        row[phase] = breakdown ? breakdown.medianImpact : 0;
       }
       return row;
     });
-  }, [scenarioResults]);
+  }, [scenarioResults, t]);
 
   const stats = useMemo(() => {
     const totalFacts = facts.length;
@@ -322,7 +322,7 @@ export default function AnalyticsPage() {
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={impactByPhaseData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
-            <XAxis dataKey="phase" tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} />
+            <XAxis dataKey="scenario" tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} />
             <YAxis tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} tickFormatter={(v: number) => `${v}%`} />
             <Tooltip
               content={({ active, payload, label }) => {
@@ -340,8 +340,8 @@ export default function AnalyticsPage() {
               }}
             />
             <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#a1a1aa' }} />
-            {scenarioKeys.map((key) => (
-              <Bar key={key} dataKey={key} name={t(SCENARIO_LABEL_KEYS[key])} fill={SCENARIO_COLORS[key]} fillOpacity={0.7} radius={[2, 2, 0, 0]} />
+            {PHASES.map((phase) => (
+              <Bar key={phase} dataKey={phase} name={phase} fill={PHASE_COLORS[phase]} fillOpacity={0.7} radius={[2, 2, 0, 0]} />
             ))}
           </BarChart>
         </ResponsiveContainer>

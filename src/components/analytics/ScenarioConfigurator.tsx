@@ -230,6 +230,34 @@ export default function ScenarioConfigurator() {
                             />
                             <span className="text-xs text-muted">{t('scenario.months')}</span>
                           </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs text-muted">{t('scenario.adoptionElasticity')}:</span>
+                              <span className="text-xs font-medium text-emerald-400 tabular-nums">{(configs.metrConfig.adoptionElasticity ?? 0.5).toFixed(1)}</span>
+                            </div>
+                            <input
+                              type="range"
+                              min={10}
+                              max={300}
+                              step={10}
+                              value={Math.round((configs.metrConfig.adoptionElasticity ?? 0.5) * 100)}
+                              onChange={(e) =>
+                                setConfigs({
+                                  ...configs,
+                                  metrConfig: {
+                                    ...configs.metrConfig,
+                                    adoptionElasticity: Number(e.target.value) / 100,
+                                  },
+                                })
+                              }
+                              className="w-full accent-emerald-500 h-1"
+                            />
+                            <div className="flex justify-between mt-0.5">
+                              <span className="text-[10px] text-muted">0.1</span>
+                              <span className="text-[10px] text-muted">3.0</span>
+                            </div>
+                            <p className="text-[10px] text-muted mt-0.5">{t('scenario.adoptionElasticityDesc')}</p>
+                          </div>
                           <p className="text-xs font-medium text-emerald-400">
                             &rarr; {t('scenario.multiplierResult', {
                               multiplier: metrMultiplier.toFixed(1),

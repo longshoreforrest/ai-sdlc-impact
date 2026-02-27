@@ -65,7 +65,7 @@ export default function CalculatorPage() {
   );
 
   const totalFactCount = facts.length;
-  const totalBudget = inputs.teamSize * inputs.avgSalary + inputs.itBudget;
+  const totalBudget = inputs.itBudget;
 
   const pdfSources = useMemo(() => ({
     pessimistic: factMapping.pessimistic.flatMap((g) =>
@@ -143,6 +143,7 @@ export default function CalculatorPage() {
             factMapping={factMapping}
             totalFactCount={totalFactCount}
             timeframeYears={inputs.timeframeYears}
+            transformationCosts={inputs.transformationCosts}
           />
         </div>
       </div>

@@ -64,6 +64,7 @@ export interface METRConfig {
   enabled: boolean;
   doublingPeriodMonths: number;
   futureOffsetMonths: number;
+  adoptionElasticity: number; // 0.1–3.0, dampens how much AI capability translates to workflow efficiency
 }
 
 export interface ScenarioConfigs {

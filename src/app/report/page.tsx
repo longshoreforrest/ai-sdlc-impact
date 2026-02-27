@@ -8,10 +8,12 @@ import { facts, PHASE_WEIGHTS } from '@/lib/mock-data';
 import { calculateConfiguredScenarios } from '@/lib/calculations';
 import { useScenario } from '@/contexts/ScenarioContext';
 import { useTranslation } from '@/lib/i18n';
+import 'katex/dist/katex.min.css';
 import ExecutiveSummary from '@/components/report/ExecutiveSummary';
 import DataFoundation from '@/components/report/DataFoundation';
 import ScenarioSection from '@/components/report/ScenarioSection';
 import ROIConfig from '@/components/report/ROIConfig';
+import CalculationFormulas from '@/components/report/CalculationFormulas';
 import SourceAppendix from '@/components/report/SourceAppendix';
 
 function buildDefaultInputs(scenarioConfigs: CalculatorInputs['scenarioConfigs']): CalculatorInputs {
@@ -76,7 +78,7 @@ export default function ReportPage() {
     const uniqueSources = new Set(facts.map((f) => f.source)).size;
     const years = [...new Set(facts.map((f) => f.year))].sort();
     const yearSpan = years.length > 1 ? `${years[0]}\u2013${years[years.length - 1]}` : String(years[0] || '');
-    const totalBudget = inputs.teamSize * inputs.avgSalary + inputs.itBudget;
+    const totalBudget = inputs.itBudget;
     return { scenarios, factMapping, uniqueSources, yearSpan, totalBudget };
   }, [inputs]);
 
@@ -215,7 +217,10 @@ export default function ReportPage() {
           <h2 className="text-xl font-bold mb-4 text-zinc-900 border-b border-zinc-200 pb-2">
             5. {t('report.disclaimerTitle')}
           </h2>
-          <div className="text-sm text-zinc-600 leading-relaxed space-y-3">
+
+          <CalculationFormulas />
+
+          <div className="text-sm text-zinc-600 leading-relaxed space-y-3 mt-8">
             {t('report.disclaimerText').split('\n').filter(Boolean).map((para, i) => (
               <p key={i}>{para}</p>
             ))}

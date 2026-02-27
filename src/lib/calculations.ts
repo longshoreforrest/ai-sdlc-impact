@@ -230,7 +230,9 @@ export function calculateScenarioROI(inputs: CalculatorInputs, phaseStats: Phase
 
 export function computeMETRMultiplier(config: METRConfig): number {
   if (!config.enabled || config.doublingPeriodMonths <= 0) return 1;
-  return Math.pow(2, config.futureOffsetMonths / config.doublingPeriodMonths);
+  const rawMultiplier = Math.pow(2, config.futureOffsetMonths / config.doublingPeriodMonths);
+  const elasticity = config.adoptionElasticity ?? 0.5;
+  return Math.pow(rawMultiplier, elasticity);
 }
 
 export function calculateConfiguredScenarios(

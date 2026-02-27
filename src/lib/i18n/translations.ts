@@ -106,7 +106,7 @@ const en = {
   'analytics.uniqueSources': 'Unique Sources',
   'analytics.yearSpan': 'Year Span',
   'analytics.avgCredibility': 'Avg Credibility',
-  'analytics.impactByPhase': 'AI Impact % by SDLC Phase',
+  'analytics.impactByPhase': 'AI Efficiency Gain % by SDLC Phase',
   'analytics.impactTrends': 'Impact Trends Over Time',
   'analytics.factsByYear': 'Facts by Year',
   'analytics.factsByDataType': 'Facts by Data Type',
@@ -161,6 +161,8 @@ const en = {
   'roi.weightColumn': 'Weight',
   'roi.total': 'Total',
   'roi.dataBasis': 'How scenarios are built: each scenario filters published research by year range and data source type, then calculates the median productivity improvement per SDLC phase. The Pessimistic scenario uses conservative early-era data (2023–2024), the Realistic scenario spans all years, and the Optimistic scenario focuses on recent agentic-era results (2025–2026). "Cost savings" represent time freed for higher-value work, not headcount reductions.',
+  'roi.projection': '10-Year Cumulative Net ROI Projection',
+  'roi.projectionNote': 'Projected cumulative net ROI assuming annual savings and tooling costs recur each year, while consulting, training and internal implementation are one-time first-year costs.',
 
   // Transformation Costs
   'transformation.title': 'Transformation Costs',
@@ -456,6 +458,8 @@ const en = {
   'scenario.horizon': 'Horizon',
   'scenario.months': 'mo',
   'scenario.multiplierResult': '{{multiplier}}x (+{{percent}}%)',
+  'scenario.adoptionElasticity': 'Adoption Elasticity',
+  'scenario.adoptionElasticityDesc': 'How much AI capability gain translates to workflow efficiency (0.5 = square root dampening)',
   'scenario.resetDefaults': 'Reset to Defaults',
   'scenario.configure': 'Configure Scenarios',
   'scenario.scenarios': 'Scenarios',
@@ -558,6 +562,60 @@ const en = {
 
   // Sidebar
   'sidebar.report': 'Business Case Report',
+
+  // Report: Calculation Formulas
+  'report.formulasTitle': 'Calculation Formulas',
+  'report.formulasIntro': 'The following formulas define every calculation in this report. All inputs are user-configurable; all intermediate values are derived deterministically from the empirical data and the parameters shown in Section 4.',
+
+  'report.formulasGroup1': 'Core Efficiency Metrics',
+  'report.formulaHourlyRate': 'Hourly Rate',
+  'report.formulaHoursSaved': 'Hours Saved (per phase)',
+  'report.formulaCostSavings': 'Cost Savings (per phase)',
+  'report.formulaTotals': 'Totals',
+
+  'report.formulasGroup2': 'Investment & ROI',
+  'report.formulaToolingCost': 'Tooling Cost',
+  'report.formulaTotalInvestment': 'Total Investment',
+  'report.formulaNetROI': 'Net ROI',
+  'report.formulaROIRatio': 'ROI Ratio',
+  'report.formulaPayback': 'Payback Period',
+
+  'report.formulasGroup3': 'Statistical Functions',
+  'report.formulaMeanImpact': 'Mean Impact',
+  'report.formulaQuartile': 'Quartile',
+
+  'report.formulasGroup4': 'METR Projection Model',
+  'report.formulaRawMultiplier': 'Raw Multiplier',
+  'report.formulaEffMultiplier': 'Effective Multiplier',
+  'report.formulaOptImpact': 'Optimistic Impact',
+
+  'report.formulasGroup5': 'Scenario Selection',
+  'report.formulasGroup5Desc': 'Each scenario maps to a statistical measure of the filtered data:',
+  'report.formulaPessimistic': 'Pessimistic',
+  'report.formulaRealistic': 'Realistic',
+  'report.formulaOptimistic': 'Optimistic',
+
+  'report.formulasLegendTitle': 'Variable Legend',
+  'report.formulasSymbol': 'Symbol',
+  'report.formulasMeaning': 'Meaning',
+  'report.formulasUnit': 'Unit',
+  'report.legendN': 'Team size (number of developers)',
+  'report.legendSavg': 'Average annual salary per developer',
+  'report.legendHyear': 'Productive working hours per year',
+  'report.legendT': 'Timeframe',
+  'report.legendWp': 'Phase weight (share of total effort)',
+  'report.legendEtaP': 'AI productivity impact for phase p',
+  'report.legendAlphaP': 'Inhouse ratio for phase p',
+  'report.legendR': 'Hourly cost rate',
+  'report.legendTf': 'METR future projection horizon',
+  'report.legendTd': 'METR capability doubling period',
+  'report.legendEpsilon': 'Adoption elasticity coefficient',
+  'report.legendUnitPeople': 'people',
+  'report.legendUnitEurYear': '\u20ac/year',
+  'report.legendUnitHours': 'hours/year',
+  'report.legendUnitYears': 'years',
+  'report.legendUnitEurHour': '\u20ac/hour',
+  'report.legendUnitMonths': 'months',
 };
 
 const fi: typeof en = {
@@ -666,7 +724,7 @@ const fi: typeof en = {
   'analytics.uniqueSources': 'Uniikkeja l\u00e4hteit\u00e4',
   'analytics.yearSpan': 'Vuosijakso',
   'analytics.avgCredibility': 'Keskim. luotettavuus',
-  'analytics.impactByPhase': 'AI-vaikutus % SDLC-vaiheittain',
+  'analytics.impactByPhase': 'AI-tehokkuushyöty % SDLC-vaiheittain',
   'analytics.impactTrends': 'Vaikutustrendit ajan yli',
   'analytics.factsByYear': 'Faktat vuosittain',
   'analytics.factsByDataType': 'Faktat datatyypeitt\u00e4in',
@@ -721,6 +779,8 @@ const fi: typeof en = {
   'roi.weightColumn': 'Paino',
   'roi.total': 'Yhteens\u00e4',
   'roi.dataBasis': 'Skenaarioiden muodostus: kukin skenaario suodattaa julkaistua tutkimusta vuosivälin ja lähdetyypin mukaan, ja laskee sitten mediaanituottavuusparannuksen SDLC-vaiheittain. Pessimistinen skenaario käyttää konservatiivista varhaisen aikakauden dataa (2023–2024), realistinen kattaa kaikki vuodet ja optimistinen keskittyy tuoreisiin agenttisen aikakauden tuloksiin (2025–2026). "Kustannussäästöt" edustavat korkeampiarvoiseen työhön vapautettua aikaa, eivät henkilöstövähennyksiä.',
+  'roi.projection': '10 vuoden kumulatiivinen netto-ROI-ennuste',
+  'roi.projectionNote': 'Ennustettu kumulatiivinen netto-ROI olettaen, että vuosittaiset säästöt ja työkalukustannukset toistuvat joka vuosi, kun taas konsultointi, koulutus ja sisäinen toteutus ovat kertaluonteisia ensimmäisen vuoden kustannuksia.',
 
   // Transformation Costs
   'transformation.title': 'Muutoskustannukset',
@@ -1016,6 +1076,8 @@ const fi: typeof en = {
   'scenario.horizon': 'Aikahorisontti',
   'scenario.months': 'kk',
   'scenario.multiplierResult': '{{multiplier}}x (+{{percent}}%)',
+  'scenario.adoptionElasticity': 'Käyttöönoton joustavuus',
+  'scenario.adoptionElasticityDesc': 'Kuinka paljon AI-kyvykkyyden kasvu muuttuu työnkulun tehokkuudeksi (0.5 = neliöjuurivaimennus)',
   'scenario.resetDefaults': 'Palauta oletukset',
   'scenario.configure': 'Määritä skenaariot',
   'scenario.scenarios': 'Skenaariot',
@@ -1118,6 +1180,60 @@ const fi: typeof en = {
 
   // Sidebar
   'sidebar.report': 'Business case -raportti',
+
+  // Report: Calculation Formulas
+  'report.formulasTitle': 'Laskentakaavat',
+  'report.formulasIntro': 'Seuraavat kaavat m\u00e4\u00e4rittelev\u00e4t jokaisen t\u00e4m\u00e4n raportin laskelman. Kaikki sy\u00f6tteet ovat k\u00e4ytt\u00e4j\u00e4n muokattavissa; kaikki v\u00e4liarvot johdetaan deterministisesti empiirisen datan ja osion 4 parametrien perusteella.',
+
+  'report.formulasGroup1': 'Tehokkuuden ydinkaavoet',
+  'report.formulaHourlyRate': 'Tuntikustannus',
+  'report.formulaHoursSaved': 'S\u00e4\u00e4stetyt tunnit (vaiheittain)',
+  'report.formulaCostSavings': 'Kustannuss\u00e4\u00e4st\u00f6 (vaiheittain)',
+  'report.formulaTotals': 'Yhteens\u00e4',
+
+  'report.formulasGroup2': 'Investointi ja ROI',
+  'report.formulaToolingCost': 'Ty\u00f6kalukustannus',
+  'report.formulaTotalInvestment': 'Kokonaisinvestointi',
+  'report.formulaNetROI': 'Netto-ROI',
+  'report.formulaROIRatio': 'ROI-kerroin',
+  'report.formulaPayback': 'Takaisinmaksuaika',
+
+  'report.formulasGroup3': 'Tilastolliset funktiot',
+  'report.formulaMeanImpact': 'Keskiarvo (vaikutus)',
+  'report.formulaQuartile': 'Kvartiili',
+
+  'report.formulasGroup4': 'METR-projektiomalli',
+  'report.formulaRawMultiplier': 'Raakakerrroin',
+  'report.formulaEffMultiplier': 'Efektiivinen kerroin',
+  'report.formulaOptImpact': 'Optimistinen vaikutus',
+
+  'report.formulasGroup5': 'Skenaariovalinta',
+  'report.formulasGroup5Desc': 'Kukin skenaario vastaa suodatetun datan tilastollista mittaria:',
+  'report.formulaPessimistic': 'Pessimistinen',
+  'report.formulaRealistic': 'Realistinen',
+  'report.formulaOptimistic': 'Optimistinen',
+
+  'report.formulasLegendTitle': 'Muuttujaselite',
+  'report.formulasSymbol': 'Symboli',
+  'report.formulasMeaning': 'Merkitys',
+  'report.formulasUnit': 'Yksikk\u00f6',
+  'report.legendN': 'Tiimikoko (kehitt\u00e4jien m\u00e4\u00e4r\u00e4)',
+  'report.legendSavg': 'Keskim\u00e4\u00e4r\u00e4inen vuosipalkka per kehitt\u00e4j\u00e4',
+  'report.legendHyear': 'Tuottavat ty\u00f6tunnit vuodessa',
+  'report.legendT': 'Aikaj\u00e4nne',
+  'report.legendWp': 'Vaiheen paino (osuus kokonaisty\u00f6st\u00e4)',
+  'report.legendEtaP': 'AI-tuottavuusvaikutus vaiheelle p',
+  'report.legendAlphaP': 'Oma-ty\u00f6-osuus vaiheelle p',
+  'report.legendR': 'Tuntikustannus',
+  'report.legendTf': 'METR-tulevaisuusprojektiojakso',
+  'report.legendTd': 'METR-kyvykkyyden kaksinkertaistumisjakso',
+  'report.legendEpsilon': 'K\u00e4ytt\u00f6\u00f6noton joustavuuskerroin',
+  'report.legendUnitPeople': 'henkil\u00f6\u00e4',
+  'report.legendUnitEurYear': '\u20ac/vuosi',
+  'report.legendUnitHours': 'tuntia/vuosi',
+  'report.legendUnitYears': 'vuotta',
+  'report.legendUnitEurHour': '\u20ac/tunti',
+  'report.legendUnitMonths': 'kuukautta',
 };
 
 export type TranslationKey = keyof typeof en;
