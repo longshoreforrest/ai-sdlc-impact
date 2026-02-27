@@ -60,19 +60,33 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
                 <td className="py-1.5 text-zinc-600">{t('calculator.totalBudget')}</td>
                 <td className="py-1.5 text-right font-bold tabular-nums">{formatEur(totalBudget)}</td>
               </tr>
+              <tr className="border-b border-zinc-100">
+                <td className="py-1.5 text-zinc-600">{t('calculator.timeframe')}</td>
+                <td className="py-1.5 text-right font-medium tabular-nums">
+                  {inputs.timeframeYears || 1} {(inputs.timeframeYears || 1) === 1 ? t('calculator.year') : t('calculator.years')}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
 
-        {/* Phase weights */}
+        {/* Phase weights & inhouse ratios */}
         <div>
           <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
-            {t('report.phaseWeights')}
+            {t('report.phaseWeights')} & {t('report.inhouseRatios')}
           </h3>
           <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-zinc-200">
+                <th className="text-left text-xs font-medium text-zinc-500 py-1.5">{t('common.phase')}</th>
+                <th className="text-right text-xs font-medium text-zinc-500 py-1.5">{t('roi.weightColumn')}</th>
+                <th className="text-right text-xs font-medium text-zinc-500 py-1.5">{t('report.inhouseRatios')}</th>
+              </tr>
+            </thead>
             <tbody>
               {PHASES.map((phase) => {
                 const included = inputs.includedPhases.includes(phase);
+                const inhouseRatio = inputs.inhouseRatios?.[phase] ?? 1;
                 return (
                   <tr key={phase} className="border-b border-zinc-100">
                     <td className={`py-1.5 ${included ? 'text-zinc-700' : 'text-zinc-400 line-through'}`}>
@@ -81,11 +95,17 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
                     <td className="py-1.5 text-right tabular-nums font-medium">
                       {(inputs.phaseWeights[phase] * 100).toFixed(0)}%
                     </td>
+                    <td className="py-1.5 text-right tabular-nums font-medium">
+                      {Math.round(inhouseRatio * 100)}%
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+            {t('report.inhouseNote')}
+          </p>
         </div>
       </div>
 
@@ -97,8 +117,11 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
         <table className="w-full text-sm">
           <tbody>
             <tr className="border-b border-zinc-100">
-              <td className="py-1.5 text-zinc-600">{t('transformation.toolingCost')}</td>
-              <td className="py-1.5 text-right font-medium tabular-nums">{formatEur(inputs.teamSize * 20 * 12)}</td>
+              <td className="py-1.5 text-zinc-600">
+                {t('transformation.toolingCost')}
+                {(inputs.timeframeYears || 1) > 1 && ` (${inputs.timeframeYears} ${t('calculator.years')})`}
+              </td>
+              <td className="py-1.5 text-right font-medium tabular-nums">{formatEur(inputs.teamSize * 20 * 12 * (inputs.timeframeYears || 1))}</td>
             </tr>
             <tr className="border-b border-zinc-100">
               <td className="py-1.5 text-zinc-600">{t('transformation.consulting')}</td>
@@ -113,9 +136,12 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
               <td className="py-1.5 text-right font-medium tabular-nums">{formatEur(inputs.transformationCosts.internal)}</td>
             </tr>
             <tr className="border-t-2 border-zinc-200">
-              <td className="py-1.5 text-zinc-900 font-bold">{t('transformation.totalInvestment')}</td>
+              <td className="py-1.5 text-zinc-900 font-bold">
+                {t('transformation.totalInvestment')}
+                {(inputs.timeframeYears || 1) > 1 && ` (${inputs.timeframeYears} ${t('calculator.years')})`}
+              </td>
               <td className="py-1.5 text-right font-bold tabular-nums">
-                {formatEur(inputs.teamSize * 20 * 12 + inputs.transformationCosts.consulting + inputs.transformationCosts.training + inputs.transformationCosts.internal)}
+                {formatEur(inputs.teamSize * 20 * 12 * (inputs.timeframeYears || 1) + inputs.transformationCosts.consulting + inputs.transformationCosts.training + inputs.transformationCosts.internal)}
               </td>
             </tr>
           </tbody>

@@ -23,6 +23,7 @@ interface ROIReportProps {
   teamSize: number;
   factMapping?: ScenarioFactMapping;
   totalFactCount?: number;
+  timeframeYears?: number;
 }
 
 const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; color: string; bgClass: string; icon: React.ReactNode }> = {
@@ -31,16 +32,24 @@ const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; color: str
   optimistic:  { labelKey: 'roi.optimistic',  color: '#10b981', bgClass: 'card-glow-green', icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
 };
 
-export default function ROIReport({ scenarios, totalBudget, teamSize, factMapping, totalFactCount }: ROIReportProps) {
+export default function ROIReport({ scenarios, totalBudget, teamSize, factMapping, totalFactCount, timeframeYears = 1 }: ROIReportProps) {
   const { t } = useTranslation();
+  const timeframeSuffix = timeframeYears > 1 ? ` (${timeframeYears} ${t('calculator.years')})` : '';
   const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
 
-  // Build chart data comparing scenarios by phase
+  // Determine chart scale: use millions if max value >= 1M, otherwise thousands
+  const maxSavings = Math.max(
+    ...scenarios.optimistic.phaseBreakdown.map((p) => Math.abs(p.costSavings))
+  );
+  const useMillions = maxSavings >= 1_000_000;
+  const divisor = useMillions ? 1_000_000 : 1_000;
+  const scaleSuffix = useMillions ? 'M' : 'K';
+
   const chartData = scenarios.realistic.phaseBreakdown.map((p, i) => ({
     phase: p.phase,
-    pessimistic: Math.round(scenarios.pessimistic.phaseBreakdown[i].costSavings / 1000),
-    realistic: Math.round(scenarios.realistic.phaseBreakdown[i].costSavings / 1000),
-    optimistic: Math.round(scenarios.optimistic.phaseBreakdown[i].costSavings / 1000),
+    pessimistic: Math.round(scenarios.pessimistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
+    realistic: Math.round(scenarios.realistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
+    optimistic: Math.round(scenarios.optimistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
   }));
 
   return (
@@ -58,10 +67,9 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
             </p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-muted uppercase tracking-wider">{t('transformation.totalInvestment')}</p>
+            <p className="text-xs text-muted uppercase tracking-wider">{t('transformation.totalInvestment')}{timeframeSuffix}</p>
             <p className="text-lg font-bold tabular-nums text-red-400 mt-1">
               -{formatEur(scenarios.realistic.totalInvestment)}
-              <span className="text-xs text-muted font-normal ml-1">{t('roi.perYear')}</span>
             </p>
             <div className="text-xs text-muted mt-1 space-y-0.5">
               <p>{t('transformation.toolingCost')}: {formatEur(scenarios.realistic.toolingCost)}</p>
@@ -139,7 +147,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
       {/* Grouped Bar Chart */}
       <div className="bg-surface rounded-xl border border-border p-6">
         <h3 className="text-sm font-medium text-muted mb-4 uppercase tracking-wider">
-          {t('roi.savingsByPhase')}
+          {t('roi.savingsByPhase')} (EUR {scaleSuffix})
         </h3>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={chartData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
@@ -154,7 +162,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
               tick={{ fill: '#71717a', fontSize: 12 }}
               axisLine={{ stroke: '#d4d4d8' }}
               tickLine={false}
-              tickFormatter={(v) => `${v}K`}
+              tickFormatter={(v) => `${v}${scaleSuffix}`}
             />
             <Tooltip
               content={({ active, payload, label }) => {
@@ -164,7 +172,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
                     <p className="font-medium text-foreground mb-1">{label}</p>
                     {payload.map((entry) => (
                       <p key={entry.dataKey as string} style={{ color: entry.color }}>
-                        {entry.name}: {formatEur((entry.value as number) * 1000)}
+                        {entry.name}: {formatEur((entry.value as number) * divisor)}
                       </p>
                     ))}
                   </div>

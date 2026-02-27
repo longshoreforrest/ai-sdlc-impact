@@ -1,7 +1,20 @@
 'use client';
 
-import { Fact } from '@/lib/types';
-import { PHASES } from '@/lib/mock-data';
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts';
+import { Fact, Phase } from '@/lib/types';
+import { PHASES, ALL_YEARS } from '@/lib/mock-data';
+import { computeTrendData } from '@/lib/calculations';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
@@ -22,6 +35,21 @@ const CRED_KEYS: Record<number, TranslationKey> = {
   3: 'credibility.high',
 };
 
+const PHASE_COLORS: Record<Phase, string> = {
+  Strategy: '#f59e0b',
+  Design: '#8b5cf6',
+  Spec: '#06b6d4',
+  Dev: '#3b82f6',
+  QA: '#10b981',
+  DevOps: '#f97316',
+};
+
+const credibilityColors: Record<number, string> = {
+  1: '#ef4444',
+  2: '#f59e0b',
+  3: '#10b981',
+};
+
 export default function DataFoundation({ facts }: DataFoundationProps) {
   const { t } = useTranslation();
 
@@ -40,6 +68,28 @@ export default function DataFoundation({ facts }: DataFoundationProps) {
   // By phase
   const phaseCounts: Record<string, number> = {};
   for (const f of facts) phaseCounts[f.phase] = (phaseCounts[f.phase] || 0) + 1;
+
+  // Trend data for line chart
+  const trendData = computeTrendData(facts);
+  const trendChartData = ALL_YEARS.map((year) => {
+    const row: Record<string, number | string | undefined> = { year: String(year) };
+    trendData.forEach((td) => {
+      const pt = td.points.find((p) => p.year === year);
+      row[td.phase] = pt?.mean;
+    });
+    return row;
+  });
+
+  // Credibility by phase
+  const credByPhase = PHASES.map((phase) => {
+    const phaseFacts = facts.filter((f) => f.phase === phase);
+    return {
+      phase,
+      low: phaseFacts.filter((f) => f.credibility === 1).length,
+      medium: phaseFacts.filter((f) => f.credibility === 2).length,
+      high: phaseFacts.filter((f) => f.credibility === 3).length,
+    };
+  });
 
   return (
     <section id="data-foundation">
@@ -65,6 +115,85 @@ export default function DataFoundation({ facts }: DataFoundationProps) {
           <p className="text-2xl font-bold text-zinc-900">{yearSpan}</p>
           <p className="text-xs text-zinc-500 mt-1">{t('report.yearSpan')}</p>
         </div>
+      </div>
+
+      {/* Impact Trends Over Time */}
+      <div className="border border-zinc-200 rounded-lg p-4 mb-6" style={{ minWidth: 700 }}>
+        <h3 className="text-xs font-medium text-zinc-500 mb-3 uppercase tracking-wider">
+          {t('analytics.impactTrends')}
+        </h3>
+        <ResponsiveContainer width="100%" height={260}>
+          <LineChart data={trendChartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
+            <XAxis dataKey="year" tick={{ fill: '#71717a', fontSize: 11 }} />
+            <YAxis
+              tick={{ fill: '#71717a', fontSize: 11 }}
+              tickFormatter={(v: number) => `${v}%`}
+              domain={['dataMin - 5', 'dataMax + 5']}
+            />
+            <Tooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.length) return null;
+                return (
+                  <div className="bg-white border border-zinc-200 rounded-lg p-2 shadow text-xs">
+                    <p className="font-medium mb-1">{label}</p>
+                    {payload.map((entry) => (
+                      <p key={entry.dataKey as string} style={{ color: entry.color }}>
+                        {entry.name}: {entry.value}%
+                      </p>
+                    ))}
+                  </div>
+                );
+              }}
+            />
+            <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />
+            {trendData.map((td) => (
+              <Line
+                key={td.phase}
+                type="monotone"
+                dataKey={td.phase}
+                name={td.phase}
+                stroke={PHASE_COLORS[td.phase]}
+                strokeWidth={2}
+                dot={{ r: 3, fill: PHASE_COLORS[td.phase] }}
+                connectNulls
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Credibility by Phase */}
+      <div className="border border-zinc-200 rounded-lg p-4 mb-6" style={{ minWidth: 700 }}>
+        <h3 className="text-xs font-medium text-zinc-500 mb-3 uppercase tracking-wider">
+          {t('analytics.credByPhase')}
+        </h3>
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={credByPhase} layout="vertical" margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" horizontal={false} />
+            <XAxis type="number" tick={{ fill: '#71717a', fontSize: 11 }} />
+            <YAxis type="category" dataKey="phase" tick={{ fill: '#71717a', fontSize: 11 }} width={65} />
+            <Tooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.length) return null;
+                return (
+                  <div className="bg-white border border-zinc-200 rounded-lg p-2 shadow text-xs">
+                    <p className="font-medium mb-1">{label}</p>
+                    {payload.map((entry) => (
+                      <p key={entry.dataKey as string} style={{ color: entry.color }}>
+                        {entry.name}: {entry.value}
+                      </p>
+                    ))}
+                  </div>
+                );
+              }}
+            />
+            <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />
+            <Bar dataKey="high" stackId="cred" name={t('credibility.high')} fill={credibilityColors[3]} fillOpacity={0.8} />
+            <Bar dataKey="medium" stackId="cred" name={t('credibility.medium')} fill={credibilityColors[2]} fillOpacity={0.8} />
+            <Bar dataKey="low" stackId="cred" name={t('credibility.low')} fill={credibilityColors[1]} fillOpacity={0.8} radius={[0, 4, 4, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
       {/* Tables */}

@@ -15,13 +15,15 @@ import {
   Cell,
   Legend,
 } from 'recharts';
-import { facts } from '@/lib/mock-data';
+import { facts, PHASE_WEIGHTS } from '@/lib/mock-data';
 import { PHASES, ALL_YEARS } from '@/lib/mock-data';
-import { computeTrendData } from '@/lib/calculations';
-import type { DataType, Phase } from '@/lib/types';
+import { computeTrendData, calculateConfiguredScenarios } from '@/lib/calculations';
+import type { DataType, Phase, CalculatorInputs, ScenarioType } from '@/lib/types';
+import { useScenario } from '@/contexts/ScenarioContext';
 import ExportButton from '@/components/ExportButton';
 import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
 import { useTranslation } from '@/lib/i18n';
+import type { TranslationKey } from '@/lib/i18n';
 
 const dataTypeColors: Record<DataType, string> = {
   empirical: '#10b981',
@@ -54,9 +56,22 @@ const PHASE_COLORS: Record<Phase, string> = {
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
 
+const SCENARIO_COLORS: Record<ScenarioType, string> = {
+  pessimistic: '#ef4444',
+  realistic: '#f59e0b',
+  optimistic: '#10b981',
+};
+
+const SCENARIO_LABEL_KEYS: Record<ScenarioType, TranslationKey> = {
+  pessimistic: 'roi.pessimistic',
+  realistic: 'roi.realistic',
+  optimistic: 'roi.optimistic',
+};
+
 export default function AnalyticsPage() {
   const router = useRouter();
   const { t } = useTranslation();
+  const { configs: scenarioConfigs } = useScenario();
   const contentRef = useRef<HTMLDivElement>(null);
   const [selectedPhases, setSelectedPhases] = useState<Phase[]>([...PHASES]);
   const [selectedDataTypes, setSelectedDataTypes] = useState<DataType[]>([...ALL_DATA_TYPES]);
@@ -83,6 +98,39 @@ export default function AnalyticsPage() {
       return row;
     });
   }, [trendData]);
+
+  // Build default calculator inputs to compute scenario ROI from current scenario configs
+  const scenarioResults = useMemo(() => {
+    const defaultItBudget = 100_000_000;
+    const defaultAvgSalary = 55_000;
+    const defaultInputs: CalculatorInputs = {
+      teamSize: Math.round(defaultItBudget / defaultAvgSalary),
+      avgSalary: defaultAvgSalary,
+      hoursPerYear: 1600,
+      itBudget: defaultItBudget,
+      includedPhases: [...PHASES],
+      phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
+      inhouseRatios: { Strategy: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, DevOps: 1 } as Record<Phase, number>,
+      scenarioConfigs,
+      transformationCosts: { consulting: 2_000_000, training: 1_000_000, internal: 1_000_000 },
+      timeframeYears: 1,
+    };
+    return calculateConfiguredScenarios(defaultInputs, facts);
+  }, [scenarioConfigs]);
+
+  const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
+
+  // Chart data: impact % per phase per scenario
+  const impactByPhaseData = useMemo(() => {
+    return PHASES.map((phase) => {
+      const row: Record<string, string | number> = { phase };
+      for (const key of scenarioKeys) {
+        const breakdown = scenarioResults.scenarios[key].phaseBreakdown.find((p) => p.phase === phase);
+        row[key] = breakdown ? breakdown.medianImpact : 0;
+      }
+      return row;
+    });
+  }, [scenarioResults]);
 
   const stats = useMemo(() => {
     const totalFacts = facts.length;
@@ -265,6 +313,39 @@ export default function AnalyticsPage() {
 
       {/* Scenario Configurator */}
       <ScenarioConfigurator />
+
+      {/* Scenario Comparison Charts */}
+      <div className="bg-surface border border-border rounded-xl p-5">
+        <h2 className="text-sm font-semibold text-foreground mb-4">
+          {t('analytics.impactByPhase')}
+        </h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={impactByPhaseData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
+            <XAxis dataKey="phase" tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} />
+            <YAxis tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} tickFormatter={(v: number) => `${v}%`} />
+            <Tooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.length) return null;
+                return (
+                  <div className="rounded-lg border text-xs" style={{ backgroundColor: '#18181b', border: '1px solid #27272a', padding: '8px 12px' }}>
+                    <p style={{ color: '#a1a1aa', marginBottom: 4 }}>{label}</p>
+                    {payload.map((entry) => (
+                      <p key={entry.dataKey as string} style={{ color: entry.color }}>
+                        {entry.name}: {entry.value}%
+                      </p>
+                    ))}
+                  </div>
+                );
+              }}
+            />
+            <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#a1a1aa' }} />
+            {scenarioKeys.map((key) => (
+              <Bar key={key} dataKey={key} name={t(SCENARIO_LABEL_KEYS[key])} fill={SCENARIO_COLORS[key]} fillOpacity={0.7} radius={[2, 2, 0, 0]} />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
 
       <div ref={contentRef} className="space-y-8">
       {/* A) Hero Metrics Row */}

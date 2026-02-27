@@ -9,7 +9,7 @@ import type { TranslationKey } from '@/lib/i18n';
 const navItems: { href: string; labelKey: TranslationKey; icon: React.ElementType }[] = [
   { href: '/welcome', labelKey: 'sidebar.welcome', icon: Home },
   { href: '/analytics', labelKey: 'sidebar.dataSourceAnalytics', icon: PieChart },
-  { href: '/', labelKey: 'sidebar.sdlcAnalytics', icon: BarChart3 },
+  { href: '/dashboard', labelKey: 'sidebar.sdlcAnalytics', icon: BarChart3 },
   { href: '/calculator', labelKey: 'sidebar.roiCalculator', icon: Calculator },
   { href: '/report', labelKey: 'sidebar.report', icon: FileText },
   { href: '/sources', labelKey: 'sidebar.dataSources', icon: BookOpen },

@@ -119,6 +119,7 @@ export function computeDefaultWeightsFromData(allFacts: Fact[]): Record<Phase, n
 
 export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[]): ROIResult {
   const { teamSize, avgSalary, hoursPerYear, includedPhases, phaseWeights, inhouseRatios, transformationCosts } = inputs;
+  const timeframeYears = inputs.timeframeYears || 1;
   const hourlyRate = avgSalary / hoursPerYear;
 
   const phaseBreakdown: ROIPhaseBreakdown[] = PHASES.map((phase) => {
@@ -128,7 +129,7 @@ export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[])
     const included = includedPhases.includes(phase);
     const inhouseRatio = inhouseRatios?.[phase] ?? 1;
 
-    const hoursSaved = included ? teamSize * hoursPerYear * weight * medianImpact * inhouseRatio : 0;
+    const hoursSaved = included ? teamSize * hoursPerYear * weight * medianImpact * inhouseRatio * timeframeYears : 0;
     const costSavings = hoursSaved * hourlyRate;
 
     return {
@@ -143,10 +144,10 @@ export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[])
 
   const totalHoursSaved = phaseBreakdown.reduce((s, p) => s + p.hoursSaved, 0);
   const totalCostSavings = phaseBreakdown.reduce((s, p) => s + p.costSavings, 0);
-  const toolingCost = teamSize * 20 * 12; // €20/month per seat
-  const consultingCost = transformationCosts.consulting;
-  const trainingCost = transformationCosts.training;
-  const internalCost = transformationCosts.internal;
+  const toolingCost = teamSize * 20 * 12 * timeframeYears; // €20/month per seat, recurring
+  const consultingCost = transformationCosts.consulting;   // one-time
+  const trainingCost = transformationCosts.training;       // one-time
+  const internalCost = transformationCosts.internal;       // one-time
   const totalInvestment = toolingCost + consultingCost + trainingCost + internalCost;
   const netROI = totalCostSavings - totalInvestment;
   const roiRatio = totalInvestment > 0 ? totalCostSavings / totalInvestment : 0;
@@ -171,6 +172,7 @@ function calculateScenario(
   impactSelector: (stats: PhaseStats) => number
 ): ROIResult {
   const { teamSize, avgSalary, hoursPerYear, includedPhases, phaseWeights, inhouseRatios, transformationCosts } = inputs;
+  const timeframeYears = inputs.timeframeYears || 1;
   const hourlyRate = avgSalary / hoursPerYear;
 
   const phaseBreakdown: ROIPhaseBreakdown[] = PHASES.map((phase) => {
@@ -181,7 +183,7 @@ function calculateScenario(
     const included = includedPhases.includes(phase);
     const inhouseRatio = inhouseRatios?.[phase] ?? 1;
 
-    const hoursSaved = included ? teamSize * hoursPerYear * weight * clampedImpact * inhouseRatio : 0;
+    const hoursSaved = included ? teamSize * hoursPerYear * weight * clampedImpact * inhouseRatio * timeframeYears : 0;
     const costSavings = hoursSaved * hourlyRate;
 
     return {
@@ -196,10 +198,10 @@ function calculateScenario(
 
   const totalHoursSaved = phaseBreakdown.reduce((s, p) => s + p.hoursSaved, 0);
   const totalCostSavings = phaseBreakdown.reduce((s, p) => s + p.costSavings, 0);
-  const toolingCost = teamSize * 20 * 12; // €20/month per seat
-  const consultingCost = transformationCosts.consulting;
-  const trainingCost = transformationCosts.training;
-  const internalCost = transformationCosts.internal;
+  const toolingCost = teamSize * 20 * 12 * timeframeYears; // €20/month per seat, recurring
+  const consultingCost = transformationCosts.consulting;   // one-time
+  const trainingCost = transformationCosts.training;       // one-time
+  const internalCost = transformationCosts.internal;       // one-time
   const totalInvestment = toolingCost + consultingCost + trainingCost + internalCost;
   const netROI = totalCostSavings - totalInvestment;
   const roiRatio = totalInvestment > 0 ? totalCostSavings / totalInvestment : 0;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import { Users, Euro, Clock, Wallet } from 'lucide-react';
+import { Users, Euro, Clock, Wallet, Calendar } from 'lucide-react';
 import { CalculatorInputs, Phase, ScenarioConfigs, TransformationCosts } from '@/lib/types';
 import { PHASES } from '@/lib/mock-data';
 import { normalizeWeights } from '@/lib/calculations';
@@ -205,8 +205,8 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
           <input
             type="range"
             min={0}
-            max={Math.round(inputs.itBudget * 0.5)}
-            step={1000}
+            max={25_000_000}
+            step={100000}
             value={inputs.transformationCosts.consulting}
             onChange={(e) => onChange({ ...inputs, transformationCosts: { ...inputs.transformationCosts, consulting: Number(e.target.value) } })}
             className="w-full accent-accent"
@@ -223,8 +223,8 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
           <input
             type="range"
             min={0}
-            max={Math.round(inputs.itBudget * 0.5)}
-            step={1000}
+            max={25_000_000}
+            step={100000}
             value={inputs.transformationCosts.training}
             onChange={(e) => onChange({ ...inputs, transformationCosts: { ...inputs.transformationCosts, training: Number(e.target.value) } })}
             className="w-full accent-accent"
@@ -241,8 +241,8 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
           <input
             type="range"
             min={0}
-            max={Math.round(inputs.itBudget * 0.5)}
-            step={1000}
+            max={10_000_000}
+            step={100000}
             value={inputs.transformationCosts.internal}
             onChange={(e) => onChange({ ...inputs, transformationCosts: { ...inputs.transformationCosts, internal: Number(e.target.value) } })}
             className="w-full accent-accent"
@@ -250,11 +250,39 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
           <p className="text-xs text-muted">{t('transformation.internalDesc')}</p>
         </div>
 
+        {/* Timeframe slider */}
+        <div className="mb-3">
+          <label className="flex items-center justify-between text-sm text-foreground mb-1">
+            <span className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-muted" />
+              {t('calculator.timeframe')}
+            </span>
+            <span className="font-bold tabular-nums text-accent">{inputs.timeframeYears} {inputs.timeframeYears === 1 ? t('calculator.year') : t('calculator.years')}</span>
+          </label>
+          <input
+            type="range"
+            min={1}
+            max={10}
+            step={1}
+            value={inputs.timeframeYears}
+            onChange={(e) => onChange({ ...inputs, timeframeYears: Number(e.target.value) })}
+            className="w-full accent-accent"
+          />
+          <div className="flex justify-between mt-1">
+            <span className="text-xs text-muted">1</span>
+            <span className="text-xs text-muted">10</span>
+          </div>
+          <p className="text-xs text-muted">{t('calculator.timeframeDesc')}</p>
+        </div>
+
         {/* Total Investment */}
         <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 rounded-lg p-3">
-          <p className="text-xs text-muted uppercase tracking-wider mb-1">{t('transformation.totalInvestment')}</p>
+          <p className="text-xs text-muted uppercase tracking-wider mb-1">
+            {t('transformation.totalInvestment')}
+            {inputs.timeframeYears > 1 && ` (${inputs.timeframeYears} ${t('calculator.years')})`}
+          </p>
           <p className="text-lg font-bold tabular-nums text-red-500">
-            {formatEurShort(inputs.teamSize * 20 * 12 + inputs.transformationCosts.consulting + inputs.transformationCosts.training + inputs.transformationCosts.internal)} EUR
+            {formatEurShort(inputs.teamSize * 20 * 12 * inputs.timeframeYears + inputs.transformationCosts.consulting + inputs.transformationCosts.training + inputs.transformationCosts.internal)} EUR
           </p>
         </div>
       </div>

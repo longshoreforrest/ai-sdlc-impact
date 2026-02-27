@@ -101,6 +101,7 @@ export interface CalculatorInputs {
   inhouseRatios: Record<Phase, number>; // 0-1, where 1 = 100% inhouse
   scenarioConfigs: ScenarioConfigs;
   transformationCosts: TransformationCosts;
+  timeframeYears: number;
 }
 
 export type ScenarioType = 'pessimistic' | 'realistic' | 'optimistic';

@@ -19,11 +19,11 @@ for (const f of facts) {
   FACT_COUNTS_BY_YEAR[f.year] = (FACT_COUNTS_BY_YEAR[f.year] || 0) + 1;
 }
 
-function computeDefaultTransformationCosts(itBudget: number): TransformationCosts {
+function computeDefaultTransformationCosts(): TransformationCosts {
   return {
-    consulting: Math.round(itBudget * 0.15),
-    training: Math.round(itBudget * 0.05),
-    internal: Math.round(itBudget * 0.10),
+    consulting: 2_000_000,
+    training: 1_000_000,
+    internal: 1_000_000,
   };
 }
 
@@ -33,17 +33,19 @@ export default function CalculatorPage() {
   const { configs: scenarioConfigs } = useScenario();
 
   const defaultItBudget = 100000000;
+  const defaultAvgSalary = 55000;
 
   const [inputs, setInputs] = useState<CalculatorInputs>({
-    teamSize: 25,
-    avgSalary: 55000,
+    teamSize: Math.round(defaultItBudget / defaultAvgSalary),
+    avgSalary: defaultAvgSalary,
     hoursPerYear: 1600,
     itBudget: defaultItBudget,
     includedPhases: ['Strategy', 'Design', 'Spec', 'Dev', 'QA', 'DevOps'],
     phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
     inhouseRatios: { Strategy: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, DevOps: 1 },
     scenarioConfigs,
-    transformationCosts: computeDefaultTransformationCosts(defaultItBudget),
+    transformationCosts: computeDefaultTransformationCosts(),
+    timeframeYears: 1,
   });
 
   // Sync scenario configs from context when they change
@@ -51,13 +53,9 @@ export default function CalculatorPage() {
     setInputs((prev) => ({ ...prev, scenarioConfigs }));
   }, [scenarioConfigs]);
 
-  // Wrap onChange to auto-recalculate transformation costs when IT budget changes
   const handleInputsChange = useCallback((next: CalculatorInputs) => {
-    if (next.itBudget !== inputs.itBudget) {
-      next = { ...next, transformationCosts: computeDefaultTransformationCosts(next.itBudget) };
-    }
     setInputs(next);
-  }, [inputs.itBudget]);
+  }, []);
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -144,6 +142,7 @@ export default function CalculatorPage() {
             teamSize={inputs.teamSize}
             factMapping={factMapping}
             totalFactCount={totalFactCount}
+            timeframeYears={inputs.timeframeYears}
           />
         </div>
       </div>

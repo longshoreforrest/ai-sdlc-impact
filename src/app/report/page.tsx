@@ -2,9 +2,9 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Printer, ArrowLeft, Calculator } from 'lucide-react';
-import { CalculatorInputs, ScenarioType } from '@/lib/types';
-import { facts } from '@/lib/mock-data';
+import { Printer, ArrowLeft, Loader2 } from 'lucide-react';
+import { CalculatorInputs, Phase, ScenarioType, TransformationCosts } from '@/lib/types';
+import { facts, PHASE_WEIGHTS } from '@/lib/mock-data';
 import { calculateConfiguredScenarios } from '@/lib/calculations';
 import { useScenario } from '@/contexts/ScenarioContext';
 import { useTranslation } from '@/lib/i18n';
@@ -13,6 +13,27 @@ import DataFoundation from '@/components/report/DataFoundation';
 import ScenarioSection from '@/components/report/ScenarioSection';
 import ROIConfig from '@/components/report/ROIConfig';
 import SourceAppendix from '@/components/report/SourceAppendix';
+
+function buildDefaultInputs(scenarioConfigs: CalculatorInputs['scenarioConfigs']): CalculatorInputs {
+  const defaultItBudget = 100000000;
+  const defaultAvgSalary = 55000;
+  return {
+    teamSize: Math.round(defaultItBudget / defaultAvgSalary),
+    avgSalary: defaultAvgSalary,
+    hoursPerYear: 1600,
+    itBudget: defaultItBudget,
+    includedPhases: ['Strategy', 'Design', 'Spec', 'Dev', 'QA', 'DevOps'] as Phase[],
+    phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
+    inhouseRatios: { Strategy: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, DevOps: 1 } as Record<Phase, number>,
+    scenarioConfigs,
+    transformationCosts: {
+      consulting: 2_000_000,
+      training: 1_000_000,
+      internal: 1_000_000,
+    },
+    timeframeYears: 1,
+  };
+}
 
 export default function ReportPage() {
   const { t } = useTranslation();
@@ -28,16 +49,24 @@ export default function ReportPage() {
         // Ensure transformationCosts exist (backward compat)
         if (!parsed.transformationCosts) {
           parsed.transformationCosts = {
-            consulting: Math.round(parsed.itBudget * 0.15),
-            training: Math.round(parsed.itBudget * 0.05),
-            internal: Math.round(parsed.itBudget * 0.10),
+            consulting: 2_000_000,
+            training: 1_000_000,
+            internal: 1_000_000,
           };
+        }
+        // Ensure timeframeYears exists (backward compat)
+        if (!parsed.timeframeYears) {
+          parsed.timeframeYears = 1;
         }
         // Merge latest scenario configs from context
         setInputs({ ...parsed, scenarioConfigs });
+      } else {
+        // No stored data — use defaults (same as calculator page)
+        setInputs(buildDefaultInputs(scenarioConfigs));
       }
     } catch {
-      // ignore parse errors
+      // Fallback to defaults on parse errors
+      setInputs(buildDefaultInputs(scenarioConfigs));
     }
   }, [scenarioConfigs]);
 
@@ -51,19 +80,12 @@ export default function ReportPage() {
     return { scenarios, factMapping, uniqueSources, yearSpan, totalBudget };
   }, [inputs]);
 
-  // No data fallback
+  // Brief loading state while useEffect hydrates inputs
   if (!inputs || !computedData) {
     return (
       <div className="max-w-3xl mx-auto py-20 text-center">
-        <Calculator className="w-12 h-12 text-zinc-300 mx-auto mb-4" />
-        <p className="text-zinc-600 mb-4">{t('report.noData')}</p>
-        <button
-          onClick={() => router.push('/calculator')}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg text-sm hover:bg-accent/90 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          {t('report.goToCalculator')}
-        </button>
+        <Loader2 className="w-8 h-8 text-zinc-400 mx-auto mb-3 animate-spin" />
+        <p className="text-sm text-zinc-500">{t('report.generating')}</p>
       </div>
     );
   }
@@ -101,7 +123,7 @@ export default function ReportPage() {
         </div>
 
         {/* Table of Contents */}
-        <nav className="border border-zinc-200 rounded-lg p-4 print:break-after-page">
+        <nav className="border border-zinc-200 rounded-lg p-4">
           <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-wider mb-3">
             {t('report.tableOfContents')}
           </h2>
@@ -110,11 +132,44 @@ export default function ReportPage() {
             <li><a href="#data-foundation" className="hover:text-accent">2. {t('report.dataFoundation')}</a></li>
             <li><a href="#scenario-definitions" className="hover:text-accent">3. {t('report.scenarioDefinitions')}</a></li>
             <li><a href="#roi-configuration" className="hover:text-accent">4. {t('report.roiConfiguration')}</a></li>
-            <li><a href="#source-appendix" className="hover:text-accent">5. {t('report.sourceAppendix')}</a></li>
-            <li><a href="#methodology" className="hover:text-accent">6. {t('report.disclaimerTitle')}</a></li>
-            <li><a href="#glossary" className="hover:text-accent">7. {t('report.glossaryTitle')}</a></li>
+            <li><a href="#methodology" className="hover:text-accent">5. {t('report.disclaimerTitle')}</a></li>
+            <li><a href="#glossary" className="hover:text-accent">6. {t('report.glossaryTitle')}</a></li>
+            <li><a href="#source-appendix" className="hover:text-accent">7. {t('report.sourceAppendix')}</a></li>
           </ol>
         </nav>
+
+        {/* How to Read This Report */}
+        <section className="bg-zinc-50 border border-zinc-200 rounded-lg p-5 print:break-after-page">
+          <h2 className="text-sm font-medium text-zinc-700 mb-3">
+            {t('report.howToRead')}
+          </h2>
+          <p className="text-sm text-zinc-600 leading-relaxed mb-4">
+            {t('report.howToReadIntro')}
+          </p>
+          <div className="space-y-2 text-sm text-zinc-600 leading-relaxed">
+            {([
+              'report.howToReadCEO',
+              'report.howToReadCFO',
+              'report.howToReadCTO',
+              'report.howToReadConsultant',
+              'report.howToReadEngineer',
+              'report.howToReadPM',
+              'report.howToReadDesigner',
+              'report.howToReadInvestor',
+            ] as const).map((key) => {
+              const text = t(key);
+              const colonIdx = text.indexOf(':');
+              const role = colonIdx > -1 ? text.substring(0, colonIdx) : '';
+              const desc = colonIdx > -1 ? text.substring(colonIdx + 1).trim() : text;
+              return (
+                <p key={key}>
+                  <span className="font-semibold text-zinc-800">{role}:</span>{' '}
+                  {desc}
+                </p>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Section 1: Executive Summary */}
         <ExecutiveSummary
@@ -125,6 +180,7 @@ export default function ReportPage() {
           uniqueSources={uniqueSources}
           yearSpan={yearSpan}
           hoursPerYear={inputs.hoursPerYear}
+          inputs={inputs}
         />
 
         {/* Section 2: Data Foundation */}
@@ -154,28 +210,32 @@ export default function ReportPage() {
         {/* Section 4: ROI Configuration */}
         <ROIConfig inputs={inputs} />
 
-        {/* Section 5: Source Appendix */}
-        <SourceAppendix facts={facts} />
-
-        {/* Section 6: Methodology & Limitations */}
+        {/* Section 5: Methodology & Limitations */}
         <section id="methodology">
           <h2 className="text-xl font-bold mb-4 text-zinc-900 border-b border-zinc-200 pb-2">
-            6. {t('report.disclaimerTitle')}
+            5. {t('report.disclaimerTitle')}
           </h2>
-          <p className="text-sm text-zinc-600 leading-relaxed">
-            {t('report.disclaimerText')}
-          </p>
+          <div className="text-sm text-zinc-600 leading-relaxed space-y-3">
+            {t('report.disclaimerText').split('\n').filter(Boolean).map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
         </section>
 
-        {/* Section 7: Glossary */}
+        {/* Section 6: Glossary */}
         <section id="glossary">
           <h2 className="text-xl font-bold mb-4 text-zinc-900 border-b border-zinc-200 pb-2">
-            7. {t('report.glossaryTitle')}
+            6. {t('report.glossaryTitle')}
           </h2>
           <dl className="text-sm space-y-3">
             {([
               'report.glossarySDLC',
               'report.glossaryROI',
+              'report.glossaryCostSavings',
+              'report.glossaryFTE',
+              'report.glossaryPayback',
+              'report.glossaryInhouseRatio',
+              'report.glossaryTransformation',
               'report.glossaryQ1Q3',
               'report.glossaryMETR',
               'report.glossaryAgentic',
@@ -195,6 +255,9 @@ export default function ReportPage() {
             })}
           </dl>
         </section>
+
+        {/* Section 7: Source Appendix (last) */}
+        <SourceAppendix facts={facts} />
 
         {/* Footer */}
         <div className="text-center text-xs text-zinc-400 pt-8 border-t border-zinc-200">
