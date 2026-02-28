@@ -2,10 +2,11 @@
 
 import { Suspense, useMemo, useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { ExternalLink, RotateCcw, ChevronDown, X, Search, Plus, FileSpreadsheet } from 'lucide-react';
+import { ExternalLink, RotateCcw, ChevronDown, X, Search, Plus, FileSpreadsheet, MessageCircle } from 'lucide-react';
 import { facts, PHASES, ALL_YEARS } from '@/lib/mock-data';
 import { DataType, Phase, Fact } from '@/lib/types';
-import { getSourceSuggestions } from '@/lib/suggestions';
+import { getSourceSuggestions, fetchSourceComments, addSourceComment } from '@/lib/suggestions';
+import type { SourceComment } from '@/lib/suggestions';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 import { exportSourcesToExcel } from '@/lib/export-excel';
@@ -147,6 +148,10 @@ function SourcesPageContent() {
   const [expandedSources, setExpandedSources] = useState<Set<string>>(new Set());
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [suggestionCount, setSuggestionCount] = useState(0);
+  const [commentsMap, setCommentsMap] = useState<Map<string, SourceComment[]>>(new Map());
+  const [commentForm, setCommentForm] = useState<{ text: string; name: string }>({ text: '', name: '' });
+  const [commentSubmitting, setCommentSubmitting] = useState(false);
+  const [commentSuccess, setCommentSuccess] = useState<string | null>(null);
 
   const dtKeys: Record<DataType, TranslationKey> = {
     empirical: 'common.empirical',
@@ -162,11 +167,43 @@ function SourcesPageContent() {
   const toggleExpand = useCallback((name: string) => {
     setExpandedSources((prev) => {
       const next = new Set(prev);
-      if (next.has(name)) next.delete(name);
-      else next.add(name);
+      if (next.has(name)) {
+        next.delete(name);
+      } else {
+        next.add(name);
+        // Load comments when expanding
+        if (!commentsMap.has(name)) {
+          fetchSourceComments(name).then((comments) => {
+            setCommentsMap((m) => new Map(m).set(name, comments));
+          });
+        }
+      }
       return next;
     });
-  }, []);
+  }, [commentsMap]);
+
+  const handleSubmitComment = useCallback(async (sourceName: string) => {
+    if (!commentForm.text.trim() || commentSubmitting) return;
+    setCommentSubmitting(true);
+    try {
+      const entry = await addSourceComment(
+        sourceName,
+        commentForm.text.trim(),
+        commentForm.name.trim() || undefined
+      );
+      setCommentsMap((m) => {
+        const next = new Map(m);
+        const existing = next.get(sourceName) || [];
+        next.set(sourceName, [entry, ...existing]);
+        return next;
+      });
+      setCommentForm({ text: '', name: '' });
+      setCommentSuccess(sourceName);
+      setTimeout(() => setCommentSuccess(null), 2000);
+    } finally {
+      setCommentSubmitting(false);
+    }
+  }, [commentForm, commentSubmitting]);
 
   const toggleYear = useCallback((year: number) => {
     setFilters((prev) => ({
@@ -565,6 +602,73 @@ function SourcesPageContent() {
                           </div>
                         </div>
                       ))}
+
+                    {/* Comments section */}
+                    <div className="border-t border-border px-5 py-4">
+                      <div className="flex items-center gap-2 mb-3">
+                        <MessageCircle className="w-4 h-4 text-muted" />
+                        <h4 className="text-xs font-medium uppercase tracking-wider text-muted">
+                          {t('sources.comments')}
+                          {(commentsMap.get(source.name)?.length ?? 0) > 0 && (
+                            <span className="ml-1.5 text-accent">
+                              ({commentsMap.get(source.name)!.length})
+                            </span>
+                          )}
+                        </h4>
+                      </div>
+
+                      {/* Existing comments */}
+                      {(commentsMap.get(source.name)?.length ?? 0) === 0 ? (
+                        <p className="text-xs text-muted italic mb-3">{t('sources.noComments')}</p>
+                      ) : (
+                        <div className="space-y-2 mb-3">
+                          {commentsMap.get(source.name)!.map((c) => (
+                            <div key={c.id} className="bg-background rounded-lg px-3 py-2">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-xs font-medium text-foreground">
+                                  {c.authorName || t('sources.anonymous')}
+                                </span>
+                                <span className="text-xs text-muted">·</span>
+                                <span className="text-xs text-muted tabular-nums">
+                                  {new Date(c.createdAt).toLocaleDateString()}
+                                </span>
+                              </div>
+                              <p className="text-sm text-muted leading-relaxed">{c.comment}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Comment form */}
+                      {commentSuccess === source.name && (
+                        <div className="text-xs text-emerald-500 mb-2">{t('sources.commentSuccess')}</div>
+                      )}
+                      <div className="space-y-2">
+                        <textarea
+                          value={expandedSources.has(source.name) ? commentForm.text : ''}
+                          onChange={(e) => setCommentForm((f) => ({ ...f, text: e.target.value }))}
+                          placeholder={t('sources.commentPlaceholder')}
+                          rows={2}
+                          className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-colors resize-none"
+                        />
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={expandedSources.has(source.name) ? commentForm.name : ''}
+                            onChange={(e) => setCommentForm((f) => ({ ...f, name: e.target.value }))}
+                            placeholder={t('sources.commentName')}
+                            className="flex-1 px-3 py-1.5 text-sm bg-background border border-border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-colors"
+                          />
+                          <button
+                            onClick={() => handleSubmitComment(source.name)}
+                            disabled={!commentForm.text.trim() || commentSubmitting}
+                            className="px-4 py-1.5 text-sm font-medium rounded-lg bg-accent text-white hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          >
+                            {t('sources.commentSubmit')}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

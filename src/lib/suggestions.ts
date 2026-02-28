@@ -53,11 +53,20 @@ export interface FeatureSuggestion {
   agentAnalysis?: AgentAnalysis;
 }
 
+export interface SourceComment {
+  id: string;
+  sourceName: string;
+  comment: string;
+  authorName?: string;
+  createdAt: string;
+}
+
 // ---------------------------------------------------------------------------
 // localStorage helpers (offline fallback + instant reads)
 // ---------------------------------------------------------------------------
 const SOURCE_KEY = 'source-suggestions';
 const FEATURE_KEY = 'feature-suggestions';
+const SOURCE_COMMENTS_KEY = 'source-comments';
 
 function readLocal<T>(key: string): T[] {
   if (typeof window === 'undefined') return [];
@@ -181,6 +190,7 @@ export async function updateSourceSuggestionStatus(
 // ---------------------------------------------------------------------------
 const IMPLEMENTED_FEATURES: Record<string, string> = {
   'ROI sliders': '2026-02-26T18:31:00.000Z',
+  'Comments to data sources': '2026-02-28T12:00:00.000Z',
 };
 
 // Feature requests to hide from the UI (e.g. test entries that can't be deleted from Firestore)
@@ -194,6 +204,13 @@ const HIDDEN_FEATURES = new Set([
 // is displayed regardless of Firestore / localStorage state.
 // ---------------------------------------------------------------------------
 const AGENT_ANALYSES: Record<string, AgentAnalysis> = {
+  'Comments to data sources': {
+    userStory: 'As a domain expert reviewing the evidence library, I want to comment on individual data sources to flag potential inaccuracies, outdated figures, or missing context so that other users benefit from my knowledge without needing to submit a formal correction.\n\nAs a practitioner evaluating sources for a business case, I want to see community feedback on each source so I can gauge how reliable and relevant a data point is before including it in my analysis.\n\nAs a casual visitor exploring the tool, I want to leave a quick comment with an optional nickname so I can contribute feedback without creating an account or going through a formal process.',
+    alignmentAnalysis: 'System alignment: HIGH. The SDLC AI-Impact Analyzer is built around curated evidence. Allowing users to comment on individual sources strengthens the evidence trust layer by enabling crowd-sourced quality signals — flagging outdated numbers, adding corroborating context, or noting methodological concerns. This directly serves the mission of helping organisations make data-driven AI adoption decisions.\n\nFit with current architecture: GOOD. The application already uses Firestore for source suggestions and feature requests with localStorage fallback. A source-comments collection follows the identical pattern (addDoc + getDocs + query + orderBy + localStorage sync). The sources page already has expandable cards where comments slot naturally below the facts list. No new dependencies or infrastructure required.\n\nRisk assessment: LOW. Comments are additive and do not alter the underlying dataset, calculations, or any other page. The feature is self-contained within the sources page and the suggestions data layer.',
+    verdict: 'implement',
+    verdictReason: 'Strengthens the data quality feedback loop by enabling users to flag inaccuracies, add context, and validate sources. Follows the established Firestore + localStorage pattern with moderate implementation effort. The optional name field keeps the barrier to entry low. The feature has been implemented as of 2026-02-28.',
+    analyzedAt: '2026-02-28T10:00:00.000Z',
+  },
   'ROI sliders': {
     userStory: 'As a user exploring AI investment scenarios, I want the three core financial inputs — "Average Annual Salary (EUR)", "Working Hours / Year", and "IT Budget (EUR / year)" — to be interactive sliders instead of plain number fields, so that I can rapidly drag values and see ROI results update in real time without needing to type precise numbers.\n\nAs a consultant or executive in a meeting, I want meaningful default ranges on each slider (e.g. IT budget from 0.1M to 500M EUR) so that the controls reflect realistic organisational scales and prevent nonsensical inputs.\n\nThe core intent is to lower the interaction cost of the ROI Calculator: replacing keyboard-dependent number inputs with tactile, visual sliders that invite exploration and make "what-if" analysis feel immediate.',
     alignmentAnalysis: 'System alignment: HIGH. The SDLC AI-Impact Analyzer exists to help organisations build data-driven business cases for AI adoption. The ROI Calculator is the most business-critical page — it is where financial parameters are set and results are communicated to decision-makers. Making its inputs more interactive directly serves this mission by lowering the barrier for non-technical stakeholders (CEOs, CFOs, board members) who need quick parameter exploration.\n\nFit with current architecture: EXCELLENT. The calculator page already manages team size, salary, budget, phase weights, inhouse ratios, and transformation costs as React state. The real-time recalculation pipeline can accept slider values with no structural changes. The transformation costs section already uses range-style inputs, so sliders would be a natural extension of the existing UI pattern.\n\nRisk assessment: LOW. This is a pure UI enhancement — sliders do not alter calculation logic, the data model, report generation, or any downstream system. The change is additive, backward-compatible, and easily reversible.',
@@ -313,4 +330,73 @@ export async function updateFeatureSuggestionStatus(
       console.warn('Firebase status update failed, saved locally:', err);
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+// Source Comments
+// ---------------------------------------------------------------------------
+export function getSourceComments(sourceName: string): SourceComment[] {
+  return readLocal<SourceComment>(SOURCE_COMMENTS_KEY).filter(
+    (c) => c.sourceName === sourceName
+  );
+}
+
+export async function fetchSourceComments(sourceName: string): Promise<SourceComment[]> {
+  if (!isFirebaseConfigured()) return getSourceComments(sourceName);
+  try {
+    const q = query(
+      collection(db, 'source-comments'),
+      where('sourceName', '==', sourceName),
+      orderBy('createdAt', 'desc')
+    );
+    const snapshot = await getDocs(q);
+    const results = snapshot.docs.map((d) => {
+      const data = d.data();
+      return { id: d.id, ...data } as SourceComment;
+    });
+    // Merge into localStorage (keep comments for other sources intact)
+    const all = readLocal<SourceComment>(SOURCE_COMMENTS_KEY).filter(
+      (c) => c.sourceName !== sourceName
+    );
+    writeLocal(SOURCE_COMMENTS_KEY, [...results, ...all]);
+    return results;
+  } catch {
+    return getSourceComments(sourceName);
+  }
+}
+
+export async function addSourceComment(
+  sourceName: string,
+  comment: string,
+  authorName?: string
+): Promise<SourceComment> {
+  const createdAt = new Date().toISOString();
+  const id = crypto.randomUUID();
+  const entry: SourceComment = {
+    id,
+    sourceName,
+    comment,
+    ...(authorName ? { authorName } : {}),
+    createdAt,
+  };
+
+  const all = readLocal<SourceComment>(SOURCE_COMMENTS_KEY);
+  all.unshift(entry);
+  writeLocal(SOURCE_COMMENTS_KEY, all);
+
+  if (isFirebaseConfigured()) {
+    try {
+      await addDoc(collection(db, 'source-comments'), {
+        localId: id,
+        sourceName,
+        comment,
+        ...(authorName ? { authorName } : {}),
+        createdAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.warn('Firebase write failed, comment saved locally:', err);
+    }
+  }
+
+  return entry;
 }

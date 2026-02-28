@@ -207,6 +207,15 @@ const en = {
   'sources.linked': 'Linked',
   'sources.exportExcel': 'Export Excel',
   'sources.dateRange': 'Date Range',
+  'sources.comments': 'Comments',
+  'sources.addComment': 'Add a comment',
+  'sources.commentPlaceholder': 'Share feedback about this source...',
+  'sources.commentName': 'Name (optional)',
+  'sources.commentSubmit': 'Post Comment',
+  'sources.commentSuccess': 'Comment posted',
+  'sources.noComments': 'No comments yet',
+  'sources.anonymous': 'Anonymous',
+  'sources.commentCount': '{{count}} comments',
 
   // Suggest Source Panel
   'suggestSource.title': 'Suggest a Source',
@@ -858,6 +867,15 @@ const fi: typeof en = {
   'sources.linked': 'Linkitetty',
   'sources.exportExcel': 'Vie Exceliin',
   'sources.dateRange': 'Aikaväli',
+  'sources.comments': 'Kommentit',
+  'sources.addComment': 'Lisää kommentti',
+  'sources.commentPlaceholder': 'Jaa palautetta tästä lähteestä...',
+  'sources.commentName': 'Nimi (valinnainen)',
+  'sources.commentSubmit': 'Lähetä kommentti',
+  'sources.commentSuccess': 'Kommentti lähetetty',
+  'sources.noComments': 'Ei vielä kommentteja',
+  'sources.anonymous': 'Anonyymi',
+  'sources.commentCount': '{{count}} kommenttia',
 
   // Suggest Source Panel
   'suggestSource.title': 'Ehdota l\u00e4hdett\u00e4',
