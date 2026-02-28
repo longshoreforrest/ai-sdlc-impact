@@ -6,9 +6,9 @@ import { ScenarioConfigs, ScenarioType, DataType } from '@/lib/types';
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
 
 const DEFAULT_CONFIGS: ScenarioConfigs = {
-  pessimistic: { years: [2023, 2024], dataTypes: ['empirical'] },
-  realistic: { years: [2024, 2025, 2026], dataTypes: [...ALL_DATA_TYPES] },
-  optimistic: { years: [2025, 2026], dataTypes: [...ALL_DATA_TYPES] },
+  pessimistic: { years: [2023, 2024], dataTypes: ['empirical'], adoptionFactor: 0.75 },
+  realistic: { years: [2024, 2025, 2026], dataTypes: [...ALL_DATA_TYPES], adoptionFactor: 1.0 },
+  optimistic: { years: [2025, 2026], dataTypes: [...ALL_DATA_TYPES], adoptionFactor: 1.0 },
   metrConfig: { enabled: true, doublingPeriodMonths: 4, futureOffsetMonths: 12, adoptionElasticity: 0.5 },
 };
 
@@ -40,6 +40,10 @@ export function ScenarioProvider({ children }: { children: ReactNode }) {
           if (!parsed.realistic.dataTypes) parsed.realistic.dataTypes = [...ALL_DATA_TYPES];
           if (!parsed.optimistic.dataTypes) parsed.optimistic.dataTypes = [...ALL_DATA_TYPES];
           if (parsed.metrConfig.adoptionElasticity == null) parsed.metrConfig.adoptionElasticity = 0.5;
+          // Migration: add adoptionFactor defaults for older stored configs
+          if (parsed.pessimistic.adoptionFactor == null) parsed.pessimistic.adoptionFactor = 0.75;
+          if (parsed.realistic.adoptionFactor == null) parsed.realistic.adoptionFactor = 1.0;
+          if (parsed.optimistic.adoptionFactor == null) parsed.optimistic.adoptionFactor = 1.0;
           setConfigsState(parsed);
         }
       }

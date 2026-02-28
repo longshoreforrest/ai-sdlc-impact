@@ -246,15 +246,16 @@ export function calculateConfiguredScenarios(
 
   for (const key of scenarioKeys) {
     const config = inputs.scenarioConfigs[key];
+    const adoptionFactor = config.adoptionFactor ?? 1.0;
     const filtered = allFacts.filter(
       (f) => config.years.includes(f.year) && config.dataTypes.includes(f.dataType)
     );
     const stats = computePhaseStats(filtered);
 
-    // For optimistic with METR enabled, apply multiplier to mean
+    // For optimistic with METR enabled, apply METR multiplier then adoption factor
     const impactSelector = key === 'optimistic' && inputs.scenarioConfigs.metrConfig.enabled
-      ? (s: PhaseStats) => s.mean * metrMultiplier
-      : (s: PhaseStats) => s.mean;
+      ? (s: PhaseStats) => s.mean * metrMultiplier * adoptionFactor
+      : (s: PhaseStats) => s.mean * adoptionFactor;
 
     scenarios[key] = calculateScenario(inputs, stats, impactSelector);
 
@@ -264,8 +265,8 @@ export function calculateConfiguredScenarios(
       const values = phaseFacts.map((f) => f.impactPct);
       const rawMean = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
       const medianImpact = key === 'optimistic' && inputs.scenarioConfigs.metrConfig.enabled
-        ? rawMean * metrMultiplier
-        : rawMean;
+        ? rawMean * metrMultiplier * adoptionFactor
+        : rawMean * adoptionFactor;
       return { phase, facts: phaseFacts, medianImpact };
     });
   }

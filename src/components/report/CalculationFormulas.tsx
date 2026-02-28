@@ -42,7 +42,7 @@ export default function CalculationFormulas() {
         title={t('report.formulasGroup1')}
         formulas={[
           { label: t('report.formulaHourlyRate'), math: String.raw`r = \frac{S_{\text{avg}}}{H_{\text{year}}}` },
-          { label: t('report.formulaHoursSaved'), math: String.raw`H_p = N \times H_{\text{year}} \times w_p \times \eta_p \times \alpha_p \times T` },
+          { label: t('report.formulaHoursSaved'), math: String.raw`H_p = N \times H_{\text{year}} \times w_p \times \eta_p \times \beta \times \alpha_p \times T` },
           { label: t('report.formulaCostSavings'), math: String.raw`C_p = H_p \times r` },
           { label: t('report.formulaTotals'), math: String.raw`H_{\text{total}} = \sum_{p} H_p \,,\quad C_{\text{total}} = \sum_{p} C_p` },
         ]}
@@ -84,9 +84,18 @@ export default function CalculationFormulas() {
         title={t('report.formulasGroup5')}
         description={t('report.formulasGroup5Desc')}
         formulas={[
-          { label: t('report.formulaPessimistic'), math: String.raw`\eta_{\text{pessimistic}} = Q_1` },
-          { label: t('report.formulaRealistic'), math: String.raw`\eta_{\text{realistic}} = \text{Median}` },
-          { label: t('report.formulaOptimistic'), math: String.raw`\eta_{\text{optimistic}} = Q_3 \;\text{ or }\; \bar{\eta} \times M_{\text{eff}} \text{ (with METR)}` },
+          { label: t('report.formulaPessimistic'), math: String.raw`\eta_{\text{pessimistic}} = \bar{\eta} \times \beta` },
+          { label: t('report.formulaRealistic'), math: String.raw`\eta_{\text{realistic}} = \bar{\eta} \times \beta` },
+          { label: t('report.formulaOptimistic'), math: String.raw`\eta_{\text{optimistic}} = \bar{\eta} \times \beta \;\text{ or }\; \bar{\eta} \times M_{\text{eff}} \times \beta \text{ (with METR)}` },
+        ]}
+      />
+
+      {/* Group 6: Organisational Adoption Factor */}
+      <FormulaGroup
+        title={t('report.formulasGroup6')}
+        description={t('report.formulasGroup6Desc')}
+        formulas={[
+          { label: t('report.formulaAdoptionFactor'), math: String.raw`\eta_{\text{adjusted}} = \eta_{\text{raw}} \times \beta` },
         ]}
       />
 
@@ -115,6 +124,7 @@ export default function CalculationFormulas() {
             <tr className="border-b border-zinc-50"><td className="py-1"><Formula math="t_f" /></td><td className="py-1">{t('report.legendTf')}</td><td className="py-1">{t('report.legendUnitMonths')}</td></tr>
             <tr className="border-b border-zinc-50"><td className="py-1"><Formula math="t_d" /></td><td className="py-1">{t('report.legendTd')}</td><td className="py-1">{t('report.legendUnitMonths')}</td></tr>
             <tr className="border-b border-zinc-50"><td className="py-1"><Formula math="\epsilon" /></td><td className="py-1">{t('report.legendEpsilon')}</td><td className="py-1">0–1</td></tr>
+            <tr className="border-b border-zinc-50"><td className="py-1"><Formula math="\beta" /></td><td className="py-1">{t('report.legendBeta')}</td><td className="py-1">0.1–1.5</td></tr>
           </tbody>
         </table>
       </div>

@@ -183,6 +183,11 @@ const IMPLEMENTED_FEATURES: Record<string, string> = {
   'ROI sliders': '2026-02-26T18:31:00.000Z',
 };
 
+// Feature requests to hide from the UI (e.g. test entries that can't be deleted from Firestore)
+const HIDDEN_FEATURES = new Set([
+  'Firebase connectivity test',
+]);
+
 // ---------------------------------------------------------------------------
 // Agent analyses registry
 // When an agent analyses a feature request, the result is stored here so it
@@ -199,7 +204,7 @@ const AGENT_ANALYSES: Record<string, AgentAnalysis> = {
 };
 
 function applyImplementedOverrides(suggestions: FeatureSuggestion[]): FeatureSuggestion[] {
-  return suggestions.map((s) => {
+  return suggestions.filter((s) => !HIDDEN_FEATURES.has(s.title)).map((s) => {
     const implementedAt = IMPLEMENTED_FEATURES[s.title];
     const agentAnalysis = AGENT_ANALYSES[s.title];
     const overrides: Partial<FeatureSuggestion> = {};

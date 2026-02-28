@@ -16,8 +16,9 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import {
+  fetchFeatureSuggestions,
+  fetchSourceSuggestions,
   getFeatureSuggestions,
-  getSourceSuggestions,
   updateFeatureSuggestionStatus,
   updateSourceSuggestionStatus,
   FeatureSuggestion,
@@ -366,8 +367,8 @@ export default function FromUsersPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
 
   useEffect(() => {
-    setFeatures(getFeatureSuggestions());
-    setSources(getSourceSuggestions());
+    fetchFeatureSuggestions().then(setFeatures);
+    fetchSourceSuggestions().then(setSources);
   }, []);
 
   const filteredFeatures = useMemo(
@@ -394,14 +395,14 @@ export default function FromUsersPage() {
     };
   }, [features, sources]);
 
-  function handleFeatureStatusChange(id: string, status: SuggestionStatus) {
-    updateFeatureSuggestionStatus(id, status);
-    setFeatures(getFeatureSuggestions());
+  async function handleFeatureStatusChange(id: string, status: SuggestionStatus) {
+    await updateFeatureSuggestionStatus(id, status);
+    setFeatures(await fetchFeatureSuggestions());
   }
 
-  function handleSourceStatusChange(id: string, status: SuggestionStatus) {
-    updateSourceSuggestionStatus(id, status);
-    setSources(getSourceSuggestions());
+  async function handleSourceStatusChange(id: string, status: SuggestionStatus) {
+    await updateSourceSuggestionStatus(id, status);
+    setSources(await fetchSourceSuggestions());
   }
 
   const filterButtons: { value: StatusFilter; label: string }[] = [

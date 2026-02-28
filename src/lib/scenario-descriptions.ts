@@ -30,13 +30,14 @@ export function generateScenarioDescription(
 ): string {
   const years = formatYearRange(config.years);
   const types = formatDataTypes(config.dataTypes, t);
+  const adoptionFactor = (config.adoptionFactor ?? 1.0).toFixed(2);
 
   if (type === 'pessimistic') {
-    return t('scenario.descPessimistic', { count: factCount, years, types });
+    return t('scenario.descPessimistic', { count: factCount, years, types, adoptionFactor });
   }
 
   if (type === 'realistic') {
-    return t('scenario.descRealistic', { count: factCount, years, types });
+    return t('scenario.descRealistic', { count: factCount, years, types, adoptionFactor });
   }
 
   // Optimistic
@@ -48,8 +49,9 @@ export function generateScenarioDescription(
       multiplier: multiplier.toFixed(1),
       doubling: metrConfig.doublingPeriodMonths,
       horizon: metrConfig.futureOffsetMonths,
+      adoptionFactor,
     });
   }
 
-  return t('scenario.descOptimistic', { count: factCount, years, types });
+  return t('scenario.descOptimistic', { count: factCount, years, types, adoptionFactor });
 }

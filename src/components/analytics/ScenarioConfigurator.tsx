@@ -147,6 +147,39 @@ export default function ScenarioConfigurator() {
                     </div>
                   </div>
 
+                  {/* Adoption Factor slider */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs text-muted">{t('scenario.adoptionFactor')} (β):</span>
+                      <span className="text-xs font-medium tabular-nums" style={{ color: style.color }}>
+                        {(configs[key].adoptionFactor ?? 1.0).toFixed(2)}
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min={10}
+                      max={150}
+                      step={5}
+                      value={Math.round((configs[key].adoptionFactor ?? 1.0) * 100)}
+                      onChange={(e) =>
+                        setConfigs({
+                          ...configs,
+                          [key]: {
+                            ...configs[key],
+                            adoptionFactor: Number(e.target.value) / 100,
+                          },
+                        })
+                      }
+                      className="w-full h-1"
+                      style={{ accentColor: style.color }}
+                    />
+                    <div className="flex justify-between mt-0.5">
+                      <span className="text-[10px] text-muted">0.10</span>
+                      <span className="text-[10px] text-muted">1.50</span>
+                    </div>
+                    <p className="text-[10px] text-muted mt-0.5">{t('scenario.adoptionFactorDesc')}</p>
+                  </div>
+
                   {/* Matching facts & sources count */}
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-muted tabular-nums">

@@ -20,6 +20,9 @@
 # production
 /build
 
+# un-ignore src/lib (overrides root-level lib/ rule)
+!src/lib/
+
 # misc
 .DS_Store
 *.pem

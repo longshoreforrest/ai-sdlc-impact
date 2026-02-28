@@ -58,6 +58,7 @@ export interface FilterState {
 export interface ScenarioConfig {
   years: number[];
   dataTypes: DataType[];
+  adoptionFactor?: number; // β: organizational adoption multiplier (0.1–1.5)
 }
 
 export interface METRConfig {
