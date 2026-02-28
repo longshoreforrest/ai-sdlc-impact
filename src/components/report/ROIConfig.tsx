@@ -31,7 +31,7 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
         {t('report.roiConfigIntro')}
       </p>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Input parameters */}
         <div>
           <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
@@ -151,7 +151,7 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
         <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
           {t('report.scenarioConfig')}
         </h3>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {(['pessimistic', 'realistic', 'optimistic'] as ScenarioType[]).map((key) => {
             const config = inputs.scenarioConfigs[key];
             return (

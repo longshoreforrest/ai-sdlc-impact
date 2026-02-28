@@ -143,7 +143,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
       </div>
 
       {/* Three Scenario Cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {scenarioKeys.map((key) => {
           const meta = SCENARIO_META[key];
           const result = scenarios[key];
@@ -247,7 +247,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
       </div>
 
       {/* Pie Charts: Cost Savings by Phase per Scenario */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {pieData.map(({ key, data: slices }) => {
           const meta = SCENARIO_META[key];
           return (

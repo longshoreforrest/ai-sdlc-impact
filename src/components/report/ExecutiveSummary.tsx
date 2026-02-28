@@ -79,7 +79,7 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
       </p>
 
       {/* Metric cards */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {scenarioKeys.map((key) => {
           const meta = SCENARIO_META[key];
           const result = scenarios[key];

@@ -253,7 +253,7 @@ export default function SuggestSourcePanel({ open, onClose, onSubmitted }: Sugge
       />
 
       {/* Panel */}
-      <div className="fixed right-0 top-0 h-screen w-96 bg-surface border-l border-border z-50 slide-in overflow-y-auto">
+      <div className="fixed right-0 top-0 h-screen w-full sm:w-96 bg-surface border-l border-border z-50 slide-in overflow-y-auto">
         <form onSubmit={handleSubmit} className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">

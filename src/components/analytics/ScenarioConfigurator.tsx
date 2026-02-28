@@ -88,7 +88,7 @@ export default function ScenarioConfigurator() {
       {isOpen && (
         <div className="px-5 pb-5 space-y-5">
           {/* Three-column layout */}
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {scenarioKeys.map((key) => {
               const style = SCENARIO_STYLES[key];
               const { factCount, sourceCount } = getScenarioCounts(key);

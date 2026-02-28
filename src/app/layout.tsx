@@ -41,7 +41,7 @@ export default function RootLayout({
         <LanguageProvider>
           <ScenarioProvider>
             <Sidebar />
-            <main className="ml-64 min-h-screen p-8">
+            <main className="ml-0 md:ml-64 min-h-screen p-4 pt-16 md:p-8">
               {children}
             </main>
             <SuggestFeatureButton />

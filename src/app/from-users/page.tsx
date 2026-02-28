@@ -424,7 +424,7 @@ export default function FromUsersPage() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label={t('fromUsers.featureRequests')} value={features.length} icon={Lightbulb} />
         <StatCard label={t('fromUsers.sourceSuggestions')} value={sources.length} icon={LinkIcon} />
         <StatCard label={t('common.accepted')} value={statusCounts.accepted} icon={Check} accent="bg-emerald-500" />

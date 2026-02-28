@@ -63,7 +63,7 @@ export default function HelpPage() {
       {/* Table of Contents */}
       <div className="bg-surface border border-border rounded-xl p-5">
         <h2 className="text-xs text-muted uppercase tracking-wider font-medium mb-3">{t('help.contents')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
           {TOC.map((item) => (
             <a
               key={item.id}

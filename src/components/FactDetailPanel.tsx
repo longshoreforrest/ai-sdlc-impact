@@ -64,7 +64,7 @@ export default function FactDetailPanel({ fact, onClose }: FactDetailPanelProps)
       />
 
       {/* Panel */}
-      <div className="fixed right-0 top-0 h-screen w-96 bg-surface border-l border-border z-50 slide-in overflow-y-auto">
+      <div className="fixed right-0 top-0 h-screen w-full sm:w-96 bg-surface border-l border-border z-50 slide-in overflow-y-auto">
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">

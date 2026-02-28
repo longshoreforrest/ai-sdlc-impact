@@ -102,7 +102,7 @@ export default function DataFoundation({ facts }: DataFoundationProps) {
       </p>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="border border-zinc-200 rounded-lg p-4 text-center">
           <p className="text-2xl font-bold text-zinc-900">{facts.length}</p>
           <p className="text-xs text-zinc-500 mt-1">{t('report.totalFacts')}</p>
@@ -197,7 +197,7 @@ export default function DataFoundation({ facts }: DataFoundationProps) {
       </div>
 
       {/* Tables */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Credibility */}
         <div>
           <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">

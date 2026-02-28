@@ -349,7 +349,7 @@ export default function AnalyticsPage() {
 
       <div ref={contentRef} className="space-y-8">
       {/* A) Hero Metrics Row */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: t('analytics.totalFacts'), value: stats.totalFacts },
           { label: t('analytics.uniqueSources'), value: stats.uniqueSources },
@@ -538,7 +538,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* B) Three-column Chart Row */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Facts by Year */}
         <div className="bg-surface border border-border rounded-xl p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">
@@ -667,7 +667,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* C) Cross-tabulation Heatmaps */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Year × Phase */}
         <div className="bg-surface border border-border rounded-xl p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">
@@ -758,7 +758,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* D) Source Coverage */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Credibility by Phase */}
         <div className="bg-surface border border-border rounded-xl p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">

@@ -18,7 +18,7 @@ export default function SDLCRibbon({ phaseStats, onPhaseClick }: SDLCRibbonProps
   const { t } = useTranslation();
 
   return (
-    <div className="grid grid-cols-6 gap-2">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
       {phaseStats.map((stats) => {
         const colors = getImpactColor(stats.mean);
         return (
