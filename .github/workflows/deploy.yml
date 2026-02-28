@@ -20,14 +20,15 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - name: Configure Firebase (public client keys)
+        run: |
+          echo "NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyAnnxZV8IncR8So7bQX27qpGrMcoFWCS90" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=ai-impact-d7342.firebaseapp.com" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=ai-impact-d7342" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=ai-impact-d7342.firebasestorage.app" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=632840407368" >> .env.local
+          echo "NEXT_PUBLIC_FIREBASE_APP_ID=1:632840407368:web:54840fd982e35ecc770b7d" >> .env.local
       - run: npm run build
-        env:
-          NEXT_PUBLIC_FIREBASE_API_KEY: AIzaSyAnnxZV8IncR8So7bQX27qpGrMcoFWCS90
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ai-impact-d7342.firebaseapp.com
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ai-impact-d7342
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ai-impact-d7342.firebasestorage.app
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: 632840407368
-          NEXT_PUBLIC_FIREBASE_APP_ID: 1:632840407368:web:54840fd982e35ecc770b7d
       - run: touch out/.nojekyll
 
       - uses: peaceiris/actions-gh-pages@v4
