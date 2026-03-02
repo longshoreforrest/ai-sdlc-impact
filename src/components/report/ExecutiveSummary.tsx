@@ -1,8 +1,12 @@
 'use client';
 
+import { useMemo } from 'react';
 import {
   BarChart,
   Bar,
+  PieChart,
+  Pie,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -25,6 +29,8 @@ interface ExecutiveSummaryProps {
   hoursPerYear: number;
   inputs: CalculatorInputs;
 }
+
+const PHASE_COLORS = ['#f59e0b', '#8b5cf6', '#06b6d4', '#3b82f6', '#10b981', '#f97316'];
 
 const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string }> = {
   pessimistic: { labelKey: 'roi.pessimistic', modelKey: 'scenario.modelPessimistic', color: '#ef4444' },
@@ -59,6 +65,16 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
     realistic: scenarios.realistic.phaseBreakdown[i].medianImpact,
     optimistic: scenarios.optimistic.phaseBreakdown[i].medianImpact,
   }));
+
+  // Pie chart data: cost savings per phase per scenario
+  const pieData = useMemo(() => {
+    return scenarioKeys.map((key) => ({
+      key,
+      data: scenarios[key].phaseBreakdown
+        .filter((p) => p.included && p.costSavings > 0)
+        .map((p) => ({ name: p.phase, value: p.costSavings })),
+    }));
+  }, [scenarios]);
 
   const realistic = scenarios.realistic;
 
@@ -141,6 +157,68 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
         <p className="text-xs text-zinc-500 leading-relaxed">
           {t('report.metricsNote')}
         </p>
+      </div>
+
+      {/* Pie Charts: Cost Savings by Phase per Scenario */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        {pieData.map(({ key, data: slices }) => {
+          const meta = SCENARIO_META[key];
+          const totalSavings = scenarios[key].totalCostSavings;
+          const budgetPct = totalBudget > 0 ? (totalSavings / totalBudget) * 100 : 0;
+          return (
+            <div key={key} className="border border-zinc-200 rounded-lg p-4">
+              <h3 className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: meta.color }}>
+                {t(meta.labelKey)} — {t('roi.costSavings')}
+              </h3>
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-lg font-bold tabular-nums" style={{ color: meta.color }}>
+                  {formatEur(totalSavings)}
+                </span>
+                {totalBudget > 0 && (
+                  <span className="text-xs text-zinc-500">
+                    ({budgetPct.toFixed(1)}% {t('roi.ofBudget')})
+                  </span>
+                )}
+              </div>
+              <ResponsiveContainer width="100%" height={200}>
+                <PieChart>
+                  <Pie
+                    data={slices}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={40}
+                    outerRadius={75}
+                    paddingAngle={2}
+                    strokeWidth={0}
+                  >
+                    {slices.map((entry, i) => (
+                      <Cell key={entry.name} fill={PHASE_COLORS[i % PHASE_COLORS.length]} fillOpacity={0.8} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (!active || !payload?.length) return null;
+                      const item = payload[0];
+                      return (
+                        <div className="bg-white border border-zinc-200 rounded-lg p-2 shadow text-xs">
+                          <p className="font-medium">{item.name}</p>
+                          <p style={{ color: item.payload?.fill }}>{formatEur(item.value as number)}</p>
+                        </div>
+                      );
+                    }}
+                  />
+                  <Legend
+                    iconSize={8}
+                    wrapperStyle={{ fontSize: '10px', color: '#71717a' }}
+                    formatter={(value) => <span className="text-zinc-500">{value}</span>}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          );
+        })}
       </div>
 
       {/* Bar chart */}
