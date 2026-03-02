@@ -13,7 +13,7 @@ import {
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
-const PHASES: Phase[] = ['Strategy', 'Design', 'Spec', 'Dev', 'QA', 'DevOps'];
+const PHASES: Phase[] = ['Discovery', 'Design', 'Spec', 'Dev', 'QA', 'Release & Ops'];
 const DATA_TYPES: { value: DataType; labelKey: TranslationKey }[] = [
   { value: 'empirical', labelKey: 'common.empirical' },
   { value: 'survey', labelKey: 'common.survey' },

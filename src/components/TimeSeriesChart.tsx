@@ -20,12 +20,12 @@ interface TimeSeriesChartProps {
 }
 
 const PHASE_COLORS: Record<Phase, string> = {
-  Strategy: '#f59e0b',
+  Discovery: '#f59e0b',
   Design: '#8b5cf6',
   Spec: '#06b6d4',
   Dev: '#3b82f6',
   QA: '#10b981',
-  DevOps: '#f97316',
+  'Release & Ops': '#f97316',
 };
 
 interface YearRow {

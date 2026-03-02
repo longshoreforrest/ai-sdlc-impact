@@ -36,6 +36,8 @@ const en = {
   'common.reject': 'Reject',
   'common.resetToPending': 'Reset to Pending',
   'common.implemented': 'Implemented',
+  'common.showMore': 'Show more',
+  'common.showLess': 'Show less',
   'common.exportPdf': 'Export PDF',
   'common.exporting': 'Exporting...',
   'common.empirical': 'Empirical',
@@ -156,6 +158,7 @@ const en = {
   'roi.netRoi': 'Net ROI',
   'roi.roiRatio': 'ROI Ratio',
   'roi.pctBudget': '% of Total Budget',
+  'roi.ofBudget': 'of budget',
   'roi.savingsByPhase': 'Cost Savings by Phase',
   'roi.phaseColumn': 'Phase',
   'roi.weightColumn': 'Weight',
@@ -281,7 +284,7 @@ const en = {
   // Welcome page
   'welcome.title': 'SDLC AI-Impact Analyzer',
   'welcome.subtitle': "Quantifying AI\u2019s impact on the Software Development Lifecycle",
-  'welcome.intro1': 'This application aggregates <strong>210+ real-world data points</strong> from academic papers, industry surveys, vendor reports, and practitioner anecdotes to quantify how AI tools are transforming each phase of the software development lifecycle \u2014 from Strategy through DevOps.',
+  'welcome.intro1': 'This application aggregates <strong>210+ real-world data points</strong> from academic papers, industry surveys, vendor reports, and practitioner anecdotes to quantify how AI tools are transforming each phase of the software development lifecycle \u2014 from Discovery through Release & Ops.',
   'welcome.intro2': 'Use the interactive dashboards to explore productivity impacts by phase, filter by data type and year, compare early AI era vs. agentic AI era, and build a data-driven business case with the ROI calculator. The analysis uses three projection models (Conservative, Baseline, Forward) to provide a range of outcomes.',
   'welcome.intro3': 'All data is sourced from publicly available research (2023\u20132026). Sources include McKinsey, Gartner, Harvard Business School, Google Research, Microsoft Research, arXiv papers, and more.',
   'welcome.learnMore': 'Learn More',
@@ -307,12 +310,12 @@ const en = {
 
   // SDLC Flowchart
   'sdlcFlow.title': 'The Six SDLC Phases',
-  'sdlcFlow.strategy': 'Deciding what to build and why. Includes roadmap planning, market analysis, and prioritising features.',
+  'sdlcFlow.discovery': 'Discovering what to build and why. Includes roadmap planning, market analysis, and prioritising features.',
   'sdlcFlow.design': 'Creating the user experience and system architecture. Covers UI/UX mockups, data models, and technical design.',
   'sdlcFlow.spec': 'Writing detailed requirements so everyone knows exactly what to implement. Includes user stories and acceptance criteria.',
   'sdlcFlow.dev': 'The actual coding — building features, integrating systems, and writing the software.',
   'sdlcFlow.qa': 'Testing that everything works correctly. Includes automated tests, manual checks, and bug fixing.',
-  'sdlcFlow.devops': 'Deploying and running the software in production. Covers CI/CD pipelines, monitoring, and infrastructure.',
+  'sdlcFlow.releaseOps': 'Releasing and operating the software in production. Covers CI/CD pipelines, monitoring, and infrastructure.',
   'sdlcFlow.whyTitle': 'Why these phases?',
   'sdlcFlow.whyText': 'These six phases represent the most widely recognised stages of modern software development. They cover the full journey from idea to production, and each phase has distinct activities where AI tools can measurably improve productivity. This model is intentionally simplified — real projects may iterate or overlap phases — but it provides a clear framework for comparing AI impact across different types of work.',
 
@@ -336,7 +339,7 @@ const en = {
   'help.toc.language': 'Language',
   'help.toc.faq': 'FAQ',
   'help.overview.p1': 'The <strong>SDLC AI-Impact Analyzer</strong> is an interactive data-driven application that quantifies how AI tools are transforming each phase of the software development lifecycle. It aggregates 210+ real-world data points from academic research, industry surveys, vendor reports, and practitioner anecdotes spanning 2023\u20132026.',
-  'help.overview.p2': 'The application covers six SDLC phases: <strong>Strategy</strong>, <strong>Design</strong>, <strong>Spec</strong>, <strong>Dev</strong>, <strong>QA</strong>, and <strong>DevOps</strong>. Each phase is analyzed with statistical measures (median, quartiles, min/max) based on the underlying evidence.',
+  'help.overview.p2': 'The application covers six SDLC phases: <strong>Discovery</strong>, <strong>Design</strong>, <strong>Spec</strong>, <strong>Dev</strong>, <strong>QA</strong>, and <strong>Release & Ops</strong>. Each phase is analyzed with statistical measures (median, quartiles, min/max) based on the underlying evidence.',
   'help.overview.p3': 'Key capabilities include: interactive dashboards with real-time filtering, trend analysis comparing early AI era vs. agentic AI era, an ROI calculator for building business cases, and a comprehensive source library with full traceability.',
   'help.dashboard.p1': 'The main dashboard (accessible from "SDLC Analytics" in the sidebar) provides an at-a-glance view of AI productivity impacts across all six SDLC phases.',
   'help.dashboard.components': 'Components:',
@@ -432,7 +435,7 @@ const en = {
   'help.welcome.p1': 'The Welcome page is the entry point to the application. It provides an overview of what the tool does, introduces the six SDLC phases with a visual flowchart, and offers quick links to learn more and explore each section of the app.',
   'help.welcome.features': 'What you will find:',
   'help.welcome.f1': '<strong>Introduction</strong> \u2014 A summary of the application\u2019s purpose: aggregating 210+ data points to quantify AI\u2019s impact on software development',
-  'help.welcome.f2': '<strong>SDLC Phase Flowchart</strong> \u2014 A visual guide to the six phases (Strategy, Design, Spec, Dev, QA, DevOps) with plain-language descriptions of each',
+  'help.welcome.f2': '<strong>SDLC Phase Flowchart</strong> \u2014 A visual guide to the six phases (Discovery, Design, Spec, Dev, QA, Release & Ops) with plain-language descriptions of each',
   'help.welcome.f3': '<strong>Learn More</strong> \u2014 Links to the video walkthrough, podcast episode, and presentation slides',
   'help.welcome.f4': '<strong>Explore the App</strong> \u2014 Quick-access cards linking to each major section: Dashboard, Analytics, Calculator, and Sources',
 
@@ -568,7 +571,7 @@ const en = {
 
   // Report: glossary
   'report.glossaryTitle': 'Glossary',
-  'report.glossarySDLC': 'SDLC (Software Development Lifecycle) \u2014 The end-to-end process of planning, creating, testing, and deploying software. This report divides the SDLC into six phases: Strategy (roadmap and prioritisation), Design (UX/UI design and prototyping), Spec (requirements and technical specifications), Dev (coding and implementation), QA (testing and quality assurance), and DevOps (deployment, infrastructure, and operations).',
+  'report.glossarySDLC': 'SDLC (Software Development Lifecycle) \u2014 The end-to-end process of planning, creating, testing, and deploying software. This report divides the SDLC into six phases: Discovery (roadmap and prioritisation), Design (UX/UI design and prototyping), Spec (requirements and technical specifications), Dev (coding and implementation), QA (testing and quality assurance), and Release & Ops (deployment, infrastructure, and operations).',
   'report.glossaryROI': 'ROI (Return on Investment) \u2014 The ratio of net gains to total investment. In this report, ROI is expressed as a multiplier: 3x means every \u20ac1 invested yields \u20ac3 in efficiency gains. A ratio above 1x means the investment pays for itself; below 1x means costs exceed benefits.',
   'report.glossaryQ1Q3': 'Q1 / Median / Q3 (Quartiles) \u2014 Statistical measures that divide a dataset into four equal parts. Q1 (25th percentile) represents a conservative estimate, the Median (50th percentile) is the midpoint, and Q3 (75th percentile) represents an optimistic estimate. Think of it as: "25% of studies found less than Q1", "half found less than the Median", and "75% found less than Q3".',
   'report.glossaryMETR': 'METR (Model Evaluation & Threat Research) \u2014 An independent AI safety research organisation whose benchmarks track the rate of improvement in AI task-completion capabilities. Their data suggests AI capability roughly doubles every 4 months, which informs the Optimistic scenario\'s forward projection. This is used as one data point, not as a guarantee of future performance.',
@@ -696,6 +699,8 @@ const fi: typeof en = {
   'common.reject': 'Hyl\u00e4\u00e4',
   'common.resetToPending': 'Palauta odottavaksi',
   'common.implemented': 'Toteutettu',
+  'common.showMore': 'Näytä lisää',
+  'common.showLess': 'Näytä vähemmän',
   'common.exportPdf': 'Lataa PDF',
   'common.exporting': 'Ladataan...',
   'common.empirical': 'Empiirinen',
@@ -816,6 +821,7 @@ const fi: typeof en = {
   'roi.netRoi': 'Netto-ROI',
   'roi.roiRatio': 'ROI-kerroin',
   'roi.pctBudget': '% budjetista',
+  'roi.ofBudget': 'budjetista',
   'roi.savingsByPhase': 'Kustannuss\u00e4\u00e4st\u00f6t vaiheittain',
   'roi.phaseColumn': 'Vaihe',
   'roi.weightColumn': 'Paino',
@@ -941,7 +947,7 @@ const fi: typeof en = {
   // Welcome page
   'welcome.title': 'SDLC AI-vaikutus\u00adanalysaattori',
   'welcome.subtitle': 'AI:n vaikutusten kvantifiointi ohjelmistokehityksen elinkaaressa',
-  'welcome.intro1': 'T\u00e4m\u00e4 sovellus kokoaa <strong>210+ reaalimaailman datapistett\u00e4</strong> akateemisista julkaisuista, alan kyselyist\u00e4, toimittajaraporteista ja k\u00e4yt\u00e4nn\u00f6n kokemuksista kvantifioidakseen miten AI-ty\u00f6kalut muuttavat ohjelmistokehityksen elinkaaren jokaista vaihetta \u2014 strategiasta DevOpsiin.',
+  'welcome.intro1': 'T\u00e4m\u00e4 sovellus kokoaa <strong>210+ reaalimaailman datapistett\u00e4</strong> akateemisista julkaisuista, alan kyselyist\u00e4, toimittajaraporteista ja k\u00e4yt\u00e4nn\u00f6n kokemuksista kvantifioidakseen miten AI-ty\u00f6kalut muuttavat ohjelmistokehityksen elinkaaren jokaista vaihetta \u2014 Discoveryst\u00e4 Release & Opsiin.',
   'welcome.intro2': 'K\u00e4yt\u00e4 interaktiivisia hallintapaneeleja tutki\u00e4ksesi tuottavuusvaikutuksia vaiheittain, suodata datatyypin ja vuoden mukaan, vertaa varhaista AI-aikakautta agenttiseen aikakauteen ja rakenna datapohjainen business case ROI-laskurilla. Analyysi k\u00e4ytt\u00e4\u00e4 kolmea projektiomallia (konservatiivinen, perusmalli, tulevaisuusmalli) tulosvaihteluv\u00e4lin tuottamiseen.',
   'welcome.intro3': 'Kaikki data on per\u00e4isin julkisesti saatavilla olevasta tutkimuksesta (2023\u20132026). L\u00e4hteit\u00e4 ovat mm. McKinsey, Gartner, Harvard Business School, Google Research, Microsoft Research, arXiv-julkaisut ja muut.',
   'welcome.learnMore': 'Lis\u00e4tietoa',
@@ -967,12 +973,12 @@ const fi: typeof en = {
 
   // SDLC Flowchart
   'sdlcFlow.title': 'Kuusi SDLC-vaihetta',
-  'sdlcFlow.strategy': 'Päätetään mitä rakennetaan ja miksi. Sisältää tiekarttojen suunnittelun, markkina-analyysin ja ominaisuuksien priorisoinnin.',
+  'sdlcFlow.discovery': 'Selvitetään mitä rakennetaan ja miksi. Sisältää tiekarttojen suunnittelun, markkina-analyysin ja ominaisuuksien priorisoinnin.',
   'sdlcFlow.design': 'Käyttökokemuksen ja järjestelmäarkkitehtuurin luominen. Kattaa UI/UX-mallit, tietomallit ja teknisen suunnittelun.',
   'sdlcFlow.spec': 'Yksityiskohtaisten vaatimusten kirjoittaminen, jotta kaikki tietävät mitä toteutetaan. Sisältää käyttäjätarinat ja hyväksymiskriteerit.',
   'sdlcFlow.dev': 'Varsinainen koodaus — ominaisuuksien rakentaminen, järjestelmien integrointi ja ohjelmiston kirjoittaminen.',
   'sdlcFlow.qa': 'Testataan, että kaikki toimii oikein. Sisältää automatisoidut testit, manuaaliset tarkistukset ja virheiden korjauksen.',
-  'sdlcFlow.devops': 'Ohjelmiston käyttöönotto ja ylläpito tuotannossa. Kattaa CI/CD-putket, valvonnan ja infrastruktuurin.',
+  'sdlcFlow.releaseOps': 'Ohjelmiston julkaisu ja operointi tuotannossa. Kattaa CI/CD-putket, valvonnan ja infrastruktuurin.',
   'sdlcFlow.whyTitle': 'Miksi juuri nämä vaiheet?',
   'sdlcFlow.whyText': 'Nämä kuusi vaihetta edustavat nykyaikaisen ohjelmistokehityksen laajimmin tunnustettuja vaiheita. Ne kattavat koko matkan ideasta tuotantoon, ja jokaisessa vaiheessa on erillisiä toimintoja, joissa AI-työkalut voivat mitattavasti parantaa tuottavuutta. Malli on tarkoituksellisesti yksinkertaistettu — todelliset projektit voivat iteroida tai limittää vaiheita — mutta se tarjoaa selkeän viitekehyksen AI:n vaikutusten vertailuun erityyppisten töiden välillä.',
 
@@ -996,7 +1002,7 @@ const fi: typeof en = {
   'help.toc.language': 'Kieli',
   'help.toc.faq': 'UKK',
   'help.overview.p1': '<strong>SDLC AI-vaikutusanalysaattori</strong> on interaktiivinen datapohjainen sovellus, joka kvantifioi miten AI-ty\u00f6kalut muuttavat ohjelmistokehityksen elinkaaren jokaista vaihetta. Se kokoaa 210+ datapistett\u00e4 akateemisesta tutkimuksesta, alan kyselyist\u00e4, toimittajaraporteista ja k\u00e4yt\u00e4nn\u00f6n kokemuksista vuosilta 2023\u20132026.',
-  'help.overview.p2': 'Sovellus kattaa kuusi SDLC-vaihetta: <strong>Strategy</strong>, <strong>Design</strong>, <strong>Spec</strong>, <strong>Dev</strong>, <strong>QA</strong> ja <strong>DevOps</strong>. Jokainen vaihe analysoidaan tilastollisin menetelmin (mediaani, kvartiilit, min/max) perustuen taustadataan.',
+  'help.overview.p2': 'Sovellus kattaa kuusi SDLC-vaihetta: <strong>Discovery</strong>, <strong>Design</strong>, <strong>Spec</strong>, <strong>Dev</strong>, <strong>QA</strong> ja <strong>Release & Ops</strong>. Jokainen vaihe analysoidaan tilastollisin menetelmin (mediaani, kvartiilit, min/max) perustuen taustadataan.',
   'help.overview.p3': 'Keskeiset ominaisuudet: interaktiiviset hallintapaneelit reaaliaikaisella suodatuksella, trendianalyysi vertaillen varhaista AI-aikakautta agenttiseen aikakauteen, ROI-laskuri business casen rakentamiseen sek\u00e4 kattava l\u00e4hdekirjasto t\u00e4ydell\u00e4 j\u00e4ljitett\u00e4vyydell\u00e4.',
   'help.dashboard.p1': 'P\u00e4\u00e4hallintapaneeli (saatavilla sivupalkin "SDLC-analytiikka"-linkist\u00e4) tarjoaa yleisnkuvan AI:n tuottavuusvaikutuksista kaikkien kuuden SDLC-vaiheen l\u00e4pi.',
   'help.dashboard.components': 'Komponentit:',
@@ -1092,7 +1098,7 @@ const fi: typeof en = {
   'help.welcome.p1': 'Tervetuloa-sivu on sovelluksen aloituspiste. Se tarjoaa yleiskatsauksen ty\u00f6kalun toiminnasta, esittelee kuusi SDLC-vaihetta visuaalisella vuokaaviolla ja tarjoaa pikalinkit lis\u00e4tietoihin ja sovelluksen eri osiin.',
   'help.welcome.features': 'Mit\u00e4 l\u00f6yd\u00e4t:',
   'help.welcome.f1': '<strong>Johdanto</strong> \u2014 Yhteenveto sovelluksen tarkoituksesta: 210+ datapisteen kokoaminen AI:n vaikutuksen kvantifioimiseksi ohjelmistokehitykseen',
-  'help.welcome.f2': '<strong>SDLC-vaiheen vuokaavio</strong> \u2014 Visuaalinen opas kuuteen vaiheeseen (strategia, suunnittelu, m\u00e4\u00e4rittely, kehitys, laadunvarmistus, DevOps) selke\u00e4kielisine kuvauksineen',
+  'help.welcome.f2': '<strong>SDLC-vaiheen vuokaavio</strong> \u2014 Visuaalinen opas kuuteen vaiheeseen (Discovery, Design, Spec, Dev, QA, Release & Ops) selke\u00e4kielisine kuvauksineen',
   'help.welcome.f3': '<strong>Lis\u00e4tietoa</strong> \u2014 Linkit videoon, podcast-jaksoon ja esityskalvoihin',
   'help.welcome.f4': '<strong>Tutustu sovellukseen</strong> \u2014 Pikalinkkikortit jokaiseen p\u00e4\u00e4osioon: hallintapaneeli, analytiikka, laskuri ja l\u00e4hteet',
 
@@ -1228,7 +1234,7 @@ const fi: typeof en = {
 
   // Report: glossary
   'report.glossaryTitle': 'Sanasto',
-  'report.glossarySDLC': 'SDLC (Software Development Lifecycle, ohjelmistokehityksen elinkaari) \u2014 Ohjelmiston suunnittelun, luomisen, testauksen ja k\u00e4ytt\u00f6\u00f6noton kokonaisprosessi. T\u00e4m\u00e4 raportti jakaa SDLC:n kuuteen vaiheeseen: strategia (tiekartta ja priorisointi), suunnittelu (UX/UI-suunnittelu ja prototypointi), m\u00e4\u00e4rittely (vaatimukset ja tekniset spesifikaatiot), kehitys (koodaus ja toteutus), laadunvarmistus (testaus) ja DevOps (k\u00e4ytt\u00f6\u00f6notto ja infrastruktuuri).',
+  'report.glossarySDLC': 'SDLC (Software Development Lifecycle, ohjelmistokehityksen elinkaari) \u2014 Ohjelmiston suunnittelun, luomisen, testauksen ja k\u00e4ytt\u00f6\u00f6noton kokonaisprosessi. T\u00e4m\u00e4 raportti jakaa SDLC:n kuuteen vaiheeseen: Discovery (tiekartta ja priorisointi), Design (UX/UI-suunnittelu ja prototypointi), Spec (vaatimukset ja tekniset spesifikaatiot), Dev (koodaus ja toteutus), QA (testaus ja laadunvarmistus) ja Release & Ops (k\u00e4ytt\u00f6\u00f6notto, infrastruktuuri ja operointi).',
   'report.glossaryROI': 'ROI (Return on Investment, sijoitetun p\u00e4\u00e4oman tuotto) \u2014 Nettotuottojen suhde kokonaisinvestointiin. T\u00e4ss\u00e4 raportissa ROI ilmaistaan kertoimena: 3x tarkoittaa, ett\u00e4 jokainen sijoitettu 1 \u20ac tuottaa 3 \u20ac tehokkuushy\u00f6tyj\u00e4. Kerroin yli 1x tarkoittaa, ett\u00e4 investointi maksaa itsens\u00e4 takaisin; alle 1x tarkoittaa, ett\u00e4 kustannukset ylitt\u00e4v\u00e4t hy\u00f6dyt.',
   'report.glossaryQ1Q3': 'Q1 / Mediaani / Q3 (kvartiilit) \u2014 Tilastolliset mittarit, jotka jakavat aineiston nelj\u00e4\u00e4n yht\u00e4 suureen osaan. Q1 (25. persentiili) edustaa konservatiivista arviota, mediaani (50. persentiili) on keskipiste ja Q3 (75. persentiili) edustaa optimistista arviota. Ajattele n\u00e4in: "25 % tutkimuksista l\u00f6ysi v\u00e4hemm\u00e4n kuin Q1", "puolet v\u00e4hemm\u00e4n kuin mediaani", ja "75 % v\u00e4hemm\u00e4n kuin Q3".',
   'report.glossaryMETR': 'METR (Model Evaluation & Threat Research) \u2014 Riippumaton AI-turvallisuuden tutkimusorganisaatio, jonka vertailutestit seuraavat AI:n teht\u00e4v\u00e4nsuorituskyvyn kehitysnopeutta. Heid\u00e4n datansa viittaa siihen, ett\u00e4 AI-kyvykkyys karkeasti kaksinkertaistuu noin 4 kuukauden v\u00e4lein. T\u00e4t\u00e4 k\u00e4ytet\u00e4\u00e4n yhten\u00e4 datapisteena\u0308, ei tulevaisuuden suorituskyvyn takaajana.',

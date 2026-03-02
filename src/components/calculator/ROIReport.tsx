@@ -250,11 +250,23 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {pieData.map(({ key, data: slices }) => {
           const meta = SCENARIO_META[key];
+          const totalSavings = scenarios[key].totalCostSavings;
+          const budgetPct = totalBudget > 0 ? (totalSavings / totalBudget) * 100 : 0;
           return (
             <div key={key} className="bg-surface rounded-xl border border-border p-4">
-              <h3 className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: meta.color }}>
+              <h3 className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: meta.color }}>
                 {t(meta.labelKey)} — {t('roi.costSavings')}
               </h3>
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-lg font-bold tabular-nums" style={{ color: meta.color }}>
+                  {formatEur(totalSavings)}
+                </span>
+                {totalBudget > 0 && (
+                  <span className="text-xs text-muted">
+                    ({budgetPct.toFixed(1)}% {t('roi.ofBudget')})
+                  </span>
+                )}
+              </div>
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
                   <Pie

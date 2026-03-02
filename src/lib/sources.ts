@@ -40,7 +40,7 @@ export interface SourceEntry {
 }
 
 export const sourceDescriptions: Record<string, string> = {
-  // Phase 1 verified sources — Strategy
+  // Phase 1 verified sources — Discovery
   'McKinsey — AI Transforming Strategy': 'McKinsey article on how AI/automation is reshaping corporate strategy, decision-making speed, and competitive dynamics.',
   'Gartner — Top 10 Strategic Tech Trends 2025': 'Gartner\'s annual strategic technology trends forecast highlighting agentic AI, AI governance, and energy-efficient computing.',
   'HBR — AI Can Outperform Human CEOs': 'Harvard Business Review article examining research on AI\'s strategic decision-making capabilities compared to human executives.',
@@ -96,7 +96,7 @@ export const sourceDescriptions: Record<string, string> = {
   'Square Enix — AI QA Automation Target': 'Square Enix\'s published target of achieving significant QA automation through AI to handle growing game testing complexity.',
   'Mabl — Benchmarking AI Agent Architectures for Testing': 'Mabl\'s research benchmarking different AI agent architectures for software testing, comparing autonomous vs. guided approaches.',
 
-  // Phase 1 verified sources — DevOps
+  // Phase 1 verified sources — Release & Ops
   'DORA Report 2023': 'Google\'s 2023 DORA (DevOps Research and Assessment) report — the definitive annual study on DevOps performance metrics and team capabilities.',
   'PagerDuty — AIOps Platform': 'PagerDuty\'s AIOps platform capabilities for intelligent alert correlation, noise reduction (91%), and automated incident response.',
   'HashiCorp — State of Cloud Strategy 2024': 'HashiCorp\'s 2024 State of Cloud Strategy survey covering multi-cloud adoption, IaC practices, and AI-assisted provisioning.',

@@ -1,4 +1,4 @@
-export type Phase = 'Strategy' | 'Design' | 'Spec' | 'Dev' | 'QA' | 'DevOps';
+export type Phase = 'Discovery' | 'Design' | 'Spec' | 'Dev' | 'QA' | 'Release & Ops';
 
 export type DataType = 'empirical' | 'survey' | 'vendor' | 'anecdotal';
 

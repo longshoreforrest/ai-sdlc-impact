@@ -24,9 +24,9 @@ function buildDefaultInputs(scenarioConfigs: CalculatorInputs['scenarioConfigs']
     avgSalary: defaultAvgSalary,
     hoursPerYear: 1600,
     itBudget: defaultItBudget,
-    includedPhases: ['Strategy', 'Design', 'Spec', 'Dev', 'QA', 'DevOps'] as Phase[],
+    includedPhases: ['Discovery', 'Design', 'Spec', 'Dev', 'QA', 'Release & Ops'] as Phase[],
     phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
-    inhouseRatios: { Strategy: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, DevOps: 1 } as Record<Phase, number>,
+    inhouseRatios: { Discovery: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, 'Release & Ops': 1 } as Record<Phase, number>,
     scenarioConfigs,
     transformationCosts: {
       consulting: 2_000_000,

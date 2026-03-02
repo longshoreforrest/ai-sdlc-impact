@@ -1,23 +1,23 @@
 import { Fact } from './types';
 
-export const PHASES = ['Strategy', 'Design', 'Spec', 'Dev', 'QA', 'DevOps'] as const;
+export const PHASES = ['Discovery', 'Design', 'Spec', 'Dev', 'QA', 'Release & Ops'] as const;
 
 export const ALL_YEARS = [2023, 2024, 2025, 2026] as const;
 
 export const PHASE_WEIGHTS: Record<string, number> = {
-  Strategy: 0.08,
+  Discovery: 0.08,
   Design: 0.12,
   Spec: 0.10,
   Dev: 0.40,
   QA: 0.20,
-  DevOps: 0.10,
+  'Release & Ops': 0.10,
 };
 
 export const facts: Fact[] = [
-  // === STRATEGY (6) — Verified Sources ===
+  // === DISCOVERY (6) — Verified Sources ===
   {
     id: 'str-1',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 15,
     year: 2023,
     publishDate: '2023-09-15',
@@ -29,7 +29,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'str-2',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 22,
     year: 2024,
     publishDate: '2024-10-21',
@@ -41,7 +41,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'str-3',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 18,
     year: 2024,
     publishDate: '2024-09-01',
@@ -53,7 +53,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'str-4',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 30,
     year: 2025,
     publishDate: '2024-10-28',
@@ -65,7 +65,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'str-5',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 12,
     year: 2025,
     publishDate: '2024-11-01',
@@ -77,7 +77,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'str-6',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 35,
     year: 2025,
     publishDate: '2025-01-15',
@@ -601,10 +601,10 @@ export const facts: Fact[] = [
     credibility: 2,
   },
 
-  // === DEVOPS (8) — Verified Sources ===
+  // === RELEASE & OPS (8) — Verified Sources ===
   {
     id: 'ops-1',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 20,
     year: 2023,
     publishDate: '2023-10-10',
@@ -617,7 +617,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-2',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 91,
     year: 2024,
     publishDate: '2024-06-15',
@@ -629,7 +629,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-3',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 30,
     year: 2024,
     publishDate: '2024-06-15',
@@ -641,7 +641,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-4',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 28,
     year: 2024,
     publishDate: '2024-06-15',
@@ -654,7 +654,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-5',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 40,
     year: 2025,
     publishDate: '2025-03-15',
@@ -666,7 +666,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-6',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 38,
     year: 2025,
     publishDate: '2025-06-15',
@@ -678,7 +678,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-7',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 50,
     year: 2026,
     publishDate: '2026-02-15',
@@ -690,7 +690,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'ops-8',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 50,
     year: 2026,
     publishDate: '2026-02-15',
@@ -705,10 +705,10 @@ export const facts: Fact[] = [
   // DEEP RESEARCH SOURCES (from Research Plan seed catalog)
   // ============================================================
 
-  // === STRATEGY — Deep Research ===
+  // === DISCOVERY — Deep Research ===
   {
     id: 'dr-str-1',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 40,
     year: 2023,
     publishDate: '2023-06-14',
@@ -721,7 +721,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-2',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 25,
     year: 2023,
     publishDate: '2023-09-21',
@@ -734,7 +734,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-3',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 37,
     year: 2023,
     publishDate: '2023-07-14',
@@ -747,7 +747,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-4',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 20,
     year: 2023,
     publishDate: '2023-10-11',
@@ -759,7 +759,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-5',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 22,
     year: 2023,
     publishDate: '2023-08-01',
@@ -772,7 +772,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-6',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 28,
     year: 2024,
     publishDate: '2024-06-15',
@@ -784,7 +784,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-7',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 32,
     year: 2024,
     publishDate: '2024-06-15',
@@ -796,7 +796,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-str-8',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 35,
     year: 2025,
     publishDate: '2024-10-22',
@@ -1191,10 +1191,10 @@ export const facts: Fact[] = [
     credibility: 3,
   },
 
-  // === DEVOPS — Deep Research ===
+  // === RELEASE & OPS — Deep Research ===
   {
     id: 'dr-ops-1',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 32,
     year: 2024,
     publishDate: '2024-08-15',
@@ -1207,7 +1207,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-ops-2',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 28,
     year: 2024,
     publishDate: '2024-06-15',
@@ -1220,7 +1220,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-ops-3',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 38,
     year: 2025,
     publishDate: '2025-05-28',
@@ -1233,7 +1233,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-ops-4',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 22,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1246,7 +1246,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-ops-5',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 30,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1259,7 +1259,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'dr-ops-6',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 35,
     year: 2024,
     publishDate: '2024-06-15',
@@ -1411,10 +1411,10 @@ export const facts: Fact[] = [
   // ROUND 2: DEEP RESEARCH — Quantifying AI Impact on SDLC (Feb 2026)
   // ============================================================
 
-  // === STRATEGY — Round 2 (5) ===
+  // === DISCOVERY — Round 2 (5) ===
   {
     id: 'r2-str-1',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 30,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1426,7 +1426,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-str-2',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 25,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1438,7 +1438,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-str-3',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 91,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1450,7 +1450,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-str-4',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 65,
     year: 2024,
     publishDate: '2024-08-15',
@@ -1462,7 +1462,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-str-5',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 75,
     year: 2024,
     publishDate: '2024-04-11',
@@ -1838,10 +1838,10 @@ export const facts: Fact[] = [
     credibility: 2,
   },
 
-  // === DEVOPS — Round 2 (8) ===
+  // === RELEASE & OPS — Round 2 (8) ===
   {
     id: 'r2-ops-1',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 67,
     year: 2024,
     publishDate: '2024-06-15',
@@ -1853,7 +1853,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-2',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 43,
     year: 2024,
     publishDate: '2024-06-15',
@@ -1865,7 +1865,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-3',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 31,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1877,7 +1877,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-4',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 30,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1890,7 +1890,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-5',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 54,
     year: 2025,
     publishDate: '2025-10-29',
@@ -1903,7 +1903,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-6',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 15,
     year: 2025,
     publishDate: '2025-10-01',
@@ -1916,7 +1916,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-7',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 35,
     year: 2025,
     publishDate: '2025-06-15',
@@ -1928,7 +1928,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'r2-ops-8',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 33,
     year: 2025,
     publishDate: '2025-03-15',
@@ -1982,7 +1982,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'sm-str-1',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 95,
     year: 2025,
     publishDate: '2025-03-01',
@@ -2008,7 +2008,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'sm-str-2',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 90,
     year: 2025,
     publishDate: '2025-12-15',
@@ -2148,7 +2148,7 @@ export const facts: Fact[] = [
   // --- LinkedIn — Alex Finn "How I quit my job" ---
   {
     id: 'sm-str-3',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 85,
     year: 2025,
     publishDate: '2025-06-15',
@@ -2180,7 +2180,7 @@ export const facts: Fact[] = [
   // --- STRATEGY (2026) ---
   {
     id: 'y26-str-1',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 25,
     year: 2026,
     publishDate: '2026-01-15',
@@ -2193,7 +2193,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'y26-str-2',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 20,
     year: 2026,
     publishDate: '2026-01-15',
@@ -2205,7 +2205,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'y26-str-3',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 15,
     year: 2026,
     publishDate: '2026-01-15',
@@ -2217,7 +2217,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'y26-str-4',
-    phase: 'Strategy',
+    phase: 'Discovery',
     impactPct: 10,
     year: 2026,
     publishDate: '2026-01-15',
@@ -2513,7 +2513,7 @@ export const facts: Fact[] = [
   // --- DEVOPS (2026) ---
   {
     id: 'y26-ops-1',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 45,
     year: 2026,
     publishDate: '2026-02-15',
@@ -2526,7 +2526,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'y26-ops-2',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 30,
     year: 2026,
     publishDate: '2026-01-15',
@@ -2538,7 +2538,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'y26-ops-3',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 35,
     year: 2026,
     publishDate: '2025-08-26',
@@ -2725,7 +2725,7 @@ export const facts: Fact[] = [
   // --- DEVOPS (Scientific) ---
   {
     id: 'sci-ops-1',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 20,
     year: 2026,
     publishDate: '2026-01-27',
@@ -2738,7 +2738,7 @@ export const facts: Fact[] = [
   },
   {
     id: 'sci-ops-2',
-    phase: 'DevOps',
+    phase: 'Release & Ops',
     impactPct: 35,
     year: 2025,
     publishDate: '2025-12-06',

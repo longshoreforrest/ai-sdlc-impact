@@ -7,21 +7,21 @@ import type { TranslationKey } from '@/lib/i18n/translations';
 import type { Phase } from '@/lib/types';
 
 const PHASE_COLORS: Record<Phase, string> = {
-  Strategy: '#f59e0b',
+  Discovery: '#f59e0b',
   Design: '#8b5cf6',
   Spec: '#06b6d4',
   Dev: '#3b82f6',
   QA: '#10b981',
-  DevOps: '#f97316',
+  'Release & Ops': '#f97316',
 };
 
 const PHASE_KEYS: Record<Phase, TranslationKey> = {
-  Strategy: 'sdlcFlow.strategy',
+  Discovery: 'sdlcFlow.discovery',
   Design: 'sdlcFlow.design',
   Spec: 'sdlcFlow.spec',
   Dev: 'sdlcFlow.dev',
   QA: 'sdlcFlow.qa',
-  DevOps: 'sdlcFlow.devops',
+  'Release & Ops': 'sdlcFlow.releaseOps',
 };
 
 function PhaseCard({ phase, description }: { phase: Phase; description: string }) {

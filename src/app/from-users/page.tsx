@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   Lightbulb,
@@ -198,6 +198,16 @@ function FeatureCard({
   const status = feature.status || 'pending';
   const priority = PRIORITY_CONFIG[feature.priority];
   const isImplemented = status === 'accepted' && !!feature.implementedAt;
+  const [descExpanded, setDescExpanded] = useState(false);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const [isClamped, setIsClamped] = useState(false);
+
+  useEffect(() => {
+    const el = descRef.current;
+    if (el) {
+      setIsClamped(el.scrollHeight > el.clientHeight + 1);
+    }
+  }, [feature.description]);
 
   return (
     <div className={`group bg-surface rounded-xl overflow-hidden transition-colors ${
@@ -222,7 +232,20 @@ function FeatureCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-semibold text-foreground mb-1.5">{feature.title}</h3>
-            <p className="text-sm text-muted leading-relaxed line-clamp-2">{feature.description}</p>
+            <p
+              ref={descRef}
+              className={`text-sm text-muted leading-relaxed ${descExpanded ? '' : 'line-clamp-2'}`}
+            >
+              {feature.description}
+            </p>
+            {(isClamped || descExpanded) && (
+              <button
+                onClick={() => setDescExpanded(!descExpanded)}
+                className="text-xs text-accent hover:underline mt-1"
+              >
+                {descExpanded ? t('common.showLess') : t('common.showMore')}
+              </button>
+            )}
           </div>
           <StatusActionButtons currentStatus={status} onStatusChange={onStatusChange} />
         </div>

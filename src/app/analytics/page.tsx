@@ -46,12 +46,12 @@ const credibilityColors: Record<number, string> = {
 };
 
 const PHASE_COLORS: Record<Phase, string> = {
-  Strategy: '#f59e0b',
+  Discovery: '#f59e0b',
   Design: '#8b5cf6',
   Spec: '#06b6d4',
   Dev: '#3b82f6',
   QA: '#10b981',
-  DevOps: '#f97316',
+  'Release & Ops': '#f97316',
 };
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
@@ -110,7 +110,7 @@ export default function AnalyticsPage() {
       itBudget: defaultItBudget,
       includedPhases: [...PHASES],
       phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
-      inhouseRatios: { Strategy: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, DevOps: 1 } as Record<Phase, number>,
+      inhouseRatios: { Discovery: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, 'Release & Ops': 1 } as Record<Phase, number>,
       scenarioConfigs,
       transformationCosts: { consulting: 2_000_000, training: 1_000_000, internal: 1_000_000 },
       timeframeYears: 1,
