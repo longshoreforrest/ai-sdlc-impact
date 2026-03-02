@@ -19,14 +19,23 @@ interface FactRow {
   source: string;
   sourceUrl: string;
   phase: string;
-  impactPct: number;
+  productivityGainPct: number;
+  impactSummary: string;
   year: number;
   publishDate: string;
   dataType: string;
   description: string;
   sampleSize: string;
-  credibility: number;
+  credibility: string;
 }
+
+const CREDIBILITY_LABELS: Record<number, string> = { 1: 'Low', 2: 'Medium', 3: 'High' };
+const DATA_TYPE_LABELS: Record<string, string> = {
+  empirical: 'Empirical Study',
+  survey: 'Industry Survey',
+  vendor: 'Vendor Report',
+  anecdotal: 'Anecdotal',
+};
 
 interface ExportSource {
   name: string;
@@ -62,13 +71,14 @@ export function exportSourcesToExcel(sources: ExportSource[], filename: string) 
       source: f.source,
       sourceUrl: f.sourceUrl || '',
       phase: f.phase,
-      impactPct: f.impactPct,
+      productivityGainPct: f.impactPct,
+      impactSummary: `${f.impactPct}% time savings in ${f.phase}`,
       year: f.year,
       publishDate: f.publishDate,
-      dataType: f.dataType,
+      dataType: DATA_TYPE_LABELS[f.dataType] || f.dataType,
       description: f.description,
       sampleSize: f.sampleSize || '',
-      credibility: f.credibility,
+      credibility: CREDIBILITY_LABELS[f.credibility] || String(f.credibility),
     }))
   );
 
@@ -94,18 +104,21 @@ export function exportSourcesToExcel(sources: ExportSource[], filename: string) 
 
   // Facts sheet
   const factHeaders = [
-    'ID', 'Source', 'Source URL', 'Phase', 'Impact %',
-    'Year', 'Publish Date', 'Data Type', 'Description', 'Sample Size', 'Credibility',
+    'ID', 'Source', 'Source URL', 'SDLC Phase', 'Productivity Gain (%)',
+    'Impact Summary', 'Year', 'Publish Date', 'Evidence Type', 'Finding / Description',
+    'Sample Size', 'Credibility',
   ];
   const factData = factRows.map((r) => [
-    r.id, r.source, r.sourceUrl, r.phase, r.impactPct,
-    r.year, r.publishDate, r.dataType, r.description, r.sampleSize, r.credibility,
+    r.id, r.source, r.sourceUrl, r.phase, r.productivityGainPct,
+    r.impactSummary, r.year, r.publishDate, r.dataType, r.description,
+    r.sampleSize, r.credibility,
   ]);
   const ws2 = XLSX.utils.aoa_to_sheet([factHeaders, ...factData]);
 
   ws2['!cols'] = [
-    { wch: 12 }, { wch: 40 }, { wch: 50 }, { wch: 10 }, { wch: 10 },
-    { wch: 6 }, { wch: 12 }, { wch: 12 }, { wch: 60 }, { wch: 12 }, { wch: 10 },
+    { wch: 12 }, { wch: 40 }, { wch: 50 }, { wch: 14 }, { wch: 18 },
+    { wch: 30 }, { wch: 6 }, { wch: 12 }, { wch: 16 }, { wch: 70 },
+    { wch: 14 }, { wch: 12 },
   ];
   XLSX.utils.book_append_sheet(wb, ws2, 'Facts');
 
