@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Printer, ArrowLeft, Loader2 } from 'lucide-react';
+import { Printer, ArrowLeft, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { CalculatorInputs, Phase, ScenarioType, TransformationCosts } from '@/lib/types';
 import { facts, PHASE_WEIGHTS } from '@/lib/mock-data';
 import { calculateConfiguredScenarios } from '@/lib/calculations';
@@ -11,7 +11,9 @@ import { useTranslation } from '@/lib/i18n';
 import 'katex/dist/katex.min.css';
 import ExecutiveSummary from '@/components/report/ExecutiveSummary';
 import DataFoundation from '@/components/report/DataFoundation';
+import ScenarioDefinitionCards from '@/components/report/ScenarioDefinitionCards';
 import ScenarioSection from '@/components/report/ScenarioSection';
+import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
 import ROIConfig from '@/components/report/ROIConfig';
 import CalculationFormulas from '@/components/report/CalculationFormulas';
 import SourceAppendix from '@/components/report/SourceAppendix';
@@ -42,6 +44,7 @@ export default function ReportPage() {
   const router = useRouter();
   const { configs: scenarioConfigs } = useScenario();
   const [inputs, setInputs] = useState<CalculatorInputs | null>(null);
+  const [configuratorOpen, setConfiguratorOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -114,6 +117,20 @@ export default function ReportPage() {
           <Printer className="w-4 h-4" />
           {t('report.print')}
         </button>
+      </div>
+
+      {/* Collapsible ScenarioConfigurator (hidden on print) */}
+      <div className="print:hidden px-6 mb-4">
+        <button
+          onClick={() => setConfiguratorOpen(!configuratorOpen)}
+          className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-700 transition-colors mb-2"
+        >
+          {configuratorOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          {t('report.editScenarios')}
+        </button>
+        {configuratorOpen && (
+          <ScenarioConfigurator defaultOpen={true} />
+        )}
       </div>
 
       <div className="px-6 pb-12 space-y-10">
@@ -206,6 +223,8 @@ export default function ReportPage() {
               ))}
             </div>
           </div>
+
+          <ScenarioDefinitionCards scenarioConfigs={inputs.scenarioConfigs} facts={facts} />
 
           {scenarioKeys.map((key, i) => (
             <ScenarioSection

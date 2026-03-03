@@ -1,25 +1,16 @@
 'use client';
 
-import { CalculatorInputs, ScenarioType } from '@/lib/types';
-import { computeMETRMultiplier } from '@/lib/calculations';
+import { CalculatorInputs } from '@/lib/types';
 import { formatEur } from '@/lib/formatters';
 import { PHASES } from '@/lib/mock-data';
 import { useTranslation } from '@/lib/i18n';
-import type { TranslationKey } from '@/lib/i18n';
 
 interface ROIConfigProps {
   inputs: CalculatorInputs;
 }
 
-const SCENARIO_LABEL_KEYS: Record<ScenarioType, TranslationKey> = {
-  pessimistic: 'roi.pessimistic',
-  realistic: 'roi.realistic',
-  optimistic: 'roi.optimistic',
-};
-
 export default function ROIConfig({ inputs }: ROIConfigProps) {
   const { t } = useTranslation();
-  const metrMultiplier = computeMETRMultiplier(inputs.scenarioConfigs.metrConfig);
 
   return (
     <section id="roi-configuration">
@@ -146,61 +137,6 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
         </p>
       </div>
 
-      {/* Scenario config */}
-      <div className="mt-6">
-        <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
-          {t('report.scenarioConfig')}
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {(['pessimistic', 'realistic', 'optimistic'] as ScenarioType[]).map((key) => {
-            const config = inputs.scenarioConfigs[key];
-            const SCENARIO_COLORS: Record<ScenarioType, string> = {
-              pessimistic: '#ef4444',
-              realistic: '#f59e0b',
-              optimistic: '#10b981',
-            };
-            return (
-              <div key={key} className="border border-zinc-200 rounded-lg p-3">
-                <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: SCENARIO_COLORS[key] }}>
-                  {t(SCENARIO_LABEL_KEYS[key])}
-                </p>
-                <p className="text-xs text-zinc-500">
-                  {t('scenario.years')}: {config.years.join(', ')}
-                </p>
-                <p className="text-xs text-zinc-500 mt-1">
-                  {t('scenario.sources')}: {config.dataTypes.map((dt) => t(`common.${dt}` as TranslationKey)).join(', ')}
-                </p>
-                <p className="text-xs text-zinc-500 mt-1">
-                  {t('scenario.adoptionFactor')} (β): <span className="font-medium text-zinc-700">{(config.adoptionFactor ?? 1.0).toFixed(2)}</span>
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* METR config */}
-      {inputs.scenarioConfigs.metrConfig.enabled && (
-        <div className="mt-4">
-          <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
-            {t('report.metrConfig')}
-          </h3>
-          <div className="border border-zinc-200 rounded-lg p-3 text-sm">
-            <p className="text-zinc-600">
-              {t('scenario.doublingPeriod')}: {inputs.scenarioConfigs.metrConfig.doublingPeriodMonths} {t('scenario.months')}
-            </p>
-            <p className="text-zinc-600 mt-1">
-              {t('scenario.horizon')}: {inputs.scenarioConfigs.metrConfig.futureOffsetMonths} {t('scenario.months')}
-            </p>
-            <p className="text-zinc-600 mt-1">
-              {t('scenario.adoptionElasticity')}: {(inputs.scenarioConfigs.metrConfig.adoptionElasticity ?? 0.5).toFixed(1)}
-            </p>
-            <p className="text-zinc-700 font-medium mt-1">
-              {t('scenario.metrMultiplier')}: {metrMultiplier.toFixed(1)}x
-            </p>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
