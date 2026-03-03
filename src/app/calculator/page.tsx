@@ -11,19 +11,13 @@ import { useTranslation } from '@/lib/i18n';
 import InputForm from '@/components/calculator/InputForm';
 import ROIReport from '@/components/calculator/ROIReport';
 import ExportButton from '@/components/ExportButton';
-
-const AVAILABLE_YEARS = [...new Set(facts.map((f) => f.year))].sort();
-
-const FACT_COUNTS_BY_YEAR: Record<number, number> = {};
-for (const f of facts) {
-  FACT_COUNTS_BY_YEAR[f.year] = (FACT_COUNTS_BY_YEAR[f.year] || 0) + 1;
-}
+import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
 
 function computeDefaultTransformationCosts(): TransformationCosts {
   return {
-    consulting: 2_000_000,
-    training: 1_000_000,
-    internal: 1_000_000,
+    consulting: 1_050_000,
+    training: 525_000,
+    internal: 525_000,
   };
 }
 
@@ -32,7 +26,7 @@ export default function CalculatorPage() {
   const router = useRouter();
   const { configs: scenarioConfigs } = useScenario();
 
-  const defaultItBudget = 100000000;
+  const defaultItBudget = 50000000;
   const defaultAvgSalary = 55000;
 
   const [inputs, setInputs] = useState<CalculatorInputs>({
@@ -122,6 +116,9 @@ export default function CalculatorPage() {
         </div>
       </div>
 
+      {/* Scenario Configurator (collapsed by default) */}
+      <ScenarioConfigurator defaultOpen={false} />
+
       {/* Two-column layout */}
       <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Inputs (1/3) */}
@@ -129,8 +126,6 @@ export default function CalculatorPage() {
           <InputForm
             inputs={inputs}
             onChange={handleInputsChange}
-            availableYears={AVAILABLE_YEARS}
-            factCountsByYear={FACT_COUNTS_BY_YEAR}
           />
         </div>
 

@@ -154,9 +154,14 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {(['pessimistic', 'realistic', 'optimistic'] as ScenarioType[]).map((key) => {
             const config = inputs.scenarioConfigs[key];
+            const SCENARIO_COLORS: Record<ScenarioType, string> = {
+              pessimistic: '#ef4444',
+              realistic: '#f59e0b',
+              optimistic: '#10b981',
+            };
             return (
               <div key={key} className="border border-zinc-200 rounded-lg p-3">
-                <p className="text-xs font-medium uppercase tracking-wider mb-2 text-zinc-700">
+                <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: SCENARIO_COLORS[key] }}>
                   {t(SCENARIO_LABEL_KEYS[key])}
                 </p>
                 <p className="text-xs text-zinc-500">
@@ -164,6 +169,9 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
                 </p>
                 <p className="text-xs text-zinc-500 mt-1">
                   {t('scenario.sources')}: {config.dataTypes.map((dt) => t(`common.${dt}` as TranslationKey)).join(', ')}
+                </p>
+                <p className="text-xs text-zinc-500 mt-1">
+                  {t('scenario.adoptionFactor')} (β): <span className="font-medium text-zinc-700">{(config.adoptionFactor ?? 1.0).toFixed(2)}</span>
                 </p>
               </div>
             );

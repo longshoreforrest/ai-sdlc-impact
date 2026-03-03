@@ -17,7 +17,7 @@ import CalculationFormulas from '@/components/report/CalculationFormulas';
 import SourceAppendix from '@/components/report/SourceAppendix';
 
 function buildDefaultInputs(scenarioConfigs: CalculatorInputs['scenarioConfigs']): CalculatorInputs {
-  const defaultItBudget = 100000000;
+  const defaultItBudget = 50000000;
   const defaultAvgSalary = 55000;
   return {
     teamSize: Math.round(defaultItBudget / defaultAvgSalary),
@@ -29,9 +29,9 @@ function buildDefaultInputs(scenarioConfigs: CalculatorInputs['scenarioConfigs']
     inhouseRatios: { Discovery: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, 'Release & Ops': 1 } as Record<Phase, number>,
     scenarioConfigs,
     transformationCosts: {
-      consulting: 2_000_000,
-      training: 1_000_000,
-      internal: 1_000_000,
+      consulting: 1_050_000,
+      training: 525_000,
+      internal: 525_000,
     },
     timeframeYears: 1,
   };
@@ -51,9 +51,9 @@ export default function ReportPage() {
         // Ensure transformationCosts exist (backward compat)
         if (!parsed.transformationCosts) {
           parsed.transformationCosts = {
-            consulting: 2_000_000,
-            training: 1_000_000,
-            internal: 1_000_000,
+            consulting: 1_050_000,
+            training: 525_000,
+            internal: 525_000,
           };
         }
         // Ensure timeframeYears exists (backward compat)

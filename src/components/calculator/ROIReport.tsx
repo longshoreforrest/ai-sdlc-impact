@@ -147,7 +147,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
         {scenarioKeys.map((key) => {
           const meta = SCENARIO_META[key];
           const result = scenarios[key];
-          const budgetPct = totalBudget > 0 ? (result.netROI / totalBudget) * 100 : 0;
+          const savingsPct = totalBudget > 0 ? (result.totalCostSavings / totalBudget) * 100 : 0;
           return (
             <div
               key={key}
@@ -172,6 +172,11 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
                   <p className="text-xs text-muted">{t('roi.costSavings')}</p>
                   <p className="text-xl font-bold tabular-nums" style={{ color: meta.color }}>
                     {formatEur(result.totalCostSavings)}
+                    {totalBudget > 0 && (
+                      <span className="text-xs text-muted font-normal ml-1.5">
+                        ({savingsPct.toFixed(1)}% {t('roi.ofBudget')})
+                      </span>
+                    )}
                   </p>
                 </div>
                 <div>
@@ -186,14 +191,6 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
                     {result.roiRatio}x
                   </p>
                 </div>
-                {totalBudget > 0 && (
-                  <div>
-                    <p className="text-xs text-muted">{t('roi.pctBudget')}</p>
-                    <p className="text-sm font-bold tabular-nums" style={{ color: meta.color }}>
-                      {budgetPct >= 0 ? '+' : ''}{budgetPct.toFixed(1)}%
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
           );
@@ -205,8 +202,8 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
         <h3 className="text-sm font-medium text-muted mb-4 uppercase tracking-wider">
           {t('roi.savingsByPhase')} (EUR {scaleSuffix})
         </h3>
-        <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={chartData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={chartData} margin={{ top: 20, right: 10, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
             <XAxis
               dataKey="phase"
@@ -239,9 +236,9 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
               iconSize={10}
               wrapperStyle={{ fontSize: '11px', color: '#71717a' }}
             />
-            <Bar dataKey="pessimistic" name={t('roi.pessimistic')} fill="#ef4444" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            <Bar dataKey="realistic" name={t('roi.realistic')} fill="#f59e0b" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            <Bar dataKey="optimistic" name={t('roi.optimistic')} fill="#10b981" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
+            <Bar dataKey="pessimistic" name={t('roi.pessimistic')} fill="#ef4444" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#ef4444', formatter: (v) => Number(v) > 0 ? `${v}${scaleSuffix}` : '' }} />
+            <Bar dataKey="realistic" name={t('roi.realistic')} fill="#f59e0b" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#f59e0b', formatter: (v) => Number(v) > 0 ? `${v}${scaleSuffix}` : '' }} />
+            <Bar dataKey="optimistic" name={t('roi.optimistic')} fill="#10b981" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#10b981', formatter: (v) => Number(v) > 0 ? `${v}${scaleSuffix}` : '' }} />
           </BarChart>
         </ResponsiveContainer>
       </div>

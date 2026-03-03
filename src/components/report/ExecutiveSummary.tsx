@@ -99,6 +99,7 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
         {scenarioKeys.map((key) => {
           const meta = SCENARIO_META[key];
           const result = scenarios[key];
+          const savingsPct = totalBudget > 0 ? (result.totalCostSavings / totalBudget) * 100 : 0;
           return (
             <div key={key} className="border border-zinc-200 rounded-lg p-4">
               <p className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: meta.color }}>
@@ -117,6 +118,11 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
                   <p className="text-xs text-zinc-500">{t('roi.costSavings')}</p>
                   <p className="text-lg font-bold tabular-nums" style={{ color: meta.color }}>
                     {formatEur(result.totalCostSavings)}
+                    {totalBudget > 0 && (
+                      <span className="text-xs text-zinc-500 font-normal ml-1.5">
+                        ({savingsPct.toFixed(1)}% {t('roi.ofBudget')})
+                      </span>
+                    )}
                   </p>
                 </div>
                 <div>
@@ -226,8 +232,8 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
         <h3 className="text-xs font-medium text-zinc-500 mb-3 uppercase tracking-wider">
           {t('roi.savingsByPhase')} (EUR {scaleSuffix})
         </h3>
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={chartData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={chartData} margin={{ top: 20, right: 10, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
             <XAxis dataKey="phase" tick={{ fill: '#71717a', fontSize: 11 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} />
             <YAxis tick={{ fill: '#71717a', fontSize: 11 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} tickFormatter={(v) => `${v}${scaleSuffix}`} />
@@ -247,9 +253,9 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
               }}
             />
             <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />
-            <Bar dataKey="pessimistic" name={t('roi.pessimistic')} fill="#ef4444" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            <Bar dataKey="realistic" name={t('roi.realistic')} fill="#f59e0b" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            <Bar dataKey="optimistic" name={t('roi.optimistic')} fill="#10b981" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
+            <Bar dataKey="pessimistic" name={t('roi.pessimistic')} fill="#ef4444" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#ef4444', formatter: (v) => Number(v) > 0 ? `${v}${scaleSuffix}` : '' }} />
+            <Bar dataKey="realistic" name={t('roi.realistic')} fill="#f59e0b" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#f59e0b', formatter: (v) => Number(v) > 0 ? `${v}${scaleSuffix}` : '' }} />
+            <Bar dataKey="optimistic" name={t('roi.optimistic')} fill="#10b981" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#10b981', formatter: (v) => Number(v) > 0 ? `${v}${scaleSuffix}` : '' }} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -259,8 +265,8 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
         <h3 className="text-xs font-medium text-zinc-500 mb-3 uppercase tracking-wider">
           {t('analytics.impactByPhase')}
         </h3>
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={impactData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={impactData} margin={{ top: 20, right: 10, bottom: 10, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
             <XAxis dataKey="phase" tick={{ fill: '#71717a', fontSize: 11 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} />
             <YAxis tick={{ fill: '#71717a', fontSize: 11 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} tickFormatter={(v) => `${v}%`} />
@@ -280,9 +286,9 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
               }}
             />
             <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#71717a' }} />
-            <Bar dataKey="pessimistic" name={t('roi.pessimistic')} fill="#ef4444" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            <Bar dataKey="realistic" name={t('roi.realistic')} fill="#f59e0b" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            <Bar dataKey="optimistic" name={t('roi.optimistic')} fill="#10b981" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
+            <Bar dataKey="pessimistic" name={t('roi.pessimistic')} fill="#ef4444" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#ef4444', formatter: (v) => Number(v) > 0 ? `${v}%` : '' }} />
+            <Bar dataKey="realistic" name={t('roi.realistic')} fill="#f59e0b" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#f59e0b', formatter: (v) => Number(v) > 0 ? `${v}%` : '' }} />
+            <Bar dataKey="optimistic" name={t('roi.optimistic')} fill="#10b981" fillOpacity={0.7} radius={[2, 2, 0, 0]} label={{ position: 'top', fontSize: 9, fill: '#10b981', formatter: (v) => Number(v) > 0 ? `${v}%` : '' }} />
           </BarChart>
         </ResponsiveContainer>
       </div>

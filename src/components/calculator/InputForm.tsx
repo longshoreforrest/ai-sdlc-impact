@@ -1,18 +1,15 @@
 'use client';
 
-import { useCallback } from 'react';
-import { Users, Euro, Clock, Wallet, Calendar } from 'lucide-react';
-import { CalculatorInputs, Phase, ScenarioConfigs, TransformationCosts } from '@/lib/types';
+import { useCallback, useState } from 'react';
+import { Users, Euro, Clock, Wallet, Calendar, ChevronDown, ChevronRight } from 'lucide-react';
+import { CalculatorInputs, Phase, TransformationCosts } from '@/lib/types';
 import { PHASES } from '@/lib/mock-data';
 import { normalizeWeights } from '@/lib/calculations';
 import { useTranslation } from '@/lib/i18n';
-import ScenarioConfigPanel from './ScenarioConfigPanel';
 
 interface InputFormProps {
   inputs: CalculatorInputs;
   onChange: (inputs: CalculatorInputs) => void;
-  availableYears: number[];
-  factCountsByYear: Record<number, number>;
 }
 
 function formatNumber(n: number): string {
@@ -25,8 +22,9 @@ function formatEurShort(n: number): string {
   return n.toFixed(0);
 }
 
-export default function InputForm({ inputs, onChange, availableYears, factCountsByYear }: InputFormProps) {
+export default function InputForm({ inputs, onChange }: InputFormProps) {
   const { t } = useTranslation();
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const togglePhase = useCallback((phase: Phase) => {
     const wasIncluded = inputs.includedPhases.includes(phase);
@@ -92,80 +90,98 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
         <p className="text-xs text-muted mt-1">{t('calculator.itBudgetDesc')}</p>
       </div>
 
-      {/* Team Size */}
+      {/* Collapsible: Team Size, Average Salary & Hours Per Year */}
       <div>
-        <label className="flex items-center gap-2 text-sm text-foreground mb-2">
-          <Users className="w-4 h-4 text-muted" />
-          {t('calculator.teamSize')}
-        </label>
-        {(() => {
-          const maxTeam = Math.max(10, Math.round(inputs.itBudget / inputs.avgSalary));
-          return (
-            <>
+        <button
+          onClick={() => setShowAdvanced((v) => !v)}
+          className="flex items-center gap-1.5 text-xs text-muted hover:text-foreground transition-colors"
+        >
+          {showAdvanced ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+          <span>{t('calculator.teamSize')} · {t('calculator.avgSalary')} · {t('calculator.hoursPerYear')}</span>
+          {!showAdvanced && (
+            <span className="text-muted tabular-nums ml-1">({inputs.teamSize}, {formatNumber(inputs.avgSalary)} EUR, {formatNumber(inputs.hoursPerYear)} h)</span>
+          )}
+        </button>
+
+        {showAdvanced && (
+          <div className="mt-3 space-y-6 pl-5 border-l border-border/50">
+            {/* Team Size */}
+            <div>
+              <label className="flex items-center gap-2 text-sm text-foreground mb-2">
+                <Users className="w-4 h-4 text-muted" />
+                {t('calculator.teamSize')}
+              </label>
+              {(() => {
+                const maxTeam = Math.max(10, Math.round(inputs.itBudget / inputs.avgSalary));
+                return (
+                  <>
+                    <input
+                      type="range"
+                      min={1}
+                      max={maxTeam}
+                      value={Math.min(inputs.teamSize, maxTeam)}
+                      onChange={(e) => onChange({ ...inputs, teamSize: Number(e.target.value) })}
+                      className="w-full accent-accent"
+                    />
+                    <div className="flex justify-between mt-1">
+                      <span className="text-xs text-muted">1</span>
+                      <span className="text-sm font-bold tabular-nums text-accent">{inputs.teamSize}</span>
+                      <span className="text-xs text-muted">{formatNumber(maxTeam)}</span>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
+            {/* Average Salary */}
+            <div>
+              <label className="flex items-center gap-2 text-sm text-foreground mb-2">
+                <Euro className="w-4 h-4 text-muted" />
+                {t('calculator.avgSalary')}
+              </label>
               <input
                 type="range"
-                min={1}
-                max={maxTeam}
-                value={Math.min(inputs.teamSize, maxTeam)}
-                onChange={(e) => onChange({ ...inputs, teamSize: Number(e.target.value) })}
+                min={25000}
+                max={200000}
+                step={1000}
+                value={inputs.avgSalary}
+                onChange={(e) => {
+                  const avgSalary = Number(e.target.value);
+                  const teamSize = Math.max(1, Math.round(inputs.itBudget / avgSalary));
+                  onChange({ ...inputs, avgSalary, teamSize });
+                }}
                 className="w-full accent-accent"
               />
               <div className="flex justify-between mt-1">
-                <span className="text-xs text-muted">1</span>
-                <span className="text-sm font-bold tabular-nums text-accent">{inputs.teamSize}</span>
-                <span className="text-xs text-muted">{formatNumber(maxTeam)}</span>
+                <span className="text-xs text-muted">25k</span>
+                <span className="text-sm font-bold tabular-nums text-accent">{formatNumber(inputs.avgSalary)} EUR</span>
+                <span className="text-xs text-muted">200k</span>
               </div>
-            </>
-          );
-        })()}
-      </div>
+            </div>
 
-      {/* Average Salary */}
-      <div>
-        <label className="flex items-center gap-2 text-sm text-foreground mb-2">
-          <Euro className="w-4 h-4 text-muted" />
-          {t('calculator.avgSalary')}
-        </label>
-        <input
-          type="range"
-          min={25000}
-          max={200000}
-          step={1000}
-          value={inputs.avgSalary}
-          onChange={(e) => {
-            const avgSalary = Number(e.target.value);
-            const teamSize = Math.max(1, Math.round(inputs.itBudget / avgSalary));
-            onChange({ ...inputs, avgSalary, teamSize });
-          }}
-          className="w-full accent-accent"
-        />
-        <div className="flex justify-between mt-1">
-          <span className="text-xs text-muted">25k</span>
-          <span className="text-sm font-bold tabular-nums text-accent">{formatNumber(inputs.avgSalary)} EUR</span>
-          <span className="text-xs text-muted">200k</span>
-        </div>
-      </div>
-
-      {/* Hours Per Year */}
-      <div>
-        <label className="flex items-center gap-2 text-sm text-foreground mb-2">
-          <Clock className="w-4 h-4 text-muted" />
-          {t('calculator.hoursPerYear')}
-        </label>
-        <input
-          type="range"
-          min={1000}
-          max={2500}
-          step={50}
-          value={inputs.hoursPerYear}
-          onChange={(e) => onChange({ ...inputs, hoursPerYear: Number(e.target.value) })}
-          className="w-full accent-accent"
-        />
-        <div className="flex justify-between mt-1">
-          <span className="text-xs text-muted">1 000</span>
-          <span className="text-sm font-bold tabular-nums text-accent">{formatNumber(inputs.hoursPerYear)} h</span>
-          <span className="text-xs text-muted">2 500</span>
-        </div>
+            {/* Hours Per Year */}
+            <div>
+              <label className="flex items-center gap-2 text-sm text-foreground mb-2">
+                <Clock className="w-4 h-4 text-muted" />
+                {t('calculator.hoursPerYear')}
+              </label>
+              <input
+                type="range"
+                min={1000}
+                max={2500}
+                step={50}
+                value={inputs.hoursPerYear}
+                onChange={(e) => onChange({ ...inputs, hoursPerYear: Number(e.target.value) })}
+                className="w-full accent-accent"
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-xs text-muted">1 000</span>
+                <span className="text-sm font-bold tabular-nums text-accent">{formatNumber(inputs.hoursPerYear)} h</span>
+                <span className="text-xs text-muted">2 500</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Transformation Costs */}
@@ -389,13 +405,6 @@ export default function InputForm({ inputs, onChange, availableYears, factCounts
         </div>
       </div>
 
-      {/* Scenario Timeframes */}
-      <ScenarioConfigPanel
-        configs={inputs.scenarioConfigs}
-        onChange={(scenarioConfigs: ScenarioConfigs) => onChange({ ...inputs, scenarioConfigs })}
-        availableYears={availableYears}
-        factCountsByYear={factCountsByYear}
-      />
     </div>
   );
 }
