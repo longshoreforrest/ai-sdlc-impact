@@ -30,13 +30,17 @@ export const SCENARIO_LABEL_KEYS: Record<ScenarioType, TranslationKey> = {
 
 // ── Data type constants ──
 
-export const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
+export const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
+
+/** Data types that represent productivity evidence (used in scenario calculations) */
+export const PRODUCTIVE_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
 
 export const DATA_TYPE_COLORS: Record<DataType, string> = {
   empirical: '#10b981',
   survey: '#3b82f6',
   vendor: '#8b5cf6',
   anecdotal: '#f97316',
+  info: '#a1a1aa',
 };
 
 export const DATA_TYPE_BADGE_COLORS: Record<DataType, string> = {
@@ -44,6 +48,7 @@ export const DATA_TYPE_BADGE_COLORS: Record<DataType, string> = {
   survey: 'bg-blue-500/20 text-blue-400',
   vendor: 'bg-purple-500/20 text-purple-400',
   anecdotal: 'bg-orange-500/20 text-orange-400',
+  info: 'bg-zinc-500/20 text-zinc-400',
 };
 
 // ── Tooling cost ──

@@ -35,6 +35,7 @@ const DATA_TYPE_LABELS: Record<string, string> = {
   survey: 'Industry Survey',
   vendor: 'Vendor Report',
   anecdotal: 'Anecdotal',
+  info: 'Info / No Evidence',
 };
 
 interface ExportSource {

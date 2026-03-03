@@ -44,6 +44,7 @@ const en = {
   'common.survey': 'Survey',
   'common.vendor': 'Vendor',
   'common.anecdotal': 'Anecdotal',
+  'common.info': 'Info',
   'common.niceToHave': 'Nice-to-have',
   'common.important': 'Important',
   'common.critical': 'Critical',
@@ -54,6 +55,7 @@ const en = {
   'dataType.survey': 'Survey Data',
   'dataType.vendor': 'Vendor Report',
   'dataType.anecdotal': 'Anecdotal Evidence',
+  'dataType.info': 'Info / No Evidence',
 
   // Credibility
   'credibility.low': 'Low Credibility',
@@ -707,6 +709,7 @@ const fi: typeof en = {
   'common.survey': 'Kysely',
   'common.vendor': 'Toimittaja',
   'common.anecdotal': 'Anekdoottinen',
+  'common.info': 'Info',
   'common.niceToHave': 'Mukava lis\u00e4',
   'common.important': 'T\u00e4rke\u00e4',
   'common.critical': 'Kriittinen',
@@ -717,6 +720,7 @@ const fi: typeof en = {
   'dataType.survey': 'Kyselytutkimus',
   'dataType.vendor': 'Toimittajaraportti',
   'dataType.anecdotal': 'Anekdoottinen n\u00e4ytt\u00f6',
+  'dataType.info': 'Info / Ei n\u00e4ytt\u00f6\u00e4',
 
   // Credibility
   'credibility.low': 'Matala luotettavuus',

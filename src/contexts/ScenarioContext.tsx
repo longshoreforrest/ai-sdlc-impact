@@ -1,14 +1,13 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { ScenarioConfigs, ScenarioType, DataType } from '@/lib/types';
-
-const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
+import { ScenarioConfigs, ScenarioType } from '@/lib/types';
+import { PRODUCTIVE_DATA_TYPES } from '@/lib/constants';
 
 const DEFAULT_CONFIGS: ScenarioConfigs = {
   pessimistic: { years: [2023, 2024], dataTypes: ['empirical'], adoptionFactor: 0.75 },
-  realistic: { years: [2024, 2025, 2026], dataTypes: [...ALL_DATA_TYPES], adoptionFactor: 1.0 },
-  optimistic: { years: [2025, 2026], dataTypes: [...ALL_DATA_TYPES], adoptionFactor: 1.0 },
+  realistic: { years: [2024, 2025, 2026], dataTypes: [...PRODUCTIVE_DATA_TYPES], adoptionFactor: 1.0 },
+  optimistic: { years: [2025, 2026], dataTypes: [...PRODUCTIVE_DATA_TYPES], adoptionFactor: 1.0 },
   metrConfig: { enabled: true, doublingPeriodMonths: 4, futureOffsetMonths: 12, adoptionElasticity: 0.5 },
 };
 
@@ -36,9 +35,9 @@ export function ScenarioProvider({ children }: { children: ReactNode }) {
         // Validate structure has required fields
         if (parsed.pessimistic?.years && parsed.realistic?.years && parsed.optimistic?.years && parsed.metrConfig) {
           // Ensure dataTypes exist (migration from older format)
-          if (!parsed.pessimistic.dataTypes) parsed.pessimistic.dataTypes = [...ALL_DATA_TYPES];
-          if (!parsed.realistic.dataTypes) parsed.realistic.dataTypes = [...ALL_DATA_TYPES];
-          if (!parsed.optimistic.dataTypes) parsed.optimistic.dataTypes = [...ALL_DATA_TYPES];
+          if (!parsed.pessimistic.dataTypes) parsed.pessimistic.dataTypes = [...PRODUCTIVE_DATA_TYPES];
+          if (!parsed.realistic.dataTypes) parsed.realistic.dataTypes = [...PRODUCTIVE_DATA_TYPES];
+          if (!parsed.optimistic.dataTypes) parsed.optimistic.dataTypes = [...PRODUCTIVE_DATA_TYPES];
           if (parsed.metrConfig.adoptionElasticity == null) parsed.metrConfig.adoptionElasticity = 0.5;
           // Migration: add adoptionFactor defaults for older stored configs
           if (parsed.pessimistic.adoptionFactor == null) parsed.pessimistic.adoptionFactor = 0.75;

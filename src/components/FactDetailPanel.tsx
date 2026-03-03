@@ -17,6 +17,7 @@ const dataTypeLabelKeys: Record<DataType, TranslationKey> = {
   survey: 'dataType.survey',
   vendor: 'dataType.vendor',
   anecdotal: 'dataType.anecdotal',
+  info: 'dataType.info',
 };
 
 const credibilityLabelKeys: Record<number, TranslationKey> = {

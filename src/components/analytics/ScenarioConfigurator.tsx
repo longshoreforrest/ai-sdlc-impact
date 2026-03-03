@@ -12,13 +12,14 @@ import { computeMETRMultiplier } from '@/lib/calculations';
 import { generateScenarioDescription } from '@/lib/scenario-descriptions';
 import type { TranslationKey } from '@/lib/i18n/translations';
 
-const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
+const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
 
 const DATA_TYPE_SHORT: Record<DataType, string> = {
   empirical: 'Emp',
   survey: 'Srv',
   vendor: 'Vnd',
   anecdotal: 'Anc',
+  info: 'Info',
 };
 
 const SCENARIO_STYLES: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string; activeClass: string; bgClass: string }> = {
@@ -27,10 +28,14 @@ const SCENARIO_STYLES: Record<ScenarioType, { labelKey: TranslationKey; modelKey
   optimistic:  { labelKey: 'roi.optimistic',  modelKey: 'scenario.modelOptimistic',  color: '#10b981', activeClass: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30', bgClass: 'border-emerald-500/20' },
 };
 
-export default function ScenarioConfigurator() {
+interface ScenarioConfiguratorProps {
+  defaultOpen?: boolean;
+}
+
+export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioConfiguratorProps) {
   const { configs, setConfigs, resetToDefaults } = useScenario();
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
 

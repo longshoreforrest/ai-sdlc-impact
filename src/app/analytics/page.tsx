@@ -30,6 +30,7 @@ const dataTypeColors: Record<DataType, string> = {
   survey: '#3b82f6',
   vendor: '#8b5cf6',
   anecdotal: '#f97316',
+  info: '#a1a1aa',
 };
 
 const dataTypeBadgeColors: Record<DataType, string> = {
@@ -37,6 +38,7 @@ const dataTypeBadgeColors: Record<DataType, string> = {
   survey: 'bg-blue-500/20 text-blue-400',
   vendor: 'bg-purple-500/20 text-purple-400',
   anecdotal: 'bg-orange-500/20 text-orange-400',
+  info: 'bg-zinc-500/20 text-zinc-400',
 };
 
 const credibilityColors: Record<number, string> = {
@@ -54,7 +56,7 @@ const PHASE_COLORS: Record<Phase, string> = {
   'Release & Ops': '#f97316',
 };
 
-const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
+const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
 
 const SCENARIO_COLORS: Record<ScenarioType, string> = {
   pessimistic: '#ef4444',
@@ -101,7 +103,7 @@ export default function AnalyticsPage() {
 
   // Build default calculator inputs to compute scenario ROI from current scenario configs
   const scenarioResults = useMemo(() => {
-    const defaultItBudget = 100_000_000;
+    const defaultItBudget = 50_000_000;
     const defaultAvgSalary = 55_000;
     const defaultInputs: CalculatorInputs = {
       teamSize: Math.round(defaultItBudget / defaultAvgSalary),
@@ -112,7 +114,7 @@ export default function AnalyticsPage() {
       phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
       inhouseRatios: { Discovery: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, 'Release & Ops': 1 } as Record<Phase, number>,
       scenarioConfigs,
-      transformationCosts: { consulting: 2_000_000, training: 1_000_000, internal: 1_000_000 },
+      transformationCosts: { consulting: 1_050_000, training: 525_000, internal: 525_000 },
       timeframeYears: 1,
     };
     return calculateConfiguredScenarios(defaultInputs, facts);

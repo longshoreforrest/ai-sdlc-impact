@@ -1,6 +1,6 @@
 export type Phase = 'Discovery' | 'Design' | 'Spec' | 'Dev' | 'QA' | 'Release & Ops';
 
-export type DataType = 'empirical' | 'survey' | 'vendor' | 'anecdotal';
+export type DataType = 'empirical' | 'survey' | 'vendor' | 'anecdotal' | 'info';
 
 export type TemporalEra = 'all' | 'early' | 'agentic';
 

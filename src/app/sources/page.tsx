@@ -18,7 +18,7 @@ const categoryBadge: Record<string, { label: string; className: string }> = {
   scientific: { label: 'Scientific Reference', className: 'bg-cyan-500/20 text-cyan-400' },
 };
 
-const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
+const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
 const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific'];
 
 const dataTypeBadgeColors: Record<DataType, string> = {
@@ -26,6 +26,7 @@ const dataTypeBadgeColors: Record<DataType, string> = {
   survey: 'bg-blue-500/20 text-blue-400',
   vendor: 'bg-purple-500/20 text-purple-400',
   anecdotal: 'bg-orange-500/20 text-orange-400',
+  info: 'bg-zinc-500/20 text-zinc-400',
 };
 
 interface SourceFilters {
@@ -158,6 +159,7 @@ function SourcesPageContent() {
     survey: 'common.survey',
     vendor: 'common.vendor',
     anecdotal: 'common.anecdotal',
+    info: 'common.info',
   };
 
   useEffect(() => {

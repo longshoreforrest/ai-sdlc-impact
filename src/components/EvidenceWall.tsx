@@ -14,6 +14,7 @@ const dataTypeBadgeColors: Record<DataType, string> = {
   survey: 'bg-blue-500/20 text-blue-400',
   vendor: 'bg-purple-500/20 text-purple-400',
   anecdotal: 'bg-orange-500/20 text-orange-400',
+  info: 'bg-zinc-500/20 text-zinc-400',
 };
 
 function CredibilityDots({ level }: { level: 1 | 2 | 3 }) {

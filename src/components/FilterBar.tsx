@@ -6,13 +6,14 @@ import { PHASES, ALL_YEARS } from '@/lib/mock-data';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
-const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
+const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
 
 const dataTypeLabelKeys: Record<DataType, TranslationKey> = {
   empirical: 'common.empirical',
   survey: 'common.survey',
   vendor: 'common.vendor',
   anecdotal: 'common.anecdotal',
+  info: 'common.info',
 };
 
 interface FilterBarProps {
