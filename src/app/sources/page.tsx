@@ -4,7 +4,7 @@ import { Suspense, useMemo, useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ExternalLink, RotateCcw, ChevronDown, X, Search, Plus, FileSpreadsheet, MessageCircle } from 'lucide-react';
 import { facts, PHASES, ALL_YEARS } from '@/lib/mock-data';
-import { DataType, Phase, Fact } from '@/lib/types';
+import { DataType, Phase, Fact, BenefitType } from '@/lib/types';
 import { getSourceSuggestions, fetchSourceComments, addSourceComment } from '@/lib/suggestions';
 import type { SourceComment } from '@/lib/suggestions';
 import { useTranslation } from '@/lib/i18n';
@@ -33,6 +33,8 @@ const dataTypeBadgeColors: Record<DataType, string> = {
 
 type ScopeFilter = 'all' | 'sdlc' | 'business';
 
+const BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+
 interface SourceFilters {
   years: number[];
   dataTypes: DataType[];
@@ -40,6 +42,7 @@ interface SourceFilters {
   hasLink: 'all' | 'yes' | 'no';
   category: 'all' | SourceCategory;
   scope: ScopeFilter;
+  benefitTypes: BenefitType[];
   dateRange: [string, string];
 }
 
@@ -64,6 +67,7 @@ const defaultFilters: SourceFilters = {
   phases: [...PHASES],
   hasLink: 'all',
   scope: 'all',
+  benefitTypes: [...BENEFIT_TYPES],
   category: 'all',
   dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE],
 };
@@ -140,6 +144,7 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
       hasLink: 'all',
       category,
       scope,
+      benefitTypes: [...BENEFIT_TYPES],
       dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE] as [string, string],
     },
     fromDashboard: true,
@@ -261,6 +266,15 @@ function SourcesPageContent() {
     setFilters((prev) => ({ ...prev, scope: value }));
   }, []);
 
+  const toggleBenefitType = useCallback((bt: BenefitType) => {
+    setFilters((prev) => ({
+      ...prev,
+      benefitTypes: prev.benefitTypes.includes(bt)
+        ? prev.benefitTypes.filter((b) => b !== bt)
+        : [...prev.benefitTypes, bt],
+    }));
+  }, []);
+
   const resetFilters = useCallback(() => {
     setFilters(defaultFilters);
     setSearchQuery('');
@@ -274,6 +288,7 @@ function SourcesPageContent() {
     filters.hasLink === 'all' &&
     filters.category === 'all' &&
     filters.scope === 'all' &&
+    filters.benefitTypes.length === BENEFIT_TYPES.length &&
     filters.dateRange[0] === GLOBAL_MIN_DATE &&
     filters.dateRange[1] === GLOBAL_MAX_DATE &&
     searchQuery === '';
@@ -285,10 +300,12 @@ function SourcesPageContent() {
       if (!filters.phases.includes(f.phase)) return false;
       if (filters.scope === 'sdlc' && f.scope === 'business') return false;
       if (filters.scope === 'business' && f.scope !== 'business') return false;
+      const bt = f.benefitType ?? 'efficiency';
+      if (!filters.benefitTypes.includes(bt)) return false;
       if (f.publishDate && (f.publishDate < filters.dateRange[0] || f.publishDate > filters.dateRange[1])) return false;
       return true;
     });
-  }, [filters.years, filters.dataTypes, filters.phases, filters.scope, filters.dateRange]);
+  }, [filters.years, filters.dataTypes, filters.phases, filters.scope, filters.benefitTypes, filters.dateRange]);
 
   const totalSources = useMemo(() => buildSources(facts).length, []);
 
@@ -449,6 +466,18 @@ function SourcesPageContent() {
             <ToggleButton active={filters.scope === 'business'} onClick={() => setScope('business')}>
               Business
             </ToggleButton>
+          </div>
+        </div>
+
+        {/* Benefit Type */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.benefitType')}</span>
+          <div className="flex gap-1">
+            {BENEFIT_TYPES.map((bt) => (
+              <ToggleButton key={bt} active={filters.benefitTypes.includes(bt)} onClick={() => toggleBenefitType(bt)}>
+                {t(`sources.benefitType_${bt}` as TranslationKey)}
+              </ToggleButton>
+            ))}
           </div>
         </div>
 
@@ -636,6 +665,16 @@ function SourcesPageContent() {
                               {fact.scope === 'business' && (
                                 <span className="px-2 py-0.5 text-xs rounded-md bg-yellow-500/20 text-yellow-600">
                                   Business
+                                </span>
+                              )}
+                              {fact.benefitType === 'cost' && (
+                                <span className="px-2 py-0.5 text-xs rounded-md bg-green-500/20 text-green-600">
+                                  Cost Saving
+                                </span>
+                              )}
+                              {fact.benefitType === 'other' && (
+                                <span className="px-2 py-0.5 text-xs rounded-md bg-zinc-500/20 text-zinc-500">
+                                  Other
                                 </span>
                               )}
                               <span className="px-2 py-0.5 text-xs rounded-md bg-zinc-100 text-muted">

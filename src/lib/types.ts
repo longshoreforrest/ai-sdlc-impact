@@ -6,6 +6,8 @@ export type TemporalEra = 'all' | 'early' | 'agentic';
 
 export type FactScope = 'sdlc' | 'business';
 
+export type BenefitType = 'efficiency' | 'cost' | 'other';
+
 export interface Fact {
   id: string;
   phase: Phase;
@@ -19,6 +21,7 @@ export interface Fact {
   sampleSize?: string;
   credibility: 1 | 2 | 3; // 1=low, 2=medium, 3=high
   scope?: FactScope; // 'sdlc' (default) or 'business' — business = operational process improvements, not SDLC
+  benefitType?: BenefitType; // 'efficiency' (default), 'cost', or 'other'
 }
 
 export interface PhaseStats {
@@ -64,6 +67,7 @@ export interface ScenarioConfig {
   sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'salesforce' | 'other')[];
   adoptionFactor?: number; // β: organizational adoption multiplier (0.1–1.5)
   includeBusinessFacts?: boolean; // false by default — only SDLC facts used in calculations
+  benefitTypes?: BenefitType[]; // default: ['efficiency', 'cost'] — which benefit types to include
 }
 
 export interface METRConfig {

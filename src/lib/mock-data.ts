@@ -26,6 +26,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'McKinsey analysis: AI transforms strategy development through faster scenario analysis and market intelligence synthesis. Qualitative discussion of AI potential in strategy — no specific productivity metrics cited.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'str-2',
@@ -38,6 +39,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner identifies agentic AI, AI governance platforms, and decision intelligence as top strategic trends for 2025. Trend forecast — no specific productivity measurements.',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'str-3',
@@ -50,6 +52,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'HBR study: GPT-4o tested in CEO-level business simulation outperformed human executives on most strategic decision tasks. Qualitative comparison — no specific time savings or productivity metrics.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'str-4',
@@ -62,6 +65,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Forrester 2025 AI predictions: only 13% report positive EBITDA from AI so far. AI-augmented planning requires fundamental process redesign, not just tool deployment. No specific productivity metrics provided.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'str-5',
@@ -74,6 +78,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Global survey: only 12% of AI projects have reached full enterprise-wide deployment, despite increasing investment. Adoption metric — no productivity measurements provided.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'str-6',
@@ -86,6 +91,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner warns against narrow ROI framing for AI investments. Strategic, operational, and risk-reduction value often exceeds direct productivity gains. Recommends 2-3 year AI ROI timelines. No specific productivity metrics.',
     credibility: 3,
+    benefitType: 'other',
   },
 
   // === DESIGN (8) — Verified Sources ===
@@ -100,6 +106,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'NNGroup discusses AI tools in UX research workflows, covering analysis and synthesis phases. Qualitative guidance on AI-assisted research methods — no specific productivity metrics.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'des-2',
@@ -113,6 +120,7 @@ export const facts: Fact[] = [
     description: 'Figma 2024 report: 59% of designers use AI tools, 22% use AI for first drafts of interfaces. AI adoption reshaping design workflows with measurable prototyping speed gains.',
     sampleSize: '1,800+ designers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'des-3',
@@ -126,6 +134,7 @@ export const facts: Fact[] = [
     description: 'CHI 2024 study: GenAI DECREASED creative output — participants using AI produced fewer ideas with 29% less variety, showing increased design fixation. AI tools reduced divergent thinking rather than enhancing it.',
     sampleSize: '60 participants',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'des-4',
@@ -138,6 +147,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Annual survey tracking AI tool adoption among product designers. AI design tools showing significant gains in prototyping speed and iteration, reducing revision cycles.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'des-5',
@@ -150,6 +160,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Adobe guide on AI-powered prototyping: generative design tools compress concept-to-prototype cycles from weeks to days through automated layout and component generation.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'des-6',
@@ -162,6 +173,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Survey: AI-integrated design systems enable faster component creation and reduced design debt through automated documentation, token management, and code generation.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'des-7',
@@ -174,6 +186,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Systematic review of AI in automated and remote UX evaluation: AI methods identify a significant proportion of usability issues previously requiring human evaluators.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'des-8',
@@ -187,6 +200,7 @@ export const facts: Fact[] = [
     description: 'Figma 2026 survey tracks AI feature adoption impact on design workflows, showing deepening integration of AI-powered auto-layout, generation, and prototyping tools.',
     sampleSize: '906 designers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // === SPEC (7) — Verified Sources ===
@@ -201,6 +215,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'IEEE Software panel discussion on LLM potential in requirements engineering. Expert opinions on AI-assisted specification — no quantitative productivity data. The "25%" figure does not appear in the source.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'spc-2',
@@ -213,6 +228,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Atlassian AI features for Jira auto-populate summaries, descriptions, and acceptance criteria from context, streamlining ticket creation and improving specification consistency.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'spc-3',
@@ -225,6 +241,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Industry analysis: growing AI adoption among product managers for drafting PRDs and user stories. AI becoming standard in the PM toolkit for initial requirement generation.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'spc-4',
@@ -237,6 +254,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Research: hybrid LLM pipelines outperformed state-of-the-art requirements conflict detection by 13% F1-score, demonstrating AI potential for specification validation.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'spc-5',
@@ -249,6 +267,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'ThoughtWorks Technology Radar places spec-driven development in Assess ring, noting growing viability of AI-powered API specification generators for accelerating documentation.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'spc-6',
@@ -262,6 +281,7 @@ export const facts: Fact[] = [
     description: 'Anthropic internal study: 42% of engineers use Claude daily for code understanding, 55% for debugging. Self-reported ~50% productivity boost from AI integration in development workflows.',
     sampleSize: '132 engineers, 53 interviews',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'spc-7',
@@ -274,6 +294,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Google Chrome engineer documents best practices for AI-driven spec writing. Well-structured specifications enable AI agents to achieve high accuracy in code generation tasks.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // === DEV (14) — Verified Sources ===
@@ -289,6 +310,7 @@ export const facts: Fact[] = [
     description: 'GitHub research: Copilot users completed tasks 55.8% faster in controlled study. 60-75% report increased fulfillment. 87% preserve mental effort during repetitive tasks.',
     sampleSize: '95 developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-2',
@@ -302,6 +324,7 @@ export const facts: Fact[] = [
     description: 'Google ICSE 2024: ML-based tool automatically addresses ~7.5% of reviewer comments, demonstrating scalable AI potential for code review acceleration at large scale.',
     sampleSize: 'Google-scale deployment',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-3',
@@ -315,6 +338,7 @@ export const facts: Fact[] = [
     description: 'Stack Overflow 2024: 76% of developers using or planning to use AI tools (up from 70%). 81% cite increased productivity as primary benefit. 62% currently using AI tools. Adoption/satisfaction survey — no measured productivity metrics.',
     sampleSize: '65,000+ developers',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dev-4',
@@ -327,6 +351,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Microsoft IntelliCode research project page on deep learning for whole-line code completions. Technical product description — no specific "30%" productivity metric. Product capability overview rather than empirical study.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dev-5',
@@ -340,6 +365,7 @@ export const facts: Fact[] = [
     description: 'JetBrains 2024: 49% regularly use ChatGPT for development (not 56% as previously stated), 73% have tried AI coding. Nearly 80% of companies allow third-party AI tools. Adoption survey — no productivity measurements.',
     sampleSize: '23,262 developers',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dev-6',
@@ -353,6 +379,7 @@ export const facts: Fact[] = [
     description: 'McKinsey benchmarks: AI assistants achieve 20-30% faster code refactoring, with high-complexity tasks showing less than 10% improvement. Gains concentrated in routine tasks.',
     sampleSize: '40 developer tasks',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-7',
@@ -365,6 +392,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Sourcegraph reports Cody users write code faster and save hours weekly through AI-powered code navigation, search, and contextual generation across large enterprise codebases.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-8',
@@ -378,6 +406,7 @@ export const facts: Fact[] = [
     description: 'Anthropic internal: 55% use Claude daily for debugging, 42% for code understanding. Employees self-report ~50% productivity boost from AI across development workflows.',
     sampleSize: '132 engineers surveyed',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-9',
@@ -390,6 +419,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Cursor AI-native IDE: agent mode builds features across multiple files. Anecdotal reports of 3-4 hour tasks completed in 25 minutes. 250 tokens/second AI completion speed.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-10',
@@ -402,6 +432,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'ACM study on AI pair programming quality trade-offs: AI-assisted development improves task completion rates but may impact code readability and long-term maintainability.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-11',
@@ -414,6 +445,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Devin achieved 13.86% resolution rate (79/570) on SWE-bench — the first AI to autonomously resolve real-world GitHub issues, establishing baseline for agentic coding systems.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-12',
@@ -426,6 +458,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'OpenAI Codex achieved 28.8% pass@1 on HumanEval benchmark, establishing the foundation for code generation tools. Later models (GPT-3.5+) exceeded 67-85%.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dev-13',
@@ -438,6 +471,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'GitHub Octoverse 2024: AI is the #1 emerging tool in developer workflows. Reports qualitative statements about shipping faster and creative problem-solving. Source provides no specific "55%" productivity figure — actual data points to 8-15% range.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dev-14',
@@ -450,6 +484,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'SWE-bench verified: frontier AI systems resolve 40-50%+ of real-world software engineering tasks by 2025-2026, demonstrating rapid improvement in autonomous code generation.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === QA (12) — Verified Sources ===
@@ -464,6 +499,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '28% of testers report measurable productivity gains from AI testing tools. 50% expect GenAI to improve test automation efficiency. AI adoption growing but still maturing.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-2',
@@ -476,6 +512,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Systematic secondary study of AI adoption in testing: expectations vs reality. Paper concludes that actual productivity gains are LIMITED compared to vendor claims. The "20-30%" figure is not a finding of the paper — it reports gaps between expectations and reality.',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'qa-3',
@@ -489,6 +526,7 @@ export const facts: Fact[] = [
     description: 'Google ML-based test selection (Efficacy Presubmit): reduces required test runs by skipping passing tests while maintaining defect detection, saving significant CI compute resources.',
     sampleSize: 'Google-scale deployment',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-4',
@@ -502,6 +540,7 @@ export const facts: Fact[] = [
     description: 'Visual AI Hackathon: 288 quality engineers found Visual AI caught 95% of bugs vs 65% for code-based frameworks (~46% improvement). 5.8x faster test authoring, 4.6x better stability.',
     sampleSize: '288 quality engineers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-5',
@@ -514,6 +553,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'IEEE TSE: LLMorpheus uses LLMs for mutation testing, generating more diverse and realistic mutants than traditional operators. LLM-based approach detects more faulty code patterns.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-6',
@@ -526,6 +566,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Testim (Tricentis) AI self-healing tests: reduces test maintenance through automatic locator updates when UI changes. Vendor claims up to 60% maintenance reduction for enterprise clients.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-7',
@@ -538,6 +579,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Tricentis analysis of agentic QA trends: emerging AI testing agents can autonomously generate, execute, and triage test results. Vendor claims 85% defect prediction accuracy.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-8',
@@ -550,6 +592,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'LambdaTest (now TestMu AI) platform: vendor claims 70% faster test execution (HyperExecute) and 40-70% reduction in manual testing effort through AI-powered KaneAI.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-9',
@@ -563,6 +606,7 @@ export const facts: Fact[] = [
     description: 'Microsoft: AI-powered code reviews scaled to 90% of PRs (600K+/month). 10-20% median PR completion time improvement. Qualitative improvements in bug detection before merge.',
     sampleSize: '600,000+ PRs/month',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-10',
@@ -575,6 +619,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Forrester Q2 2025 vendor landscape report on autonomous testing platforms. Market overview with no specific productivity metrics. The "60% regression testing time reduction" was not found in the source.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'qa-11',
@@ -587,6 +632,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Square Enix targets 70% AI-driven QA and debugging automation by end of 2027, representing one of the most ambitious enterprise AI testing commitments publicly announced.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'qa-12',
@@ -599,6 +645,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Mabl benchmarks AI agent architectures for enterprise test automation. Compares purpose-built testing agents vs general-purpose LLMs on accuracy. Technical benchmark — no specific productivity improvement metrics like the claimed "65%".',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // === RELEASE & OPS (8) — Verified Sources ===
@@ -614,6 +661,7 @@ export const facts: Fact[] = [
     description: 'DORA 2023: AI impact on DevOps was "in its infancy." Generative organizational culture (not AI tools) was the primary driver of 30% higher performance. Baseline year for AI in DevOps.',
     sampleSize: 'Thousands of teams',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'ops-2',
@@ -626,6 +674,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'PagerDuty AIOps: vendor claims 91% alert noise reduction. Early access customers see 87% average noise reduction through AI-powered alert correlation and grouping. Note: "Forrester TEI study" attribution could not be independently verified.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'ops-3',
@@ -638,6 +687,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'HashiCorp 2024: 70% of respondents using or planning to use AI for cloud infrastructure. 42% rely on platform teams to standardize operations. AI-assisted IaC gaining traction.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'ops-4',
@@ -651,6 +701,7 @@ export const facts: Fact[] = [
     description: 'Google research on ML-based capacity planning: intent-based systems improve resource utilization in distributed systems. Technical infrastructure paper — no developer productivity metrics. The "28%" figure does not appear in the source.',
     sampleSize: 'Google-scale deployment',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'ops-5',
@@ -663,6 +714,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'State of AI in Platform Engineering 2025: 88% AI usage reported. 75% use AI for code generation. AI-assisted CI/CD optimization becoming standard in platform engineering teams.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'ops-6',
@@ -675,6 +727,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'CNCF annual survey on cloud-native ecosystem adoption trends. Reports AI tool adoption patterns but no specific productivity or time savings metrics. The "38%" figure does not appear in the source.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'ops-7',
@@ -687,6 +740,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Opsera 2026 benchmark: AI transforming software delivery and driving business outcomes. Autonomous incident detection and remediation agents reducing manual operational overhead.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'ops-8',
@@ -699,6 +753,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Perforce 2026: mature DevOps practices lead to AI success. Organizations with strong foundations see greater AI-driven operational improvements than those without.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // ============================================================
@@ -718,6 +773,7 @@ export const facts: Fact[] = [
     description: 'McKinsey estimates generative AI could add $2.6–4.4 trillion annually across 63 use cases. The "40%" refers to GenAI increasing the total impact of all AI by 15-40%, not individual worker productivity. Also projects automating 60-70% of employee time and 0.1-0.6% annual labor productivity growth through 2040.',
     sampleSize: '63 use cases analyzed',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dr-str-2',
@@ -731,6 +787,7 @@ export const facts: Fact[] = [
     description: 'BCG consultants using GPT-4 completed 12.2% more tasks, were 25.1% faster, and produced 40% higher quality output on strategic analysis tasks in field experiment.',
     sampleSize: '758 consultants',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-str-3',
@@ -744,6 +801,7 @@ export const facts: Fact[] = [
     description: 'Experimental evidence: ChatGPT reduced average time for professional writing tasks by 40% and output quality rose by 18%. Substantially reduced quality inequality between workers.',
     sampleSize: '453 professionals',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-str-4',
@@ -756,6 +814,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner predicts >80% of enterprises will deploy GenAI by 2026. Adoption forecast only — no productivity metrics. The "20% improvement" claim does not appear in this source.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-str-5',
@@ -769,6 +828,7 @@ export const facts: Fact[] = [
     description: 'One-third of organizations use GenAI regularly in at least one function. The "22%" figure refers to percentage of respondents who regularly use gen AI at work — a usage statistic, not a revenue or productivity metric.',
     sampleSize: '1,684 respondents',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dr-str-6',
@@ -781,6 +841,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Deloitte enterprise survey on GenAI adoption. Publicly accessible content contains adoption rate statistics only (85% text generation, 63% code generation). The "28% faster decision-making" claim could not be verified in the source.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-str-7',
@@ -793,6 +854,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Forrester report on state of GenAI 2024. Paywalled ($1,495). The "32% faster insight generation" claim cannot be verified in publicly accessible content.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-str-8',
@@ -805,6 +867,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner Top Predictions for 2025: covers organizational flattening (20%), AI code assistants (90% by 2028), and ethical AI incidents (40% fewer). The "35% strategic planning cycle reduction" does not appear in this source.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // === DESIGN — Deep Research ===
@@ -820,6 +883,7 @@ export const facts: Fact[] = [
     description: 'Literature review analyzing ChatGPT role in software requirements engineering. Discusses benefits qualitatively (efficiency, accuracy, stakeholder communication) but provides no specific "30%" time reduction figure. A qualitative overview, not a quantitative study.',
     sampleSize: 'Literature review of 50+ studies',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dr-des-2',
@@ -833,6 +897,7 @@ export const facts: Fact[] = [
     description: 'Evaluates ChatGPT on requirements information retrieval tasks. Reports "high recall" and "low precision" under zero-shot settings with comparable F-beta values. Measures NLP accuracy metrics (precision/recall/F-beta), not productivity or time savings. The "22% improvement" figure does not appear in the source.',
     sampleSize: '5 projects',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-des-3',
@@ -846,6 +911,7 @@ export const facts: Fact[] = [
     description: 'LLM-based system for generating and validating product requirements reduced PRD creation time by 38% while maintaining stakeholder approval rates.',
     sampleSize: '24 product teams',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === SPEC — Deep Research ===
@@ -861,6 +927,7 @@ export const facts: Fact[] = [
     description: 'Exploratory feasibility study on LLM-generated architectural design decisions. Reports text-quality metrics (BERTScore F1: 0.849, ROUGE-1: 0.259). Contains no time savings measurements. Concludes LLMs "may not be entirely dependable for ADR generation, but can effectively assist architects."',
     sampleSize: '100 ADRs evaluated',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-spc-2',
@@ -874,6 +941,7 @@ export const facts: Fact[] = [
     description: 'ArchMind LLM-based assistant for novice architects (ECSA 2024, classroom experiment). Generated ADRs were "concrete and well-justified" but "tended to miss system-specific details." Qualitative feasibility assessment — no specific "32%" quality improvement metric found.',
     sampleSize: '36 novice architects',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dr-spc-3',
@@ -887,6 +955,7 @@ export const facts: Fact[] = [
     description: 'SpeCrawler pipeline for generating OpenAPI specifications from API documentation using LLMs. Focuses on spec quality/validity, not time savings. The "42% time reduction" figure does not appear in the source.',
     sampleSize: '30 API endpoints',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-spc-4',
@@ -900,6 +969,7 @@ export const facts: Fact[] = [
     description: 'ACL 2025 Industry Track paper on generating OpenAPI specifications. Reports saving "thousands of hours" of manual effort but does not cite a specific "48%" time reduction figure. Qualitative scale claim rather than a specific percentage.',
     sampleSize: '50 APIs',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dr-spc-5',
@@ -913,6 +983,7 @@ export const facts: Fact[] = [
     description: 'Methodology paper: "Requirements are All You Need" — LLM pipeline from requirements to OO model to tests to code. Authors acknowledge "comprehensive evaluation remains a priority for future research." No quantitative productivity measurements — the "35%" figure is not in the source.',
     sampleSize: '20 modules',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // === DEV — Deep Research ===
@@ -928,6 +999,7 @@ export const facts: Fact[] = [
     description: 'Controlled experiment: treatment group completed tasks 55.8% faster (p=0.0017, 95% CI [21%, 89%]). The "26% net after review time" does not appear in this paper — the sole headline metric is 55.8%.',
     sampleSize: '95 developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-2',
@@ -941,6 +1013,7 @@ export const facts: Fact[] = [
     description: 'Randomized controlled trial at Accenture: 8.69% increase in pull request volume, 15% increase in PR merge rate, 84% increase in successful builds. Largest gains for junior and less experienced developers.',
     sampleSize: '450 developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-3',
@@ -954,6 +1027,7 @@ export const facts: Fact[] = [
     description: 'GitHub customer story for Accenture: 95% enjoy coding more, 67% use Copilot daily, 96% success rate. Satisfaction/engagement metrics only — no specific "10% throughput improvement" figure appears in this source.',
     sampleSize: 'Enterprise-wide deployment',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-dev-4',
@@ -967,6 +1041,7 @@ export const facts: Fact[] = [
     description: 'Google RCT with 96 software engineers: best estimate of effect size is about 21% (not 25%). Authors note "our confidence interval is large." Effect concentrated in code editing and debugging tasks.',
     sampleSize: '96 Google engineers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-5',
@@ -980,6 +1055,7 @@ export const facts: Fact[] = [
     description: 'DORA 2025: 21% more tasks completed and 98% more PRs merged at individual level, but organizational delivery metrics remain flat. Negative relationship between AI adoption and software delivery stability.',
     sampleSize: '39,000+ respondents',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-6',
@@ -993,6 +1069,7 @@ export const facts: Fact[] = [
     description: 'DORA GenAI Special Report: actual measured improvements are modest — 2.1% productivity increase (when AI usage scaled by 25%), 2.6% improvement in flow states, 3.4% boost in code quality, 7.5% improvement in documentation quality. Far lower than the previously claimed "18%".',
     sampleSize: '3,000+ teams',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-7',
@@ -1006,6 +1083,7 @@ export const facts: Fact[] = [
     description: 'McKinsey found AI coding assistants cut code generation time by up to 45%, with documentation and refactoring tasks seeing 30–50% gains in controlled benchmarks.',
     sampleSize: '40 developer tasks',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-8',
@@ -1018,6 +1096,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Bain reports 10–30% engineering efficiency gains from GenAI, with median ~20% improvement concentrated in code generation and documentation tasks.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-9',
@@ -1031,6 +1110,7 @@ export const facts: Fact[] = [
     description: 'BCG survey of engineering leaders shows 20–50% productivity range, with median 35% improvement for teams that successfully scaled GenAI adoption across the SDLC.',
     sampleSize: '100+ engineering organizations',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-10',
@@ -1044,6 +1124,7 @@ export const facts: Fact[] = [
     description: 'Empirical study found ChatGPT performed code refactoring 33% faster than manual approaches, with comparable code quality maintained in 78% of evaluated cases.',
     sampleSize: '40 refactoring tasks',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-11',
@@ -1057,6 +1138,7 @@ export const facts: Fact[] = [
     description: 'Large-scale survey and telemetry analysis found GitHub Copilot improves developer-perceived productivity by 26% and measurably reduces time on repetitive coding tasks.',
     sampleSize: '2,000+ developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-dev-12',
@@ -1070,6 +1152,7 @@ export const facts: Fact[] = [
     description: 'Microsoft Research publication page for the controlled Copilot experiment: AI-assisted developers completed tasks 55.8% faster (same study as Peng et al. arXiv:2302.06590).',
     sampleSize: '95 developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === QA — Deep Research ===
@@ -1085,6 +1168,7 @@ export const facts: Fact[] = [
     description: 'ChatGPT-generated unit tests achieved 57% line coverage on average, but 22% of tests contained compilation errors requiring manual correction.',
     sampleSize: '25 Java classes',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-2',
@@ -1098,6 +1182,7 @@ export const facts: Fact[] = [
     description: 'Peer-reviewed evaluation of ChatGPT for unit test generation found 48% speed improvement after iterative refinement with feedback loops on 30 open-source projects.',
     sampleSize: '30 open-source projects',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-3',
@@ -1111,6 +1196,7 @@ export const facts: Fact[] = [
     description: 'Systematic evaluation of LLMs for automated unit test generation: 40% improvement in code coverage over baseline, with GPT-4 significantly outperforming GPT-3.5.',
     sampleSize: '100 functions across 15 projects',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-4',
@@ -1124,6 +1210,7 @@ export const facts: Fact[] = [
     description: 'CONTRADICTED: Empirical study found LLMs UNDERPERFORM traditional test generation tools. Source does not support "45% faster" claim. Only 68% of generated tests compile and pass without modification. LLM-generated tests had lower code coverage than baseline tools.',
     sampleSize: '200 methods across 10 projects',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'dr-qa-5',
@@ -1137,6 +1224,7 @@ export const facts: Fact[] = [
     description: 'AI-generated code has security flaws in ~40% of cases; however, AI-powered SAST scanning detects these vulnerabilities 15% faster than traditional tools.',
     sampleSize: 'Analysis of millions of scans',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-6',
@@ -1150,6 +1238,7 @@ export const facts: Fact[] = [
     description: '56% of developers use AI coding tools; those combining AI code generation with AI-powered security scanning report 20% faster vulnerability remediation times.',
     sampleSize: '500+ developers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-7',
@@ -1163,6 +1252,7 @@ export const facts: Fact[] = [
     description: 'SonarSource reveals a critical "verification gap": AI boosts code output but only 12% of teams have adequate automated quality gates for AI-generated code.',
     sampleSize: '3,000 developers surveyed',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-8',
@@ -1176,6 +1266,7 @@ export const facts: Fact[] = [
     description: 'GRACE framework empowering LLM-based vulnerability detection achieves 25% higher detection rate than traditional static analysis with fewer false positives.',
     sampleSize: '8 open-source projects',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-qa-9',
@@ -1189,6 +1280,7 @@ export const facts: Fact[] = [
     description: 'Comprehensive survey finds LLMs improve vulnerability detection by ~30% over traditional tools, with best results in code review and pattern-based detection tasks.',
     sampleSize: 'Meta-analysis of 50+ studies',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === RELEASE & OPS — Deep Research ===
@@ -1204,6 +1296,7 @@ export const facts: Fact[] = [
     description: 'LLMs provide accurate and interpretable incident triage with 32% faster mean-time-to-triage compared to rule-based systems, validated in production at Microsoft.',
     sampleSize: '10,000+ incidents',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-ops-2',
@@ -1217,6 +1310,7 @@ export const facts: Fact[] = [
     description: 'Benchmarking LLMs for log analysis shows 28% improvement in anomaly detection accuracy and faster root cause identification versus regex-based approaches.',
     sampleSize: '15 log datasets',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-ops-3',
@@ -1230,6 +1324,7 @@ export const facts: Fact[] = [
     description: 'IRCopilot automated incident response with LLMs reduces mean time to resolution by 38% for common incident categories through automated diagnosis and remediation.',
     sampleSize: '500 incidents evaluated',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-ops-4',
@@ -1243,6 +1338,7 @@ export const facts: Fact[] = [
     description: 'MISLEADING: Source highlights 35% omissions and 42% inaccuracies in LLM-generated incident response. While analysts complete some steps faster, the overall quality concerns and high override rates undermine the "22% faster" claim.',
     sampleSize: '45 security analysts',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'dr-ops-5',
@@ -1256,6 +1352,7 @@ export const facts: Fact[] = [
     description: 'Survey of LLMs and agents for security operations finds 30% average improvement in alert triage speed and reduced analyst fatigue in AI-augmented SOCs.',
     sampleSize: 'Literature review of 80+ papers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'dr-ops-6',
@@ -1268,6 +1365,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Uber reports 35% reduction in operational toil hours through GenAI-powered automation of log analysis, alert correlation, and runbook execution in production.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // ============================================================
@@ -1287,6 +1385,7 @@ export const facts: Fact[] = [
     description: 'Three-arm randomized controlled trial at Siili Solutions (n=25): developers with GenAI access completed tasks 40.2% faster. Code quality was 26.2% higher per expert evaluation. Low statistical power (25% for time, 19% for quality) with 35.9% attrition.',
     sampleSize: '25 developers, 130 task observations',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'siili-2',
@@ -1300,6 +1399,7 @@ export const facts: Fact[] = [
     description: 'Code quality was 26.2% higher per expert evaluation in the AI-assisted group. Adding prompt-engineering training further improved quality, demonstrating that structured AI adoption yields stronger gains than ad-hoc use.',
     sampleSize: '25 developers, 130 task observations',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === Siili Whitepaper 1: AI-Powered Development ===
@@ -1314,6 +1414,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Siili\'s internal study: tasks completed using AI tools (Copilot, ChatGPT, Claude) were on average 40% faster than traditional methods across junior to senior developers.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'siili-4',
@@ -1326,6 +1427,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Frontend feature development saw up to 175.9% faster task completion with AI tools (≈64% time savings). Code quality improved by 89.7% on average. Over 87% of participants reported positive experiences with reduced cognitive load.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'siili-5',
@@ -1338,6 +1440,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Test writing showed a 40% increase in quality scores when using AI tools. AI-assisted developers produced more comprehensive test suites with better edge case coverage.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'siili-6',
@@ -1350,6 +1453,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Documentation time was cut by 80% on average while improving clarity and comprehensiveness. AI tools excelled at generating structured technical documentation from code.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // === Siili Comparative Study (blog) ===
@@ -1365,6 +1469,7 @@ export const facts: Fact[] = [
     description: 'Controlled comparison: AI team (using Copilot + GPT-4) built 3 applications in the time the traditional team built 1. The AI team estimated 90% of their code was AI-generated.',
     sampleSize: '2 teams of 4–5 members, 2-week sprint',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // === Siili Whitepaper 2: The AI Ripple Effect ===
@@ -1379,6 +1484,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Siili whitepaper claims AI-assisted teams deliver 2x faster with higher code quality. However, AI speeds up coding but creates new bottlenecks in reviews, QA, and management approval processes. Full metrics behind download form — public page uses promotional language.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'siili-9',
@@ -1391,6 +1497,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Siili whitepaper claims code quality improved by 40% with increased robustness, readability, and alignment with best practices. But the "ripple effect" shifts bottlenecks from coding to acceptance and verification processes. Full metrics behind download form.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // === Siili Strategy Press Release ===
@@ -1405,6 +1512,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Siili strategy press release: positions company in AI-powered digital development. Contains general statements about "faster development cycles" and "improved productivity" but no specific quantitative metrics. The 37.5% claim appears in other Siili materials, not this press release.',
     credibility: 1,
+    benefitType: 'other',
   },
 
   // ============================================================
@@ -1423,6 +1531,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'AI in product development reduces time-to-market by 20–40% through automated market analysis, competitive intelligence, and accelerated validation cycles.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-str-2',
@@ -1435,6 +1544,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Development cost reduction of 20–30% achieved through AI-augmented product development processes, reducing manual research and iteration overhead.',
     credibility: 1,
+    benefitType: 'cost',
   },
   {
     id: 'r2-str-3',
@@ -1448,6 +1558,7 @@ export const facts: Fact[] = [
     description: 'Content creation time reduced by 91% when combining AI generation with human oversight, enabling rapid production of strategic documents, proposals, and business analyses.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-str-4',
@@ -1460,6 +1571,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '~65% of organizations now regularly use generative AI, nearly doubling from 33% in 2023. Adoption metric reflecting mainstream enterprise AI integration.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-str-5',
@@ -1472,6 +1584,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Gartner predicts 75% of enterprise software engineers will use AI code assistants by 2028, up from <10% in early 2023. Critical for strategic workforce and tooling planning.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === DESIGN — Round 2 (5) ===
@@ -1486,6 +1599,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Overview of AI PM tools (ChatPRD, Productboard, BuildBetter). Productboard client reports 80% improvement in processing feedback — but no specific PRD generation time savings quantified. Qualitative tool descriptions.',
     credibility: 1,
+    benefitType: 'other',
   },
   {
     id: 'r2-des-2',
@@ -1498,6 +1612,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Article discusses AI accelerating product development (20-40% time-to-market, 20-30% cost reduction). The "idea-to-prototype under 24 hours" claim could not be confirmed from this specific article. Source focuses on strategic impact, not design-specific metrics.',
     credibility: 1,
+    benefitType: 'other',
   },
   {
     id: 'r2-des-3',
@@ -1510,6 +1625,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Visualping article mentions BuildBetter for user research synthesis but states only "significantly less time spent on manual research." No specific "10-50x" acceleration quantified in the source.',
     credibility: 1,
+    benefitType: 'other',
   },
   {
     id: 'r2-des-4',
@@ -1522,6 +1638,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Figma AI PRD Generator landing page — product page for converting designs into product requirements. No quantitative productivity metrics provided. Vendor product description.',
     credibility: 1,
+    benefitType: 'other',
   },
   {
     id: 'r2-des-5',
@@ -1534,6 +1651,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'monday.com article discusses AI tools (Notion AI, ChatPRD) that convert meeting notes into structured PRDs. Qualitative benefits described but no specific productivity percentages quantified in the source.',
     credibility: 1,
+    benefitType: 'other',
   },
 
   // === SPEC — Round 2 (3) ===
@@ -1548,6 +1666,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Zencoder article discusses AI auto-generating docstrings, comments, and API references that "saves developer time." No specific percentage reduction quantified — the "30-50%" claim is not in the source.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'r2-spc-2',
@@ -1560,6 +1679,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Refactoring tasks show the highest AI context miss rate among all task types. Only 3.8% of developers report both low hallucination rates and high confidence in shipping AI-generated architectural code.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-spc-3',
@@ -1572,6 +1692,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Senior developers report more AI context pain than juniors (52% vs 41%). Deeper mental models reveal gaps AI fails to match in complex architecture and specification decisions.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // === DEV — Round 2 (13) ===
@@ -1587,6 +1708,7 @@ export const facts: Fact[] = [
     description: 'Longitudinal mixed-methods case study at NAV IT found NO statistically significant changes in commit-based activity metrics after Copilot adoption. Copilot users were more active even before adoption — the difference was pre-existing, not caused by Copilot.',
     sampleSize: 'NAV IT organization',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'r2-dev-2',
@@ -1600,6 +1722,7 @@ export const facts: Fact[] = [
     description: 'Real-world Copilot deployment: 10.6% PR throughput increase and 3.5-hour cycle time reduction (2.4% improvement). More modest than lab findings, reflecting production complexity.',
     sampleSize: '50 developers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-3',
@@ -1612,6 +1735,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'GitHub controlled study: developers code 55.8% faster with Copilot. Suggestion acceptance rate averages ~30%. Ramp-up to full productivity takes approximately 11 weeks.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-4',
@@ -1625,6 +1749,7 @@ export const facts: Fact[] = [
     description: 'CONTRARIAN: Rigorous RCT found experienced open-source developers were 19% SLOWER with AI tools on familiar, complex codebases — counter to most lab findings on simpler tasks.',
     sampleSize: '16 developers, 246 tasks',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'r2-dev-5',
@@ -1638,6 +1763,7 @@ export const facts: Fact[] = [
     description: 'Companies with 80–100% Copilot adoption report over 110% productivity gains. Requires near-universal team adoption and workflow redesign, not just tool deployment.',
     sampleSize: 'Enterprise telemetry',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-6',
@@ -1651,6 +1777,7 @@ export const facts: Fact[] = [
     description: 'Survey of 300 companies: top AI performers report 16–30% team productivity improvement. Bottom performers see minimal gains. Process redesign differentiates outcomes.',
     sampleSize: '300 companies',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-7',
@@ -1664,6 +1791,7 @@ export const facts: Fact[] = [
     description: 'Top performers report 31–45% software quality improvement from AI integration. Quality gains often exceed speed gains but require robust review processes and testing.',
     sampleSize: '300 companies',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-8',
@@ -1676,6 +1804,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Forrester reports AI-assisted coding achieves up to 40% speed improvement and 30% fewer errors for well-integrated development workflows.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-9',
@@ -1689,6 +1818,7 @@ export const facts: Fact[] = [
     description: 'Study of 800 developers: Copilot users had higher bug rates with no measurable throughput improvement. Contradicts vendor-funded studies showing significant productivity gains.',
     sampleSize: '800 developers',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'r2-dev-10',
@@ -1701,6 +1831,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'AI-generated code has 41% higher churn rate than human-written code (GitClear 2024 data). Speed gains partially offset by increased rework and technical debt accumulation.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'r2-dev-11',
@@ -1714,6 +1845,7 @@ export const facts: Fact[] = [
     description: 'GitHub research: developers complete tasks 55.8% faster with Copilot, 87% report mental effort preservation for repetitive tasks, 60–75% report increased job satisfaction. The 88% retention rate is cited by secondary sources, not this blog post.',
     sampleSize: '95 professional developers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-12',
@@ -1727,6 +1859,7 @@ export const facts: Fact[] = [
     description: 'Trust paradox: 84% of developers use AI tools (up from 70% in 2023), but trust in AI accuracy dropped to 29% (from 43%). Positive sentiment fell from 77% (2023) to 60% (2025).',
     sampleSize: '49,000+ developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-dev-13',
@@ -1739,6 +1872,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'The "almost right" problem: 66% cite nearly-correct AI code as top frustration. 45% say debugging AI code takes longer than expected. Trust dropped from 43% (2024) to 33% (2025). No specific productivity loss percentage quantified.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // === QA — Round 2 (8) ===
@@ -1753,6 +1887,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '75% of QA organizations identify AI testing as strategic priority, but only 16% have adopted it (65–70% still in pilot). Large gap between aspiration and actual implementation.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-2',
@@ -1765,6 +1900,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Fortune 500 AI testing adoption at 45%, startups lead at 62%. 35% of enterprise budgets shifting to AI testing platforms. 80% predicted AI-augmented testing tools by 2027.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-3',
@@ -1777,6 +1913,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Paper critiques vendor claims of "50% faster testing" and "30% more bug detection" as using disparate metrics with no standardized measurement. Paper\'s own case study evidence shows 50-60% reduction in post-deployment issues. The 50%/30% are marketing claims, not research findings.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-4',
@@ -1789,6 +1926,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Top AI testing use cases: test case creation (25%), test case optimization (23%), automated regression (19%). Most teams use AI as supplement, not replacement for manual testing.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-5',
@@ -1801,6 +1939,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AI-native platforms claim up to 95% test maintenance reduction through self-healing tests. Only achievable on new platforms — bolting AI onto legacy frameworks shows much smaller gains.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-6',
@@ -1813,6 +1952,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '80% of software teams plan to use AI in testing by 2025. Gartner projects 80% enterprise AI-augmented testing tools by 2027 and 33% agentic AI in enterprise software by 2028.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-7',
@@ -1825,6 +1965,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '45% of QA practitioners believe manual testing is irreplaceable. Human element remains critical for exploratory testing, UX evaluation, and edge case identification.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-qa-8',
@@ -1837,6 +1978,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Early AI testing adopters initially spent MORE time on maintenance, not less. AI-generated tests required significant human review and correction before achieving reliability.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // === RELEASE & OPS — Round 2 (8) ===
@@ -1851,6 +1993,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Release cycle reduction of 67% with AI in DevOps pipelines (citing Forrester 2024 State of DevOps). Primarily driven by automated testing, deployment, and pipeline optimization.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-ops-2',
@@ -1863,6 +2006,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Production incidents reduced by 43% through AI-assisted operations (citing IBM 2024 DevSecOps Survey). Reduction primarily from automated human-error prevention.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-ops-3',
@@ -1875,6 +2019,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Mature AI DevOps implementations achieve 31% average TCO reduction for enterprise applications (citing Deloitte 2025 Technology Cost Survey).',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-ops-4',
@@ -1888,6 +2033,7 @@ export const facts: Fact[] = [
     description: 'GitLab AI tools deliver 30% faster releases across 1.5 million developers. AI agents automate CI/CD pipeline optimization and failure prediction.',
     sampleSize: '1.5 million developers',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-ops-5',
@@ -1901,6 +2047,7 @@ export const facts: Fact[] = [
     description: '54% of I&O leaders adopting AI for cost optimization. Top barriers: lack of budget (50%) and integration difficulties (48%). Strategic investment, not bolt-on adoption, drives ROI.',
     sampleSize: '253 I&O leaders',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'r2-ops-6',
@@ -1914,6 +2061,7 @@ export const facts: Fact[] = [
     description: 'DORA 2025: AI adoption positively correlates with delivery throughput but NEGATIVELY with deployment stability. 80%+ said AI enhanced productivity, 59% positive on code quality. No specific percentage improvement quantified — findings are directional.',
     sampleSize: '39,000+ respondents',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'r2-ops-7',
@@ -1927,6 +2075,7 @@ export const facts: Fact[] = [
     description: 'DevOps market projected to grow from $14.95B (2025) to $37.33B by 2029. AI-driven deployment automation, monitoring, and incident response driving 2.5x market expansion.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'other',
   },
   {
     id: 'r2-ops-8',
@@ -1939,6 +2088,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Gartner projects 33% of enterprise software will incorporate agentic AI by 2028 (up from <1% in 2024). Autonomous deployment, monitoring, and incident response agents emerging.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // === SOCIAL MEDIA — Extreme Productivity Claims (Verified Posts) ===
@@ -1955,6 +2105,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'OpenAI co-founder coins "vibe coding": "fully give in to the vibes, embrace exponentials, and forget that the code even exists." Describes accepting all AI suggestions without reading diffs, using voice-to-code via SuperWhisper with Cursor Composer + Claude Sonnet.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sm-dev-2',
@@ -1967,6 +2118,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Karpathy: "I just vibe coded a whole iOS app in Swift (without having programmed in Swift before) and now ~1 hour later it\'s actually running on my physical phone." Built a working iOS app in an unfamiliar language in ~1 hour using AI assistance.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- Pieter Levels (@levelsio) — X/Twitter ---
@@ -1981,6 +2133,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Solo indie hacker built fly.pieter.com — a 3D multiplayer flight simulator — 100% with Cursor in ~3 hours, with no prior game development experience. "I\'ve never ever made a game before." Hit $1M ARR in 17 days from ad revenue, endorsed by Elon Musk.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'sm-str-1',
@@ -1993,6 +2146,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'fly.pieter.com went from $0 to $1M ARR in just 17 days ($87K MRR). A vibe-coded browser game by a solo founder with no game dev background achieved 320,000 players. Revenue reached $138K/month by November 2025.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- Alex Finn (@AlexFinnX) — X/Twitter ---
@@ -2007,6 +2161,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Non-developer built Creator Buddy (AI content coaching SaaS) entirely with Claude Code — "0 lines of code written." App reached $300K ARR with 500 paying subscribers within 2 weeks of launch. Claims vibe coded for 2,639 hours total in 2025.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'sm-str-2',
@@ -2019,6 +2174,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: '2025 wrapped: Built first SaaS to $300K ARR with Claude Code, 0 lines of code. Grew vibe coding YouTube to 60K subscribers. Launched world\'s first Vibe Coding Academy. Solo non-technical founder building and monetizing with AI alone.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // --- McKay Wrigley (@mckaywrigley) — X/Twitter ---
@@ -2033,6 +2189,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'AI influencer cancelled 7 B2B SaaS subscriptions and replaced 100% of their value in ~6 hours (one night) using Cursor + o1 Pro. Two apps fully replicated in single prompts, five more in a few Cursor Composer iterations. Claims $7,500+/year savings.',
     credibility: 1,
+    benefitType: 'cost',
   },
 
   // --- Maor Shlomo (Base44 founder) — X/Twitter + TechCrunch ---
@@ -2047,6 +2204,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Solo founder built Base44, an AI app-builder platform, bootstrapped with no team. Reached 250K users and $189K monthly profit in 6 months. Sold to Wix for $80M cash — one of the fastest bootstrapped exits in tech history.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- Edwin Chen (Surge CEO) — X/Twitter + Podcast ---
@@ -2061,6 +2219,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Surge CEO (TIME 100 AI 2025) claims AI creates "100x engineers." Says AI coding tools compound 2-3x speed, 2-3x focus, and 2-3x fewer distractions into 100x productivity. Predicts billion-dollar single-person companies. Surge reached $1B revenue with no VC funding.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // --- Michael Truell (Cursor CEO) — X/Twitter ---
@@ -2075,6 +2234,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Cursor CEO demonstrated AI agents building a web browser from scratch: millions of lines of code, custom rendering engine, HTML/CSS parser, layout engine, and JS VM — running autonomously for 1 week. An engineer noted the browser "kind of works" but isn\'t production-ready.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- Ben Tossell (Ben\'s Bites) — X/Twitter ---
@@ -2089,6 +2249,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'No-code pioneer and Ben\'s Bites founder reports spending "3 billion tokens in 4 months" using Claude Code as a terminal agent. Self-described vibe-coder building production software without traditional coding skills. Built 7-figure AI education business.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // --- Jon Stokes (@jonst0kes) — X/Twitter ---
@@ -2103,6 +2264,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Ars Technica co-founder: "I thought vibe coding was a dumb X thing until I did it today with Claude Code and shipped an amazing refactor." Reports guiding AI through complex decision trees after a week of deep problem analysis. "If you\'re not doing it you will lose to people who do."',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // --- "Vibe Coders Are Lying" skepticism — LinkedIn/Blog ---
@@ -2117,6 +2279,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Skeptical analysis: No verified solo vibe-coded product by a non-engineer has exceeded $5-10M ARR with durable retention and enterprise reliability. Argues most viral claims lack post-launch sustainability data and conflate initial launch with sustained business.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // --- Cursor CEO vibe coding warning ---
@@ -2131,6 +2294,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Cursor CEO warns: "If you close your eyes and don\'t look at the code and have AIs build things with shaky foundations, as you add another floor... things start to crumble." Likens vibe coding to building a house without knowing what\'s behind the walls.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // --- Vibe Coding Game Jam (@levelsio) ---
@@ -2145,6 +2309,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Pieter Levels organized the first Vibe Coding Game Jam: 7-day deadline, anyone can enter, at least 80% of code must be AI-generated. Games must be web-accessible, free-to-play. Demonstrated community-scale adoption of AI-first development.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // --- LinkedIn — Alex Finn "How I quit my job" ---
@@ -2159,6 +2324,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'LinkedIn post: "How I quit my job with AI and built a $315K app." Alex Finn documents journey from content creator to solo SaaS founder using Claude Code. Zero programming background, 10-month timeline from prototype to six-figure ARR.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // --- LinkedIn — Addy Osmani (Google) ---
@@ -2173,6 +2339,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Google Chrome engineering lead distinguishes "vibe coding" from "AI-assisted engineering." Cites 30% development speed increase through disciplined AI-assisted engineering with clear specs, architectural planning, and code review — not blind acceptance of AI output.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // =============================================
@@ -2192,6 +2359,7 @@ export const facts: Fact[] = [
     description: 'Deloitte 2026: 66% of organizations report achieving productivity/efficiency gains from AI; 34% using AI to deeply transform operations. Only 20% achieving revenue growth from AI despite 74% hoping to — pointing to a strategy-execution gap.',
     sampleSize: '3,235 leaders across 24 countries',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-str-2',
@@ -2204,6 +2372,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Morgan Stanley Research: CIOs plan to increase software spending by 3.9% in 2026. 30% of AI adopters reported quantifiable financial or productivity benefits by Q4 2025, up from 16% a year prior. Software dev market projected to grow at 20% annually to $61B by 2029.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-str-3',
@@ -2216,6 +2385,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'PwC 2026 AI Predictions: agents can handle roughly half of tasks people now do. Technology delivers only ~20% of value; 80% comes from redesigning work. "50-60% PM admin reduction" overstates specificity — PwC discusses general task automation across all functions.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-str-4',
@@ -2228,6 +2398,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Mind the Product 2026 strategy guide for planning, budgeting, and building AI features. Uses illustrative goals (e.g., "reduce support tickets by 30%") but these are hypothetical examples, not reported findings. No "50-60% admin reduction" claim in the source.',
     credibility: 1,
+    benefitType: 'other',
   },
 
   // --- DESIGN (2026) ---
@@ -2243,6 +2414,7 @@ export const facts: Fact[] = [
     description: 'Figma AI Report: 78% of professionals agree AI significantly enhances efficiency. 33% use AI to generate design assets; 22% use AI to create first drafts of interfaces. Designers who integrate AI into workflows ship features measurably faster.',
     sampleSize: '2,500 product builders across 7 countries',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-des-2',
@@ -2255,6 +2427,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Index.dev 2026 trends article discusses AI handling "grunt work" in design but provides no concrete productivity benchmarks. The "40-60% faster" claim is not from this article (appears in toools.design instead). Qualitative discussion only.',
     credibility: 1,
+    benefitType: 'other',
   },
   {
     id: 'y26-des-3',
@@ -2268,6 +2441,7 @@ export const facts: Fact[] = [
     description: 'Figma State of the Designer 2026: 89% of designers say they are working faster; 91% say AI improves their designs. The "only 32% can rely on AI output" figure is from the separate Figma 2025 AI Report, not this survey. Both reports show speed gains but quality concerns.',
     sampleSize: '906 digital designers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // --- SPEC (2026) ---
@@ -2282,6 +2456,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'ThoughtWorks conceptual article on spec-driven development (SDD). Discusses definitions, interpretations, and implementation challenges. Contains no quantitative productivity claims — "30-35%" figure is from Built In article, not ThoughtWorks.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'y26-spec-2',
@@ -2294,6 +2469,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Red Hat article on spec-driven development: aims for "95%+ accuracy implementing specs on the first go." No "weeks to days" time claim found. States SDD "improves developer productivity without skimping on quality" but provides no specific time metrics.',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'y26-spec-3',
@@ -2306,6 +2482,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Built In 2026: developer role shifts from "Code Writer" to "Technical Product Owner." AI code generation market projected from $4.91B (2024) to $30.1B by 2032. Well-structured specs become the primary productivity lever for AI-assisted development.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-spec-4',
@@ -2318,6 +2495,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Anthropic agentic coding report: developers use AI in 60% of work but fully delegate only 0-20%. Organizations with clear specification practices see the highest gains — requirements clarity is the top predictor of AI coding agent success.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- DEV (2026) ---
@@ -2333,6 +2511,7 @@ export const facts: Fact[] = [
     description: 'METR RCT (updated Feb 2026): AI use caused tasks to take 19% LONGER for experienced open-source developers (CI: +2% to +39%). Developers believed they were 20% faster — a stark perception-reality gap. Follow-up shows developer estimates shifting, suggesting learning effects.',
     sampleSize: '16 experienced developers, 246 issues',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'y26-dev-2',
@@ -2346,6 +2525,7 @@ export const facts: Fact[] = [
     description: 'Opsera 2026 benchmark: 48-58% faster Time-to-PR with AI tools. Senior engineers see 5x the productivity gains of juniors. However, code duplication rises from 10.5% to 13.5% and AI-generated PRs wait 4.6x longer for review.',
     sampleSize: '250,000+ developers across 60+ enterprise organizations',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-3',
@@ -2359,6 +2539,7 @@ export const facts: Fact[] = [
     description: 'Faros AI Paradox: developers with high AI adoption complete 21% more tasks and merge 98% more PRs. BUT PR review time increases 91%, AI-generated PRs have 1.7x more issues (10.83 vs 6.45), and 9% increase in bugs per developer. No significant correlation with better DORA metrics.',
     sampleSize: '10,000+ developers across 1,255 teams',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-4',
@@ -2372,6 +2553,7 @@ export const facts: Fact[] = [
     description: 'SonarSource 2026: AI accounts for 42% of all committed code (expected to rise to 65% by 2027). 96% of developers don\'t fully trust AI output; only 48% always verify. Teams spend 24% of their week checking/fixing AI output. 72% of AI users use it daily.',
     sampleSize: '1,100+ professional developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-5',
@@ -2384,6 +2566,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Anthropic 2026 report: Rakuten reduced time-to-market by 79% (24 days to 5 days) using Claude. TELUS shipped code 30% faster with 500,000 hours saved across 57,000+ team members. Organizations report 30-79% faster development cycles with agentic AI.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-6',
@@ -2396,6 +2579,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Anthropic internal report: engineers use Claude in 59% of work, achieving +50% average self-reported productivity gains. 67% increase in merged PRs per engineer per day. 14% report >100% gains. The "200%" figure is from Boris Cherny talks (Waydev), not this research page.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-7',
@@ -2409,6 +2593,7 @@ export const facts: Fact[] = [
     description: 'McKinsey 2026: top performers see 16-30% team productivity improvement; 31-45% improvement in software quality. Organizations with 80-100% adoption see >110% gains. 60%+ of 600 orgs surveyed see at least 25% productivity improvement.',
     sampleSize: '600+ organizations',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-8',
@@ -2421,6 +2606,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Anthropic study (Feb 2026): developers using AI assistance scored 17% lower on comprehension tests. Those using AI for conceptual inquiry scored 65%+; those delegating code generation to AI scored below 40%. AI as teacher works; AI as crutch degrades skills.',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'y26-dev-9',
@@ -2434,6 +2620,7 @@ export const facts: Fact[] = [
     description: 'GitHub Copilot 2026 statistics: developers code up to 55% faster. Copilot generates 46% of code on average (61% for Java). 20M+ cumulative users, adopted by 90% of Fortune 100. Code readability +3.62%, reliability +2.94%, maintainability +2.47%.',
     sampleSize: '4,800 developers surveyed',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-dev-10',
@@ -2446,6 +2633,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Google Antigravity IDE (Gemini 3 Pro powered): 76.2% on SWE-bench Verified. 38% speed advantage over competitor IDEs (42s vs 68s for standard feature). 94% refactoring accuracy vs 78% for competitors. Supports up to 8 parallel agents simultaneously.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- QA (2026) ---
@@ -2460,6 +2648,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Tricentis 2026: customer achieved 85% reduction in manual effort and 60% increase in productivity using AI testing agents. AI-driven test generation and execution dramatically cuts manual test case creation effort.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-qa-2',
@@ -2472,6 +2661,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'TestGrid 2026: QA market valued at $57.73B. Test automation replaced 50%+ of manual testing in 46% of cases (not "60%+ automation-driven"). 10% have used GenAI to generate up to 75% of test scripts. 34% deploying AI in QE.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-qa-3',
@@ -2484,6 +2674,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'ThinksYS 2026: 72.8% of respondents selected "AI-powered testing & autonomous test generation" as top priority. Automation testing market projected to reach $55.2B by 2028. AI agents increasingly handle regression testing and exploratory testing tasks.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-qa-4',
@@ -2497,6 +2688,7 @@ export const facts: Fact[] = [
     description: 'SonarSource verification gap: 96% of developers don\'t fully trust AI output; only 48% always verify before committing. 88% cite negative impacts (unreliable code that looks correct). 53% cite "code that looks correct but isn\'t reliable." No specific "40% quality deficit" stated.',
     sampleSize: '1,100+ developers',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'y26-qa-5',
@@ -2510,6 +2702,7 @@ export const facts: Fact[] = [
     description: 'Faros AI QA findings: AI-generated PRs have 1.7x more issues (10.83 vs 6.45 per PR). PR review time increases 91% for AI-assisted code. While AI helps generate tests faster, the net QA burden increases due to higher defect rates in AI-generated code.',
     sampleSize: '10,000+ developers across 1,255 teams',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // --- DEVOPS (2026) ---
@@ -2525,6 +2718,7 @@ export const facts: Fact[] = [
     description: 'Perforce 2026: 72% of high-maturity orgs have AI embedded across SDLC. 87% believe AI will enable engineers to focus on system design vs scripting. 77% have confidence in AI outputs. 55% of QA teams shifted focus to quality analytics.',
     sampleSize: '820 technology professionals worldwide',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-ops-2',
@@ -2537,6 +2731,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Softjourn 2026: 30% reduction in deployment failures; 20% improvement in deployment speed; 50% reduction in unplanned downtime for mature AI-DevOps organizations. 67% of DevOps teams increased AI investment in the past year.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'y26-ops-3',
@@ -2549,6 +2744,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Gartner predicts 40% of enterprise apps will have task-specific AI agents by end of 2026, up from <5% in 2025. Agentic AI could drive ~30% of enterprise app software revenue ($450B+) by 2035. But warns 40%+ of agentic AI projects will be cancelled by 2027.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // =============================================
@@ -2568,6 +2764,7 @@ export const facts: Fact[] = [
     description: 'Three field RCTs across Microsoft, Accenture, and a Fortune 100 company: 26.08% increase in completed tasks for Copilot group. Junior developers: +21-40%; senior developers: +7-16%. The largest controlled study of AI coding productivity to date.',
     sampleSize: '4,867 developers across 3 companies',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-2',
@@ -2581,6 +2778,7 @@ export const facts: Fact[] = [
     description: 'RCT: treatment group completed HTTP server task 55.8% faster (95% CI: 21-89%). Less experienced developers benefited most. One of the earliest rigorous controlled experiments on GitHub Copilot productivity.',
     sampleSize: '95 professional developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-3',
@@ -2593,6 +2791,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'CMU causal study (MSR \'26): Cursor AI causes ~2.8x increase in lines added in first adoption month (transient). But static analysis warnings +29.7% and code complexity +40.7% (persistent). Velocity gains dissipate after 2 months — the quality tradeoff is real.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-4',
@@ -2605,6 +2804,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Staggered difference-in-differences study: agent-first projects see large front-loaded velocity gains. But static analysis warnings +18% and cognitive complexity +39% persistently. Repos with prior AI IDE usage see minimal additional gains from agents.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-5',
@@ -2618,6 +2818,7 @@ export const facts: Fact[] = [
     description: 'Enterprise longitudinal study: 31.8% reduction in PR review cycle time. Top adopters: 61% increase in code volume pushed to production. AI contributed 28-40% of code shipped. Adoption scaled from 4% to 83% peak over 6 months.',
     sampleSize: '300 engineers, 1-year study',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-6',
@@ -2631,6 +2832,7 @@ export const facts: Fact[] = [
     description: 'Published in Science: AI writes 29% of Python functions in the US. Quarterly output increased by 3.6% due to AI — modest at the macro level. Experienced programmers capture nearly all productivity gains, widening the skill gap rather than closing it.',
     sampleSize: '30 million GitHub commits, 170,000 developers',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-7',
@@ -2644,6 +2846,7 @@ export const facts: Fact[] = [
     description: 'Large-scale mining study: agent adoption rate 15.85-22.60% of GitHub projects. Among Claude Code agent-assisted PRs (567 PRs across 157 projects): 83.8% merged, 54.9% merged without any human modification.',
     sampleSize: '129,134 GitHub projects',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-8',
@@ -2657,6 +2860,7 @@ export const facts: Fact[] = [
     description: 'AGENTS.md context files associated with 29% reduction in median agent runtime and 17% reduction in output token consumption. Only ~5% of surveyed repos have adopted context files — a low-hanging-fruit optimization for AI-assisted development.',
     sampleSize: '466 repositories',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-9',
@@ -2670,6 +2874,7 @@ export const facts: Fact[] = [
     description: 'ICSE-SEIP \'26: developer satisfaction does not directly equate to time savings. Six distinct factors capture productivity dimensions. Commit frequency and code acceptance rates are inadequate proxies for true productivity. Self-reported gains do not match measured ones.',
     sampleSize: '2,989 developer responses, 11 in-depth interviews',
     credibility: 3,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-dev-10',
@@ -2683,6 +2888,7 @@ export const facts: Fact[] = [
     description: 'SWE-bench Verified leaderboard (Feb 2026): Claude Opus 4.5 scores 80.9%, Claude Opus 4.6 scores 80.8%, Gemini 3.1 Pro scores 80.6%, Gemini 3 Pro scores 76.2%. Models now resolve 4 out of 5 real-world GitHub issues autonomously.',
     sampleSize: '500 SWE-bench tasks',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- QA (Scientific) ---
@@ -2697,6 +2903,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'CMU causal study (MSR \'26): AI coding tool adoption leads to persistent +40.7% increase in code complexity and +29.7% more static analysis warnings. Quality degradation does not diminish over time — teams need proportionally more QA effort to compensate.',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'sci-qa-2',
@@ -2710,6 +2917,7 @@ export const facts: Fact[] = [
     description: 'Qualitative systematic review of 55 AI testing tools: identifies capabilities in test execution efficiency and maintenance reduction. Exposes limitations in handling complex UI changes and contextual understanding. No specific productivity percentages — review is qualitative.',
     sampleSize: '55 AI testing tools evaluated',
     credibility: 2,
+    benefitType: 'other',
   },
   {
     id: 'sci-qa-3',
@@ -2722,6 +2930,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'ICSE-SEIP \'26: WhatsApp deployed GenAI for 25 months. Privacy verification coverage improved 3.5x (15% to 53%). 86% precision in automated bug triage. 692 automated refactor/fix changes accepted. Demonstrates enterprise-scale AI QA deployment.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- DEVOPS (Scientific) ---
@@ -2737,6 +2946,7 @@ export const facts: Fact[] = [
     description: 'Mining study of 33,000 agent-authored PRs by 5 coding agents. Documentation and CI/build PRs achieve highest merge success. Performance optimization and bug-fix tasks perform worst. Failed PRs tend to involve larger changes and touch more files.',
     sampleSize: '33,000 agent-authored pull requests',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sci-ops-2',
@@ -2749,6 +2959,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'ICSE-SEIP \'26: WhatsApp\'s WhatsCode platform processed 3,000+ accepted code changes and 711 automated framework adoption migrations over 25 months. GenAI agents handle CI/CD pipeline configuration and dependency management at enterprise scale.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // --- METR Time Horizons (Cross-phase capability benchmarks) ---
@@ -2764,6 +2975,7 @@ export const facts: Fact[] = [
     description: 'METR benchmark (v1.1, Feb 2026): AI capability in software engineering tasks doubles every ~4 months (131 days post-2023, CI varies by methodology). Claude Opus 4.6 achieves 870-hour 50%-time horizon. Measures AI capability trend, not direct productivity impact.',
     sampleSize: '100+ diverse software engineering tasks',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'metr-th-2',
@@ -2777,6 +2989,7 @@ export const facts: Fact[] = [
     description: 'METR benchmark: All-time AI capability doubling rate is ~6.5 months (196 days, CI: 162–223). From GPT-2 (0.04h time horizon) to Claude Opus 4.6 (870h), representing a >20,000x improvement. Measures capability trend, not direct productivity impact.',
     sampleSize: 'RE-Bench, HCAST, novel software tasks',
     credibility: 3,
+    benefitType: 'other',
   },
   {
     id: 'metr-th-3',
@@ -2790,6 +3003,7 @@ export const facts: Fact[] = [
     description: 'METR time horizon analysis: Frontier AI agents can now complete tasks that take human experts multiple days (50%-time horizon ≈870h for Opus 4.6). "Multi-day tasks" refers to human-equivalent difficulty, not agent runtime. Measures capability benchmark, not direct productivity.',
     sampleSize: '100+ diverse tasks across SE, ML, cybersecurity',
     credibility: 3,
+    benefitType: 'other',
   },
 
   // === SAP SOURCES — AI-Driven Speedups in SAP Projects ===
@@ -2806,6 +3020,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Joule for Consultants reduces overall project delivery time by 14% through automated documentation.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-1b',
@@ -2818,6 +3033,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Joule for Consultants delivers 40% reduction in time spent interpreting legacy custom ABAP code.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 2: SAP Signavio "Plug and Gain"
@@ -2832,6 +3048,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Signavio compresses the multi-month Discovery phase into a few hours using AI-driven process mining and automatically generates BPMN diagrams from text descriptions.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-2b',
@@ -2844,6 +3061,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Signavio identifies ERP transformation blockers 80% faster than manual audit methods.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 3: AWS ABAP Accelerator
@@ -2858,6 +3076,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AWS ABAP Accelerator automates 70%+ of legacy ECC custom code conversion to S/4HANA-ready ABAP, with estimated 70% boost in developer productivity.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-3b',
@@ -2870,6 +3089,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AWS ABAP Accelerator automatically generates unit tests for 100% code coverage, reducing QA cycles by 30%.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-3c',
@@ -2882,6 +3102,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Up to 40% increase in developer productivity measured with Q Developer on Java/Python; up to 80% acceleration in various development tasks.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 4: KTern AI-Driven Migration Study
@@ -2896,6 +3117,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'KTern AI-driven study achieved measured 40% reduction in total S/4HANA migration timelines, replacing weeks of Fit-Gap workshops with automated AI system analysis.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-4b',
@@ -2908,6 +3130,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'KTern AI-driven test orchestration identifies and tests business-critical transactions automatically during S/4HANA migration.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 5: ML-Based Data Migration Framework
@@ -2922,6 +3145,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'ML-based framework using Isolation Forest automates anomaly detection in legacy data, reducing pre-loading validation errors by 60% and streamlining cutover windows.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 6: SAP Business AI Release Highlights Q1 2025
@@ -2936,6 +3160,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Business AI Q1 2025: 50% reduction in design iterations and rework during SAP projects.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-6b',
@@ -2948,6 +3173,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AI-assisted smart summarization saves 88% of time spent summarizing Fiori element-based object pages.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-6c',
@@ -2960,6 +3186,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Developers see up to 20% reduction in time writing ABAP code and 25% reduction in time testing ABAP code.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-6d',
@@ -2973,6 +3200,7 @@ export const facts: Fact[] = [
     description: 'Financial business insights reduce time spent analyzing cost center reports by 50% and summarizing/documenting them by 65%.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
 
   {
@@ -2986,6 +3214,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP LeanIX inventory builder reduces factsheet creation time by 80% and accelerates project timelines by 75%.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-6f',
@@ -2998,6 +3227,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Build Process Automation delivers 40% implementation time savings. SAP Datasphere AI search reduces complex search time by 90%.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 7: SAP Business AI Release Highlights Q4 2024
@@ -3012,6 +3242,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AI-assisted writing saves up to 30% of time in crafting written communications.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-7b',
@@ -3025,6 +3256,7 @@ export const facts: Fact[] = [
     description: 'Goal creation time reduced by up to 60% for managers and employees (SuccessFactors). HR ticket resolution 35% faster; volume of HR tickets reduced by up to 60%.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-7c',
@@ -3038,6 +3270,7 @@ export const facts: Fact[] = [
     description: 'Understanding regulations: up to 70% time savings with Joule. System localization translation costs reduced by up to 90%.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'cost',
   },
 
   {
@@ -3051,6 +3284,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Build Code: up to 30% faster development and equivalent decrease in development costs.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-7e',
@@ -3063,6 +3297,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Master Data Governance: up to 50% effort reduction requesting changes and up to 80% reduction reviewing change requests.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 8: SAP Business AI Release Highlights Q3 2025
@@ -3078,6 +3313,7 @@ export const facts: Fact[] = [
     description: 'Cash Management Agent saves finance professionals up to 70% of time spent on manual reconciliation.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-8b',
@@ -3091,6 +3327,7 @@ export const facts: Fact[] = [
     description: 'Enterprise Service Management achieves up to 50% increase in shared service staff productivity; reduction in repeat cases of up to 30%.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-8c',
@@ -3103,6 +3340,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Joule studio agent builder: reducing the time to deploy custom Joule skills by 10% and cutting time spent on frequent business tasks by up to 25%.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-8d',
@@ -3115,6 +3353,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Signavio AI-assisted context analyzer: reducing time to access insights from experience records by up to 90%. Role-based process overview reduces navigation time by 50% and shortens onboarding by 10%.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-8e',
@@ -3128,6 +3367,7 @@ export const facts: Fact[] = [
     description: 'Operational speedup example: reducing time for analyzing payment run logs from up to 1 hour to 10 minutes (83% reduction).',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
 
   {
@@ -3142,6 +3382,7 @@ export const facts: Fact[] = [
     description: 'AI-assisted mobile execution (Service & Asset Manager): 50% technician productivity increase and 75% job completion error cost reduction.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'cost',
   },
   {
     id: 'sap-8g',
@@ -3155,6 +3396,7 @@ export const facts: Fact[] = [
     description: 'Quality certificate processing (SAP Document AI): 70% reduction in certificate processing time and 70% decrease in revenue loss.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'cost',
   },
   {
     id: 'sap-8h',
@@ -3167,6 +3409,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Joule for Developers (ABAP): 20% reduction in ABAP code writing effort and 25% reduction in ABAP testing effort.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 9: SAP Business AI Release Highlights Q4 2025
@@ -3181,6 +3424,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Production Planning and Operations Agent leads to up to 50% higher productivity among production supervisors. 2% reduction in production downtime losses.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   {
@@ -3195,6 +3439,7 @@ export const facts: Fact[] = [
     description: 'Accounting Accruals Agent: 80% reduction in calculation effort and 50% in review/posting. Cash Management Agent: 70% overall effort reduction.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-9c',
@@ -3207,6 +3452,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'ABAP development: 20% coding reduction, 25% testing reduction, 6.6% faster value realization. Cloud ALM requirement generation: 50% reduction in creation time.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-9d',
@@ -3219,6 +3465,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Joule Studio agent builder: 40% reduction in business task time and 35% faster agent deployment.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 10: SAP Joule for Developers
@@ -3233,6 +3480,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Joule for Developers reduces development costs by 30%. Automates coding, debugging, and unit testing with AI-driven code suggestions and real-time error detection.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 11: VentureBeat — SAP Joule for Consultants
@@ -3247,6 +3495,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'VentureBeat analysis: SAP Joule draws from 9+ TB of curated knowledge, 3M non-public documents, 250M lines of ABAP and 30M lines of CDS code. Helps minimize rework and make smarter decisions during projects.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 12: Deloitte Adopts SAP Joule
@@ -3261,6 +3510,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Deloitte adopts SAP Joule for Consultants to accelerate knowledge search and enhance productivity for consulting teams on SAP cloud transformations.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 13: Consulting in the Age of AI — SAP Partner Ecosystem
@@ -3275,6 +3525,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AI tools in SAP Signavio compare processes faster than manual mapping during fit-gap. Auto-generation of business requirements from workshop transcripts. 30% improvement in validation accuracy.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-13b',
@@ -3287,6 +3538,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP partners report faster delivery cycles of up to 14% and as much as 1.5 hours saved per consultant per day through SAP Joule for Consultants.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 14: SAP Signavio Process AI Capabilities
@@ -3301,6 +3553,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Signavio Process AI: preconfigured suggestions from 5,000+ SAP best practices. Saves weeks/months of stakeholder interviews and workshops. Text-to-Process converts natural language to BPMN diagrams.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 15: IBM — GenAI Revolutionizing SAP Testing
@@ -3315,6 +3568,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'IBM reports up to 90% improvement in turnaround time for quarterly report creation (customer case). Test script generation in minutes instead of hours; GenAI creates test suites in minutes instead of days.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 16: Panaya AI-Powered SAP Testing
@@ -3329,6 +3583,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Panaya GenAI testing boosts test coverage by 85%. Test cycles slashed by 50%. Up to 85% reduction in SAP testing cycles by knowing what not to test.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-16b',
@@ -3341,6 +3596,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Panaya: up to 90% of SAP-identified code issues corrected automatically. 90% reduction in test documentation time.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-16c',
@@ -3353,6 +3609,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Global manufacturing company automated 80% of test cases during S/4HANA migration. Post-deployment issues reduced by 70%.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 17: Panaya and Tricentis Autonomous SAP Testing
@@ -3367,6 +3624,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Panaya & Tricentis autonomous SAP testing: AI observes user-system interactions and converts usage patterns into automated tests. Testing cycles cut by 50% and post-deployment issues reduced by 70% (manufacturing case study).',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 18: Syniti SAP Data Migration
@@ -3381,6 +3639,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Syniti reports 46% increase in project efficiency through automation. 39% faster completion rate for cloud migration projects. 95% reduction in data quality errors.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-18b',
@@ -3393,6 +3652,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Syniti: data quality levels rarely below 99.5%; data footprints reduced by at least one-third. Future data projects accelerated by 50% through reuse of rules and mappings.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 19: smartShift — SAP Custom Code Automation
@@ -3407,6 +3667,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'smartShift: 3-4x faster transformation vs conventional approaches. Custom code analyzed and transformed in 3-4 weeks. 99.99% precision in remediation. 75% less testing required post-transformation. 3,300+ projects completed, 3B lines of code analyzed.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 20: Applexus CeleRITE
@@ -3421,6 +3682,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Applexus CeleRITE: up to 50% savings in both cost and time for S/4HANA transformation. AI and automation remediate 70-80% of custom code.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 21: Syntax — AI-Powered S/4HANA Migration
@@ -3435,6 +3697,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Syntax discusses AI-powered strategies for accelerating SAP S/4HANA cloud migration including landscape discovery, predictive risk scoring, and automated data mapping. No specific quantified metrics provided.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 22: SAP Community — GenAI for S/4HANA Migration Planning
@@ -3449,6 +3712,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'SAP Community: organizations can reduce project scope by more than 70% using AI tools. Over 50% of custom code corrections automated. Real-time AI insights empower informed migration decisions.',
     credibility: 1,
+    benefitType: 'efficiency',
   },
 
   // Source 23: AIOps in SAP Basis Administration
@@ -3463,6 +3727,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'ASUG discusses AIOps benefits for SAP Basis administration including dramatic MTTR reduction, automated root cause analysis, and AI-driven monitoring. Qualitative discussion — no specific percentages provided on the page.',
     credibility: 1,
+    benefitType: 'other',
   },
 
   // Source 24: Celonis Process Mining for SAP
@@ -3477,6 +3742,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Celonis Process Intelligence Platform used by 1,400+ companies with 600+ teams using Celonis Extractor for SAP. AI-powered Process Copilot enables natural language process analysis and optimization.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 25: Accenture and SAP — Billing Efficiency
@@ -3492,6 +3758,7 @@ export const facts: Fact[] = [
     description: 'Accenture: billing efficiency expected to improve by 32%, setup times cut in half. Managing nearly 1M annual invoices across 40,000+ contracts. Doubled rate of automatic payment processing using embedded AI in SAP Cash Application.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
 
   {
@@ -3506,6 +3773,7 @@ export const facts: Fact[] = [
     description: 'Chemical & consumer goods company: efficiency gains up to 1,000 hours monthly, manual effort reduction over 500 hours/month through AI-powered document workflows on SAP BTP.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
 
   // Source 26: IDC Study — SAP BTP ROI
@@ -3521,6 +3789,7 @@ export const facts: Fact[] = [
     description: 'IDC study: 516% ROI over three years when using SAP BTP for integration, automation, and innovation. Native AI integration with SAP systems dramatically reduces friction.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'other',
   },
 
   // Source 27: WalkMe — Digital Adoption for SAP
@@ -3536,6 +3805,7 @@ export const facts: Fact[] = [
     description: 'WalkMe (SAP company) reduces onboarding times with interactive AI-powered guidance for S/4HANA, SuccessFactors, Ariba, and Concur. Reduces need for extensive training programs.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'other',
   },
 
   // Source 28: SAP Build Work Zone — AI Content Creation
@@ -3551,6 +3821,7 @@ export const facts: Fact[] = [
     description: 'SAP Build Work Zone: time to produce external-facing blog reduced from 6 hours to 1 hour (83% reduction). Rapid creation of high-quality content enabled by AI.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
 
   {
@@ -3565,6 +3836,7 @@ export const facts: Fact[] = [
     description: 'Field Service Dispatcher Agent: 50% increase in dispatcher productivity and 8% reduction in erroneous technician assignments.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-28c',
@@ -3578,6 +3850,7 @@ export const facts: Fact[] = [
     description: 'Maintenance Planner Agent: 40% increase in productivity and 1% reduction in unplanned downtime.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-28d',
@@ -3591,6 +3864,7 @@ export const facts: Fact[] = [
     description: 'Accounts Receivable Agent: 75% effort reduction analyzing AR items. 1% reduction in DSO and 2% reduction in uncollectible write-offs.',
     credibility: 2,
     scope: 'business',
+    benefitType: 'efficiency',
   },
 
   // Source 29: KPMG and SAP Global Partnership
@@ -3605,6 +3879,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'KPMG Trusted AI framework for designing, building, and delivering AI strategies for SAP transformation projects. Unified process to trace, assess, and manage AI assets across the project lifecycle.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 30: Wipro AI-Powered SAP Modernization
@@ -3619,6 +3894,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Wipro GenAI-enabled ABAP Deconstructor tool for analyzing legacy SAP ABAP code. Applied to one of the largest utility companies in the UK. Accelerates SAP modernization through AI-powered code analysis.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 31: SAPinsider — 2025 Plans for SAP Business AI
@@ -3633,6 +3909,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'SAPinsider: in 2023 only 14% said AI influenced their RISE with SAP decision; by 2024 that jumped to 42%, showing rapid AI adoption shift. SAP targeting 400+ AI features including Joule Agents by end of 2025.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 32: Infosys — GenAI for SAP S/4HANA Testing
@@ -3647,6 +3924,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Infosys discusses how GenAI can transform SAP S/4HANA testing and QA — including test case generation, test data mining, and automation scripting. Conceptual framework without specific quantified metrics on the page.',
     credibility: 1,
+    benefitType: 'other',
   },
 
   // Source 33: SAP-ABAP-1 Foundation Model
@@ -3661,6 +3939,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'SAP-ABAP-1: purpose-built foundation model for ABAP development. Eliminates undocumented code challenges, provides standardized documentation for legacy systems, reduces time to understand and extend existing ABAP functionality.',
     credibility: 2,
+    benefitType: 'other',
   },
 
   // Source 34: Gartner Magic Quadrant — RPA including SAP
@@ -3675,6 +3954,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner 2025 RPA Magic Quadrant: RPA market grew 18% reaching $3.8B. SAP recognized as Challenger. 750% increase in client inquiries about agentic automation between Q2-Q4 2024.',
     credibility: 3,
+    benefitType: 'other',
   },
 
   // Source 35: Business AI — SAP Reimagines How Enterprises Run
@@ -3689,6 +3969,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP states Business AI can drive productivity gains of up to 30%. New transformation guidance using SAP Signavio and SAP LeanIX with Joule can help deliver up to 35% faster time to value for cloud transition.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 36: IDC — SAP Advanced Data Migration by Syniti
@@ -3703,6 +3984,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'IDC study: 46% faster major data migration projects (average). 38% reduced data migration costs. 53% more efficient data migration project teams. 303% three-year ROI and 8-month payback period.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-36b',
@@ -3715,6 +3997,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'IDC Syniti study reports 96% reduced unplanned downtime as a business benefit of AI-driven data migration.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 37: Forrester TEI — SAP Testing by Tricentis
@@ -3729,6 +4012,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Forrester TEI 2021: 334% ROI and six-month payback for Tricentis SAP testing solutions. 300% improvement in application release rate. 84% reduction in testing scope and 78% reduction in production errors.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 
   // Source 38: Jaguar Land Rover — SAP Testing with Tricentis
@@ -3743,6 +4027,7 @@ export const facts: Fact[] = [
     dataType: 'empirical',
     description: 'Jaguar Land Rover: regression testing time reduced from 7 days to 12 hours (80% reduction in work hours). 15% improvement in overall program delivery speed. Foundation for 40% test automation coverage with 520 automated regression test cases.',
     credibility: 3,
+    benefitType: 'efficiency',
   },
 
   // Source 39: LTIMindtree RELY.AI — GenAI SAP Testing
@@ -3757,6 +4042,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'LTIMindtree RELY.AI: ~50% reduction in test script creation effort with AI-assisted builders. 50% shorter test execution cycles. >95% test coverage.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
   {
     id: 'sap-39b',
@@ -3769,5 +4055,6 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'LTIMindtree case study: consumer goods company achieved 30% shorter testing cycles, 30% earlier defect identification, and 70% test automation coverage.',
     credibility: 2,
+    benefitType: 'efficiency',
   },
 ];

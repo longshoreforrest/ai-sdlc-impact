@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp, RotateCcw, ExternalLink } from 'lucide-react';
-import { DataType, ScenarioType } from '@/lib/types';
+import { DataType, ScenarioType, BenefitType } from '@/lib/types';
 import { useScenario } from '@/contexts/ScenarioContext';
 import { useTranslation } from '@/lib/i18n';
 import { facts } from '@/lib/mock-data';
@@ -16,6 +16,14 @@ import { getSourceCategory } from '@/lib/sources';
 import type { TranslationKey } from '@/lib/i18n/translations';
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
+const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+const DEFAULT_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost'];
+
+const BENEFIT_TYPE_SHORT: Record<BenefitType, string> = {
+  efficiency: 'Eff',
+  cost: 'Cost',
+  other: 'Other',
+};
 
 const DATA_TYPE_SHORT: Record<DataType, string> = {
   empirical: 'Emp',
@@ -85,14 +93,26 @@ export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioCon
     setConfigs({ ...configs, [scenario]: { ...configs[scenario], sourceCategories: updated } });
   }
 
+  function toggleBenefitType(scenario: ScenarioType, bt: BenefitType) {
+    const current = configs[scenario].benefitTypes ?? [...DEFAULT_BENEFIT_TYPES];
+    const updated = current.includes(bt)
+      ? current.filter((b) => b !== bt)
+      : [...current, bt];
+    if (updated.length === 0) return;
+    setConfigs({ ...configs, [scenario]: { ...configs[scenario], benefitTypes: updated } });
+  }
+
   function getScenarioCounts(scenario: ScenarioType): { factCount: number; sourceCount: number } {
     const config = configs[scenario];
     const allowedCategories = config.sourceCategories ?? [...DEFAULT_SOURCE_CATEGORIES];
     const includeBusinessFacts = config.includeBusinessFacts ?? false;
+    const allowedBenefitTypes = config.benefitTypes ?? [...DEFAULT_BENEFIT_TYPES];
     const matched = facts.filter(
       (f) => {
         if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
         if (!includeBusinessFacts && f.scope === 'business') return false;
+        const bt = f.benefitType ?? 'efficiency';
+        if (!allowedBenefitTypes.includes(bt)) return false;
         const cat = getSourceCategory(f.source);
         const filterCat: SourceCategoryFilter = cat ?? 'other';
         return allowedCategories.includes(filterCat);
@@ -206,6 +226,30 @@ export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioCon
                             }`}
                           >
                             {SOURCE_CATEGORY_SHORT[cat]}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Benefit Type toggles */}
+                  <div>
+                    <p className="text-xs text-muted mb-1.5">{t('scenario.benefitTypes')}:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {ALL_BENEFIT_TYPES.map((bt) => {
+                        const currentBts = configs[key].benefitTypes ?? [...DEFAULT_BENEFIT_TYPES];
+                        const isActive = currentBts.includes(bt);
+                        return (
+                          <button
+                            key={bt}
+                            onClick={() => toggleBenefitType(key, bt)}
+                            className={`px-2 py-1 text-xs rounded-md border transition-colors ${
+                              isActive
+                                ? style.activeClass
+                                : 'bg-zinc-50 text-muted border-border hover:text-foreground opacity-50'
+                            }`}
+                          >
+                            {BENEFIT_TYPE_SHORT[bt]}
                           </button>
                         );
                       })}

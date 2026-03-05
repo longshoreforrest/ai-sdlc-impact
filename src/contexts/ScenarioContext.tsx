@@ -47,6 +47,10 @@ export function ScenarioProvider({ children }: { children: ReactNode }) {
           if (!parsed.pessimistic.sourceCategories) parsed.pessimistic.sourceCategories = [...DEFAULT_SOURCE_CATEGORIES];
           if (!parsed.realistic.sourceCategories) parsed.realistic.sourceCategories = [...DEFAULT_SOURCE_CATEGORIES];
           if (!parsed.optimistic.sourceCategories) parsed.optimistic.sourceCategories = [...DEFAULT_SOURCE_CATEGORIES];
+          // Migration: add benefitTypes defaults for older stored configs
+          if (!parsed.pessimistic.benefitTypes) parsed.pessimistic.benefitTypes = ['efficiency', 'cost'];
+          if (!parsed.realistic.benefitTypes) parsed.realistic.benefitTypes = ['efficiency', 'cost'];
+          if (!parsed.optimistic.benefitTypes) parsed.optimistic.benefitTypes = ['efficiency', 'cost'];
           setConfigsState(parsed);
         }
       }

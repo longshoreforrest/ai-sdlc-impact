@@ -254,10 +254,13 @@ export function calculateConfiguredScenarios(
     const adoptionFactor = config.adoptionFactor ?? 1.0;
     const allowedCategories = config.sourceCategories ?? DEFAULT_SOURCE_CATEGORIES;
     const includeBusinessFacts = config.includeBusinessFacts ?? false;
+    const allowedBenefitTypes = config.benefitTypes ?? ['efficiency', 'cost'];
     const filtered = allFacts.filter(
       (f) => {
         if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
         if (!includeBusinessFacts && f.scope === 'business') return false;
+        const bt = f.benefitType ?? 'efficiency';
+        if (!allowedBenefitTypes.includes(bt)) return false;
         const cat = getSourceCategory(f.source);
         const filterCat: SourceCategoryFilter = cat ?? 'other';
         return allowedCategories.includes(filterCat);
