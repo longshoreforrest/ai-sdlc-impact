@@ -131,7 +131,8 @@ export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[])
     const included = includedPhases.includes(phase);
     const inhouseRatio = inhouseRatios?.[phase] ?? 1;
 
-    const hoursSaved = included ? teamSize * hoursPerYear * weight * medianImpact * inhouseRatio * timeframeYears : 0;
+    const maxPhaseHours = teamSize * hoursPerYear * weight * timeframeYears;
+    const hoursSaved = included ? Math.min(teamSize * hoursPerYear * weight * medianImpact * timeframeYears, maxPhaseHours) : 0;
     const costSavings = hoursSaved * hourlyRate;
 
     return {
@@ -141,6 +142,7 @@ export function calculateROI(inputs: CalculatorInputs, phaseStats: PhaseStats[])
       hoursSaved: Math.round(hoursSaved),
       costSavings: Math.round(costSavings),
       included,
+      inhouseRatio,
     };
   });
 
@@ -180,12 +182,12 @@ function calculateScenario(
   const phaseBreakdown: ROIPhaseBreakdown[] = PHASES.map((phase) => {
     const stats = phaseStats.find((s) => s.phase === phase);
     const impact = stats ? impactSelector(stats) / 100 : 0;
-    const clampedImpact = Math.max(impact, 0);
+    const clampedImpact = Math.min(Math.max(impact, 0), 1);
     const weight = phaseWeights[phase];
     const included = includedPhases.includes(phase);
     const inhouseRatio = inhouseRatios?.[phase] ?? 1;
 
-    const hoursSaved = included ? teamSize * hoursPerYear * weight * clampedImpact * inhouseRatio * timeframeYears : 0;
+    const hoursSaved = included ? teamSize * hoursPerYear * weight * clampedImpact * timeframeYears : 0;
     const costSavings = hoursSaved * hourlyRate;
 
     return {
@@ -195,6 +197,7 @@ function calculateScenario(
       hoursSaved: Math.round(hoursSaved),
       costSavings: Math.round(costSavings),
       included,
+      inhouseRatio,
     };
   });
 

@@ -71,6 +71,17 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
     }));
   }, [scenarios]);
 
+  // Inhouse vs Outsourced savings breakdown (realistic scenario)
+  const inhouseData = useMemo(() => {
+    return scenarios.realistic.phaseBreakdown
+      .filter((p) => p.included && p.costSavings > 0)
+      .map((p) => ({
+        phase: p.phase,
+        inhouse: Math.round(p.costSavings * p.inhouseRatio / divisor * 10) / 10,
+        outsourced: Math.round(p.costSavings * (1 - p.inhouseRatio) / divisor * 10) / 10,
+      }));
+  }, [scenarios, divisor]);
+
   // Multi-year projection: cumulative net ROI over 10 years
   const projectionData = useMemo(() => {
     const annualTooling = teamSize * 20 * 12;
@@ -304,6 +315,56 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
           );
         })}
       </div>
+
+      {/* Inhouse vs Outsourced Savings */}
+      {inhouseData.some((d) => d.outsourced > 0) && (
+        <div className="bg-surface rounded-xl border border-border p-6">
+          <h3 className="text-sm font-medium text-muted mb-4 uppercase tracking-wider">
+            {t('roi.inhouseVsOutsourced')} (EUR {scaleSuffix})
+          </h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={inhouseData} margin={{ top: 20, right: 10, bottom: 10, left: 10 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
+              <XAxis
+                dataKey="phase"
+                tick={{ fill: '#71717a', fontSize: 12 }}
+                axisLine={{ stroke: '#d4d4d8' }}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fill: '#71717a', fontSize: 12 }}
+                axisLine={{ stroke: '#d4d4d8' }}
+                tickLine={false}
+                tickFormatter={(v) => `${v}${scaleSuffix}`}
+              />
+              <Tooltip
+                content={({ active, payload, label }) => {
+                  if (!active || !payload?.length) return null;
+                  return (
+                    <div className="bg-white border border-border rounded-lg p-3 shadow-xl text-xs">
+                      <p className="font-medium text-foreground mb-1">{label}</p>
+                      {payload.map((entry) => (
+                        <p key={entry.dataKey as string} style={{ color: entry.color }}>
+                          {entry.name}: {formatEur((entry.value as number) * divisor)}
+                        </p>
+                      ))}
+                    </div>
+                  );
+                }}
+              />
+              <Legend
+                iconSize={10}
+                wrapperStyle={{ fontSize: '11px', color: '#71717a' }}
+              />
+              <Bar dataKey="inhouse" name={t('roi.inhouse')} stackId="a" fill="#3b82f6" fillOpacity={0.7} radius={[0, 0, 0, 0]} />
+              <Bar dataKey="outsourced" name={t('roi.outsourced')} stackId="a" fill="#f97316" fillOpacity={0.7} radius={[2, 2, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+          <p className="text-xs text-muted mt-2 italic">
+            {t('roi.inhouseNote')}
+          </p>
+        </div>
+      )}
 
       {/* Multi-Year Projection */}
       <div className="bg-surface rounded-xl border border-border p-6">

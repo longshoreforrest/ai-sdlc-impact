@@ -17,10 +17,11 @@ const categoryBadge: Record<string, { label: string; className: string }> = {
   'social-media': { label: 'Social Media', className: 'bg-pink-500/20 text-pink-400' },
   scientific: { label: 'Scientific Reference', className: 'bg-cyan-500/20 text-cyan-400' },
   sap: { label: 'SAP', className: 'bg-amber-500/20 text-amber-400' },
+  salesforce: { label: 'Salesforce', className: 'bg-sky-500/20 text-sky-400' },
 };
 
 const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
-const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap'];
+const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap', 'salesforce'];
 
 const dataTypeBadgeColors: Record<DataType, string> = {
   empirical: 'bg-emerald-500/20 text-emerald-400',
@@ -119,7 +120,7 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
   const dataTypes = dataTypesParam
     ? dataTypesParam.split(',').filter((d): d is DataType => DATA_TYPES.includes(d as DataType))
     : [...DATA_TYPES];
-  const validCategories: (SourceCategory | 'all')[] = ['all', 'scientific', 'social-media', 'sap'];
+  const validCategories: (SourceCategory | 'all')[] = ['all', 'scientific', 'social-media', 'sap', 'salesforce'];
   const category = categoryParam && validCategories.includes(categoryParam as SourceCategory)
     ? categoryParam as SourceCategory
     : 'all';
@@ -414,6 +415,9 @@ function SourcesPageContent() {
             <ToggleButton active={filters.category === 'sap'} onClick={() => setCategory('sap')}>
               {t('sources.sap')}
             </ToggleButton>
+            <ToggleButton active={filters.category === 'salesforce'} onClick={() => setCategory('salesforce')}>
+              {t('sources.salesforce')}
+            </ToggleButton>
           </div>
         </div>
 
@@ -530,9 +534,9 @@ function SourcesPageContent() {
                         ) : (
                           <h3 className="text-sm font-medium text-foreground">{source.name}</h3>
                         )}
-                        {source.category && (
+                        {source.category && categoryBadge[source.category] && (
                           <span className={`px-2 py-0.5 text-xs rounded-md whitespace-nowrap ${categoryBadge[source.category].className}`}>
-                            {source.category === 'social-media' ? t('sources.socialMedia') : source.category === 'sap' ? t('sources.sap') : t('sources.scientific')}
+                            {categoryBadge[source.category].label}
                           </span>
                         )}
                       </div>

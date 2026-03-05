@@ -29,6 +29,7 @@ const SOURCE_CATEGORY_SHORT: Record<SourceCategoryFilter, string> = {
   scientific: 'Sci',
   'social-media': 'Social',
   sap: 'SAP',
+  salesforce: 'SF',
   other: 'Other',
 };
 
@@ -36,6 +37,7 @@ const SOURCE_CATEGORY_LABEL_KEYS: Record<SourceCategoryFilter, TranslationKey> =
   scientific: 'sources.scientific',
   'social-media': 'sources.socialMedia',
   sap: 'sources.sap',
+  salesforce: 'sources.salesforce',
   other: 'scenario.categoryOther',
 };
 

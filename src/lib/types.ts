@@ -58,7 +58,7 @@ export interface FilterState {
 export interface ScenarioConfig {
   years: number[];
   dataTypes: DataType[];
-  sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'other')[];
+  sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'salesforce' | 'other')[];
   adoptionFactor?: number; // β: organizational adoption multiplier (0.1–1.5)
 }
 
@@ -116,6 +116,7 @@ export interface ROIPhaseBreakdown {
   hoursSaved: number;
   costSavings: number;
   included: boolean;
+  inhouseRatio: number; // 0-1, portion that is inhouse
 }
 
 export interface ROIResult {

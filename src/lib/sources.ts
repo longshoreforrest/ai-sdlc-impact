@@ -1,6 +1,6 @@
 import { DataType, Fact } from './types';
 
-export type SourceCategory = 'social-media' | 'scientific' | 'sap' | null;
+export type SourceCategory = 'social-media' | 'scientific' | 'sap' | 'salesforce' | null;
 
 const SOCIAL_MEDIA_PREFIXES = ['X/Twitter', 'LinkedIn'];
 const SCIENTIFIC_PREFIXES = [
@@ -17,10 +17,12 @@ const SCIENTIFIC_EXACT = [
   'Microsoft Research — LLM Incident Triage',
 ];
 const SAP_PREFIXES = ['SAP'];
+const SALESFORCE_PREFIXES = ['Salesforce'];
 
 export function getSourceCategory(name: string): SourceCategory {
   if (SOCIAL_MEDIA_PREFIXES.some((p) => name.startsWith(p))) return 'social-media';
   if (SAP_PREFIXES.some((p) => name.startsWith(p))) return 'sap';
+  if (SALESFORCE_PREFIXES.some((p) => name.startsWith(p))) return 'salesforce';
   if (SCIENTIFIC_PREFIXES.some((p) => name.startsWith(p))) return 'scientific';
   if (SCIENTIFIC_CONTAINS.some((s) => name.includes(s))) return 'scientific';
   if (SCIENTIFIC_EXACT.includes(name)) return 'scientific';

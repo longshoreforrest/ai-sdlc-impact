@@ -64,6 +64,7 @@ const categoryColors: Record<string, string> = {
   scientific: '#06b6d4',
   'social-media': '#ec4899',
   sap: '#f59e0b',
+  salesforce: '#00a1e0',
   other: '#a1a1aa',
 };
 
@@ -71,6 +72,7 @@ const categoryLabelKeys: Record<string, string> = {
   scientific: 'sources.scientific',
   'social-media': 'sources.socialMedia',
   sap: 'sources.sap',
+  salesforce: 'sources.salesforce',
   other: 'scenario.categoryOther',
 };
 
@@ -179,7 +181,7 @@ export default function AnalyticsPage() {
     }));
 
     // Facts by source category
-    const categoryCounts: Record<string, number> = { scientific: 0, 'social-media': 0, sap: 0, other: 0 };
+    const categoryCounts: Record<string, number> = { scientific: 0, 'social-media': 0, sap: 0, salesforce: 0, other: 0 };
     facts.forEach((f) => {
       const cat = getSourceCategory(f.source) ?? 'other';
       categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;

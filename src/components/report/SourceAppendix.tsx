@@ -20,6 +20,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   'social-media': 'Social Media',
   scientific: 'Scientific',
   sap: 'SAP',
+  salesforce: 'Salesforce',
 };
 
 export default function SourceAppendix({ facts }: SourceAppendixProps) {
