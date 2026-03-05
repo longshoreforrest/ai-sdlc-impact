@@ -658,34 +658,38 @@ function SourcesPageContent() {
                             <p className="text-sm text-foreground leading-relaxed">
                               {fact.description}
                             </p>
-                            <div className="flex flex-wrap items-center gap-2 mt-1.5">
-                              <span className={`px-2 py-0.5 text-xs rounded-md ${dataTypeBadgeColors[fact.dataType]}`}>
-                                {fact.dataType}
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-1.5 text-xs">
+                              <span className="text-muted">
+                                <span className="uppercase tracking-wider font-medium">{t('common.type')}</span>{' '}
+                                <span className={`inline-block px-2 py-0.5 rounded-md ${dataTypeBadgeColors[fact.dataType]}`}>{fact.dataType}</span>
                               </span>
-                              {fact.scope === 'business' && (
-                                <span className="px-2 py-0.5 text-xs rounded-md bg-yellow-500/20 text-yellow-600">
-                                  Business
-                                </span>
-                              )}
-                              {fact.benefitType === 'cost' && (
-                                <span className="px-2 py-0.5 text-xs rounded-md bg-green-500/20 text-green-600">
-                                  Cost Saving
-                                </span>
-                              )}
-                              {fact.benefitType === 'other' && (
-                                <span className="px-2 py-0.5 text-xs rounded-md bg-zinc-500/20 text-zinc-500">
-                                  Other
-                                </span>
-                              )}
-                              <span className="px-2 py-0.5 text-xs rounded-md bg-zinc-100 text-muted">
-                                {fact.phase}
+                              <span className="text-muted">
+                                <span className="uppercase tracking-wider font-medium">{t('common.year')}</span>{' '}
+                                <span className="text-foreground tabular-nums">{fact.year}</span>
+                                {fact.publishDate && <span className="text-muted tabular-nums ml-1">({fact.publishDate})</span>}
                               </span>
-                              <span className="text-xs text-muted">{fact.year}</span>
-                              {fact.publishDate && (
-                                <span className="text-xs text-muted tabular-nums">{fact.publishDate}</span>
-                              )}
+                              <span className="text-muted">
+                                <span className="uppercase tracking-wider font-medium">{t('sources.scope')}</span>{' '}
+                                <span className={`inline-block px-2 py-0.5 rounded-md ${fact.scope === 'business' ? 'bg-yellow-500/20 text-yellow-600' : 'bg-blue-500/20 text-blue-400'}`}>
+                                  {fact.scope === 'business' ? 'Business' : 'SDLC'}
+                                </span>
+                              </span>
+                              <span className="text-muted">
+                                <span className="uppercase tracking-wider font-medium">{t('sources.benefitType')}</span>{' '}
+                                <span className={`inline-block px-2 py-0.5 rounded-md ${
+                                  (fact.benefitType ?? 'efficiency') === 'efficiency' ? 'bg-indigo-500/20 text-indigo-400'
+                                  : fact.benefitType === 'cost' ? 'bg-green-500/20 text-green-600'
+                                  : 'bg-zinc-500/20 text-zinc-500'
+                                }`}>
+                                  {t(`sources.benefitType_${fact.benefitType ?? 'efficiency'}` as TranslationKey)}
+                                </span>
+                              </span>
+                              <span className="text-muted">
+                                <span className="uppercase tracking-wider font-medium">{t('common.phase')}</span>{' '}
+                                <span className="inline-block px-2 py-0.5 rounded-md bg-zinc-100 text-muted">{fact.phase}</span>
+                              </span>
                               {fact.sampleSize && (
-                                <span className="text-xs text-muted">n={fact.sampleSize}</span>
+                                <span className="text-muted">n={fact.sampleSize}</span>
                               )}
                               <CredibilityDots level={fact.credibility} />
                             </div>
