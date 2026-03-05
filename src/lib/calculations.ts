@@ -1,6 +1,8 @@
 import { Fact, Phase, PhaseStats, PhaseTrend, TrendPoint, EraComparison, CalculatorInputs, ROIResult, ROIPhaseBreakdown, ScenarioResults, ScenarioType, PhaseFactGroup, ScenarioFactMapping, METRConfig } from './types';
-import { TOOLING_COST_PER_SEAT_MONTHLY, ERA_BOUNDARY_YEAR, SCENARIO_KEYS } from './constants';
+import { TOOLING_COST_PER_SEAT_MONTHLY, ERA_BOUNDARY_YEAR, SCENARIO_KEYS, DEFAULT_SOURCE_CATEGORIES } from './constants';
+import type { SourceCategoryFilter } from './constants';
 import { PHASES, PHASE_WEIGHTS } from './mock-data';
+import { getSourceCategory } from './sources';
 
 function quartile(sorted: number[], q: number): number {
   if (sorted.length === 0) return 0;
@@ -247,8 +249,14 @@ export function calculateConfiguredScenarios(
   for (const key of scenarioKeys) {
     const config = inputs.scenarioConfigs[key];
     const adoptionFactor = config.adoptionFactor ?? 1.0;
+    const allowedCategories = config.sourceCategories ?? DEFAULT_SOURCE_CATEGORIES;
     const filtered = allFacts.filter(
-      (f) => config.years.includes(f.year) && config.dataTypes.includes(f.dataType)
+      (f) => {
+        if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
+        const cat = getSourceCategory(f.source);
+        const filterCat: SourceCategoryFilter = cat ?? 'other';
+        return allowedCategories.includes(filterCat);
+      }
     );
     const stats = computePhaseStats(filtered);
 

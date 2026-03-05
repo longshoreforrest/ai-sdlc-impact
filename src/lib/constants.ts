@@ -51,6 +51,15 @@ export const DATA_TYPE_BADGE_COLORS: Record<DataType, string> = {
   info: 'bg-zinc-500/20 text-zinc-400',
 };
 
+// ── Source category constants ──
+
+export type SourceCategoryFilter = 'social-media' | 'scientific' | 'sap' | 'other';
+
+export const ALL_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'sap', 'other'];
+
+/** Default source categories for scenarios (SAP excluded) */
+export const DEFAULT_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'other'];
+
 // ── Tooling cost ──
 
 export const TOOLING_COST_PER_SEAT_MONTHLY = 20; // EUR per developer per month

@@ -58,6 +58,7 @@ export interface FilterState {
 export interface ScenarioConfig {
   years: number[];
   dataTypes: DataType[];
+  sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'other')[];
   adoptionFactor?: number; // β: organizational adoption multiplier (0.1–1.5)
 }
 

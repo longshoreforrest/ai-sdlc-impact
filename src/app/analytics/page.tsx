@@ -18,6 +18,8 @@ import {
 import { facts, PHASE_WEIGHTS } from '@/lib/mock-data';
 import { PHASES, ALL_YEARS } from '@/lib/mock-data';
 import { computeTrendData, calculateConfiguredScenarios } from '@/lib/calculations';
+import { getSourceCategory } from '@/lib/sources';
+import type { SourceCategoryFilter } from '@/lib/constants';
 import type { DataType, Phase, CalculatorInputs, ScenarioType } from '@/lib/types';
 import { useScenario } from '@/contexts/ScenarioContext';
 import ExportButton from '@/components/ExportButton';
@@ -57,6 +59,20 @@ const PHASE_COLORS: Record<Phase, string> = {
 };
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
+
+const categoryColors: Record<string, string> = {
+  scientific: '#06b6d4',
+  'social-media': '#ec4899',
+  sap: '#f59e0b',
+  other: '#a1a1aa',
+};
+
+const categoryLabelKeys: Record<string, string> = {
+  scientific: 'sources.scientific',
+  'social-media': 'sources.socialMedia',
+  sap: 'sources.sap',
+  other: 'scenario.categoryOther',
+};
 
 const SCENARIO_COLORS: Record<ScenarioType, string> = {
   pessimistic: '#ef4444',
@@ -162,6 +178,17 @@ export default function AnalyticsPage() {
       count: facts.filter((f) => f.phase === phase).length,
     }));
 
+    // Facts by source category
+    const categoryCounts: Record<string, number> = { scientific: 0, 'social-media': 0, sap: 0, other: 0 };
+    facts.forEach((f) => {
+      const cat = getSourceCategory(f.source) ?? 'other';
+      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
+    const byCategory = Object.entries(categoryCounts).map(([category, count]) => ({
+      category,
+      count,
+    }));
+
     // Year × Phase cross-tabulation
     const yearPhaseMatrix = PHASES.map((phase) => {
       const row: Record<string, number | string> = { phase };
@@ -251,6 +278,7 @@ export default function AnalyticsPage() {
       byYear,
       byDataType,
       byPhase,
+      byCategory,
       yearPhaseMatrix,
       yearDataTypeMatrix,
       maxYearPhase,
@@ -539,8 +567,8 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* B) Three-column Chart Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      {/* B) Chart Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* Facts by Year */}
         <div className="bg-surface border border-border rounded-xl p-5">
           <h2 className="text-sm font-semibold text-foreground mb-4">
@@ -663,6 +691,63 @@ export default function AnalyticsPage() {
                 cursor="pointer"
                 onClick={barClick((p) => drillDown({ phases: p.phase }))}
               />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Facts by Category */}
+        <div className="bg-surface border border-border rounded-xl p-5">
+          <h2 className="text-sm font-semibold text-foreground mb-4">
+            {t('analytics.factsByCategory')}
+          </h2>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart
+              data={stats.byCategory}
+              layout="vertical"
+              margin={{ top: 5, right: 10, bottom: 5, left: 10 }}
+              className="cursor-pointer"
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" horizontal={false} />
+              <XAxis type="number" tick={{ fill: '#71717a', fontSize: 12 }} />
+              <YAxis
+                type="category"
+                dataKey="category"
+                tick={{ fill: '#71717a', fontSize: 12 }}
+                width={80}
+                tickFormatter={(v: string) => t(categoryLabelKeys[v] as Parameters<typeof t>[0])}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#18181b',
+                  border: '1px solid #27272a',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                }}
+                labelStyle={{ color: '#a1a1aa' }}
+                itemStyle={{ color: '#e4e4e7' }}
+                labelFormatter={(v: string) => t(categoryLabelKeys[v] as Parameters<typeof t>[0])}
+              />
+              <Bar
+                dataKey="count"
+                radius={[0, 4, 4, 0]}
+                cursor="pointer"
+                onClick={barClick((p) => {
+                  const cat = p.category as string;
+                  if (cat === 'other') {
+                    drillDown({});
+                  } else {
+                    drillDown({ category: cat });
+                  }
+                })}
+              >
+                {stats.byCategory.map((entry) => (
+                  <Cell
+                    key={entry.category}
+                    fill={categoryColors[entry.category] || '#a1a1aa'}
+                    fillOpacity={0.8}
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>

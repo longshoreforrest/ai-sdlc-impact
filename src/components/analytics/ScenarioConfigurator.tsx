@@ -10,6 +10,9 @@ import { facts } from '@/lib/mock-data';
 import { ALL_YEARS } from '@/lib/mock-data';
 import { computeMETRMultiplier } from '@/lib/calculations';
 import { generateScenarioDescription } from '@/lib/scenario-descriptions';
+import { ALL_SOURCE_CATEGORIES, DEFAULT_SOURCE_CATEGORIES } from '@/lib/constants';
+import type { SourceCategoryFilter } from '@/lib/constants';
+import { getSourceCategory } from '@/lib/sources';
 import type { TranslationKey } from '@/lib/i18n/translations';
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
@@ -20,6 +23,20 @@ const DATA_TYPE_SHORT: Record<DataType, string> = {
   vendor: 'Vnd',
   anecdotal: 'Anc',
   info: 'Info',
+};
+
+const SOURCE_CATEGORY_SHORT: Record<SourceCategoryFilter, string> = {
+  scientific: 'Sci',
+  'social-media': 'Social',
+  sap: 'SAP',
+  other: 'Other',
+};
+
+const SOURCE_CATEGORY_LABEL_KEYS: Record<SourceCategoryFilter, TranslationKey> = {
+  scientific: 'sources.scientific',
+  'social-media': 'sources.socialMedia',
+  sap: 'sources.sap',
+  other: 'scenario.categoryOther',
 };
 
 const SCENARIO_STYLES: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string; activeClass: string; bgClass: string }> = {
@@ -57,10 +74,25 @@ export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioCon
     setConfigs({ ...configs, [scenario]: { ...configs[scenario], dataTypes: updated } });
   }
 
+  function toggleSourceCategory(scenario: ScenarioType, cat: SourceCategoryFilter) {
+    const current = configs[scenario].sourceCategories ?? [...DEFAULT_SOURCE_CATEGORIES];
+    const updated = current.includes(cat)
+      ? current.filter((c) => c !== cat)
+      : [...current, cat];
+    if (updated.length === 0) return;
+    setConfigs({ ...configs, [scenario]: { ...configs[scenario], sourceCategories: updated } });
+  }
+
   function getScenarioCounts(scenario: ScenarioType): { factCount: number; sourceCount: number } {
     const config = configs[scenario];
+    const allowedCategories = config.sourceCategories ?? [...DEFAULT_SOURCE_CATEGORIES];
     const matched = facts.filter(
-      (f) => config.years.includes(f.year) && config.dataTypes.includes(f.dataType)
+      (f) => {
+        if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
+        const cat = getSourceCategory(f.source);
+        const filterCat: SourceCategoryFilter = cat ?? 'other';
+        return allowedCategories.includes(filterCat);
+      }
     );
     const uniqueSources = new Set(matched.map((f) => f.source));
     return { factCount: matched.length, sourceCount: uniqueSources.size };
@@ -146,6 +178,30 @@ export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioCon
                             }`}
                           >
                             {DATA_TYPE_SHORT[dt]}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Source Category toggles */}
+                  <div>
+                    <p className="text-xs text-muted mb-1.5">{t('scenario.sourceCategories')}:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {ALL_SOURCE_CATEGORIES.map((cat) => {
+                        const currentCats = configs[key].sourceCategories ?? [...DEFAULT_SOURCE_CATEGORIES];
+                        const isActive = currentCats.includes(cat);
+                        return (
+                          <button
+                            key={cat}
+                            onClick={() => toggleSourceCategory(key, cat)}
+                            className={`px-2 py-1 text-xs rounded-md border transition-colors ${
+                              isActive
+                                ? style.activeClass
+                                : 'bg-zinc-50 text-muted border-border hover:text-foreground opacity-50'
+                            }`}
+                          >
+                            {SOURCE_CATEGORY_SHORT[cat]}
                           </button>
                         );
                       })}

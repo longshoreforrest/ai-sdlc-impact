@@ -19,6 +19,7 @@ const DATA_TYPE_LABELS: Record<string, TranslationKey> = {
 const CATEGORY_LABELS: Record<string, string> = {
   'social-media': 'Social Media',
   scientific: 'Scientific',
+  sap: 'SAP',
 };
 
 export default function SourceAppendix({ facts }: SourceAppendixProps) {

@@ -16,10 +16,11 @@ import SuggestSourcePanel from '@/components/sources/SuggestSourcePanel';
 const categoryBadge: Record<string, { label: string; className: string }> = {
   'social-media': { label: 'Social Media', className: 'bg-pink-500/20 text-pink-400' },
   scientific: { label: 'Scientific Reference', className: 'bg-cyan-500/20 text-cyan-400' },
+  sap: { label: 'SAP', className: 'bg-amber-500/20 text-amber-400' },
 };
 
 const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
-const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific'];
+const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap'];
 
 const dataTypeBadgeColors: Record<DataType, string> = {
   empirical: 'bg-emerald-500/20 text-emerald-400',
@@ -105,8 +106,9 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
   const phasesParam = searchParams.get('phases');
   const yearsParam = searchParams.get('years');
   const dataTypesParam = searchParams.get('dataTypes');
+  const categoryParam = searchParams.get('category');
 
-  if (!phasesParam && !yearsParam && !dataTypesParam) return { filters: defaultFilters, fromDashboard: false };
+  if (!phasesParam && !yearsParam && !dataTypesParam && !categoryParam) return { filters: defaultFilters, fromDashboard: false };
 
   const phases = phasesParam
     ? phasesParam.split(',').filter((p): p is Phase => PHASES.includes(p as Phase))
@@ -117,6 +119,10 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
   const dataTypes = dataTypesParam
     ? dataTypesParam.split(',').filter((d): d is DataType => DATA_TYPES.includes(d as DataType))
     : [...DATA_TYPES];
+  const validCategories: (SourceCategory | 'all')[] = ['all', 'scientific', 'social-media', 'sap'];
+  const category = categoryParam && validCategories.includes(categoryParam as SourceCategory)
+    ? categoryParam as SourceCategory
+    : 'all';
 
   return {
     filters: {
@@ -124,7 +130,7 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
       dataTypes: dataTypes.length > 0 ? dataTypes : [...DATA_TYPES],
       phases: phases.length > 0 ? phases : [...PHASES],
       hasLink: 'all',
-      category: 'all',
+      category,
       dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE] as [string, string],
     },
     fromDashboard: true,
@@ -293,8 +299,8 @@ function SourcesPageContent() {
           <h1 className="text-2xl font-bold tracking-tight">{t('sources.title')}</h1>
           <p className="text-sm text-muted mt-1">
             {isDefault
-              ? <>{t('sources.sourcesAcross', { count: sources.length, dataPoints: filteredFacts.length })}</>
-              : <><span className="text-foreground font-medium">{t('sources.filteredCount', { filtered: sources.length, total: totalSources, filteredPoints: filteredFacts.length, totalPoints: facts.length })}</span></>
+              ? <>{t('sources.sourcesAcross', { count: sources.length, dataPoints: sources.reduce((s, src) => s + src.factCount, 0) })}</>
+              : <><span className="text-foreground font-medium">{t('sources.filteredCount', { filtered: sources.length, total: totalSources, filteredPoints: sources.reduce((s, src) => s + src.factCount, 0), totalPoints: facts.length })}</span></>
             }
           </p>
         </div>
@@ -404,6 +410,9 @@ function SourcesPageContent() {
             </ToggleButton>
             <ToggleButton active={filters.category === 'social-media'} onClick={() => setCategory('social-media')}>
               {t('sources.socialMedia')}
+            </ToggleButton>
+            <ToggleButton active={filters.category === 'sap'} onClick={() => setCategory('sap')}>
+              {t('sources.sap')}
             </ToggleButton>
           </div>
         </div>
@@ -523,7 +532,7 @@ function SourcesPageContent() {
                         )}
                         {source.category && (
                           <span className={`px-2 py-0.5 text-xs rounded-md whitespace-nowrap ${categoryBadge[source.category].className}`}>
-                            {source.category === 'social-media' ? t('sources.socialMedia') : t('sources.scientific')}
+                            {source.category === 'social-media' ? t('sources.socialMedia') : source.category === 'sap' ? t('sources.sap') : t('sources.scientific')}
                           </span>
                         )}
                       </div>

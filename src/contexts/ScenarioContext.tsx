@@ -2,12 +2,12 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { ScenarioConfigs, ScenarioType } from '@/lib/types';
-import { PRODUCTIVE_DATA_TYPES } from '@/lib/constants';
+import { PRODUCTIVE_DATA_TYPES, DEFAULT_SOURCE_CATEGORIES } from '@/lib/constants';
 
 const DEFAULT_CONFIGS: ScenarioConfigs = {
-  pessimistic: { years: [2023, 2024], dataTypes: ['empirical'], adoptionFactor: 0.75 },
-  realistic: { years: [2024, 2025, 2026], dataTypes: [...PRODUCTIVE_DATA_TYPES], adoptionFactor: 1.0 },
-  optimistic: { years: [2025, 2026], dataTypes: [...PRODUCTIVE_DATA_TYPES], adoptionFactor: 1.0 },
+  pessimistic: { years: [2023, 2024], dataTypes: ['empirical'], sourceCategories: [...DEFAULT_SOURCE_CATEGORIES], adoptionFactor: 0.75 },
+  realistic: { years: [2024, 2025, 2026], dataTypes: [...PRODUCTIVE_DATA_TYPES], sourceCategories: [...DEFAULT_SOURCE_CATEGORIES], adoptionFactor: 1.0 },
+  optimistic: { years: [2025, 2026], dataTypes: [...PRODUCTIVE_DATA_TYPES], sourceCategories: [...DEFAULT_SOURCE_CATEGORIES], adoptionFactor: 1.0 },
   metrConfig: { enabled: true, doublingPeriodMonths: 4, futureOffsetMonths: 12, adoptionElasticity: 0.5 },
 };
 
@@ -43,6 +43,10 @@ export function ScenarioProvider({ children }: { children: ReactNode }) {
           if (parsed.pessimistic.adoptionFactor == null) parsed.pessimistic.adoptionFactor = 0.75;
           if (parsed.realistic.adoptionFactor == null) parsed.realistic.adoptionFactor = 1.0;
           if (parsed.optimistic.adoptionFactor == null) parsed.optimistic.adoptionFactor = 1.0;
+          // Migration: add sourceCategories defaults for older stored configs
+          if (!parsed.pessimistic.sourceCategories) parsed.pessimistic.sourceCategories = [...DEFAULT_SOURCE_CATEGORIES];
+          if (!parsed.realistic.sourceCategories) parsed.realistic.sourceCategories = [...DEFAULT_SOURCE_CATEGORIES];
+          if (!parsed.optimistic.sourceCategories) parsed.optimistic.sourceCategories = [...DEFAULT_SOURCE_CATEGORIES];
           setConfigsState(parsed);
         }
       }
