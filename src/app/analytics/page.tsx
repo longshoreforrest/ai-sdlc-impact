@@ -725,7 +725,7 @@ export default function AnalyticsPage() {
                 }}
                 labelStyle={{ color: '#a1a1aa' }}
                 itemStyle={{ color: '#e4e4e7' }}
-                labelFormatter={(v: string) => t(categoryLabelKeys[v] as Parameters<typeof t>[0])}
+                labelFormatter={(v) => t(categoryLabelKeys[String(v)] as Parameters<typeof t>[0])}
               />
               <Bar
                 dataKey="count"
