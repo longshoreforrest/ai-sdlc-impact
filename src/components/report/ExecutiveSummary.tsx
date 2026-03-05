@@ -18,6 +18,7 @@ import { ScenarioResults, ScenarioType, CalculatorInputs } from '@/lib/types';
 import { formatEur, formatHours } from '@/lib/formatters';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
+import { groupPhaseBreakdown, isMappingCustom } from '@/lib/phase-mapping';
 
 interface ExecutiveSummaryProps {
   scenarios: ScenarioResults;
@@ -42,39 +43,48 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
   const { t } = useTranslation();
   const timeframeYears = inputs.timeframeYears || 1;
   const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
+  const phaseMapping = inputs.phaseMapping;
+  const hasCustomMapping = isMappingCustom(phaseMapping);
+
+  // Group phase breakdowns by mapping
+  const grouped = useMemo(() => ({
+    pessimistic: groupPhaseBreakdown(scenarios.pessimistic.phaseBreakdown, phaseMapping),
+    realistic: groupPhaseBreakdown(scenarios.realistic.phaseBreakdown, phaseMapping),
+    optimistic: groupPhaseBreakdown(scenarios.optimistic.phaseBreakdown, phaseMapping),
+  }), [scenarios, phaseMapping]);
 
   // Determine chart scale: use millions if max value >= 1M, otherwise thousands
   const maxSavings = Math.max(
-    ...scenarios.optimistic.phaseBreakdown.map((p) => Math.abs(p.costSavings))
+    ...grouped.optimistic.map((p) => Math.abs(p.costSavings))
   );
   const useMillions = maxSavings >= 1_000_000;
   const divisor = useMillions ? 1_000_000 : 1_000;
   const scaleSuffix = useMillions ? 'M' : 'K';
 
-  const chartData = scenarios.realistic.phaseBreakdown.map((p, i) => ({
-    phase: p.phase,
-    pessimistic: Math.round(scenarios.pessimistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
-    realistic: Math.round(scenarios.realistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
-    optimistic: Math.round(scenarios.optimistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
+  const chartData = grouped.realistic.map((p, i) => ({
+    phase: p.label,
+    pessimistic: Math.round(grouped.pessimistic[i].costSavings / divisor * 10) / 10,
+    realistic: Math.round(grouped.realistic[i].costSavings / divisor * 10) / 10,
+    optimistic: Math.round(grouped.optimistic[i].costSavings / divisor * 10) / 10,
   }));
 
   // Impact % per phase per scenario
-  const impactData = scenarios.realistic.phaseBreakdown.map((p, i) => ({
-    phase: p.phase,
-    pessimistic: scenarios.pessimistic.phaseBreakdown[i].medianImpact,
-    realistic: scenarios.realistic.phaseBreakdown[i].medianImpact,
-    optimistic: scenarios.optimistic.phaseBreakdown[i].medianImpact,
+  const impactData = grouped.realistic.map((p, i) => ({
+    phase: p.label,
+    pessimistic: grouped.pessimistic[i].medianImpact,
+    realistic: grouped.realistic[i].medianImpact,
+    optimistic: grouped.optimistic[i].medianImpact,
   }));
 
   // Pie chart data: cost savings per phase per scenario
   const pieData = useMemo(() => {
     return scenarioKeys.map((key) => ({
       key,
-      data: scenarios[key].phaseBreakdown
+      data: grouped[key]
         .filter((p) => p.included && p.costSavings > 0)
-        .map((p) => ({ name: p.phase, value: p.costSavings })),
+        .map((p) => ({ name: p.label, value: p.costSavings })),
     }));
-  }, [scenarios]);
+  }, [grouped]);
 
   const realistic = scenarios.realistic;
 
@@ -313,22 +323,24 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
               </tr>
             </thead>
             <tbody>
-              {realistic.phaseBreakdown.map((p) => {
-                const inhouseRatio = inputs.inhouseRatios?.[p.phase] ?? 1;
-                return (
-                  <tr key={p.phase} className={`border-b border-zinc-100 ${!p.included ? 'text-zinc-400' : ''}`}>
-                    <td className="px-3 py-2 font-medium">{p.phase}</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{(p.weight * 100).toFixed(0)}%</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{Math.round(inhouseRatio * 100)}%</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{formatHours(p.hoursSaved)}</td>
-                    <td className="px-3 py-2 text-right tabular-nums">{formatEur(p.costSavings)}</td>
-                  </tr>
-                );
-              })}
+              {grouped.realistic.map((p) => (
+                <tr key={p.label} className={`border-b border-zinc-100 ${!p.included ? 'text-zinc-400' : ''}`}>
+                  <td className="px-3 py-2 font-medium">
+                    {p.label}
+                    {hasCustomMapping && p.phases.length > 1 && (
+                      <span className="ml-1 text-xs text-zinc-400 font-normal">({p.phases.join(' + ')})</span>
+                    )}
+                  </td>
+                  <td className="px-3 py-2 text-right tabular-nums">{(p.weight * 100).toFixed(0)}%</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{Math.round(p.inhouseRatio * 100)}%</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{formatHours(p.hoursSaved)}</td>
+                  <td className="px-3 py-2 text-right tabular-nums">{formatEur(p.costSavings)}</td>
+                </tr>
+              ))}
               <tr className="border-t-2 border-zinc-200 font-bold">
                 <td className="px-3 py-2">{t('roi.total')}</td>
                 <td className="px-3 py-2 text-right tabular-nums">
-                  {Math.round(realistic.phaseBreakdown.filter(p => p.included).reduce((s, p) => s + p.weight, 0) * 100)}%
+                  {Math.round(grouped.realistic.filter(p => p.included).reduce((s, p) => s + p.weight, 0) * 100)}%
                 </td>
                 <td className="px-3 py-2" />
                 <td className="px-3 py-2 text-right tabular-nums">{formatHours(realistic.totalHoursSaved)}</td>
@@ -382,6 +394,32 @@ export default function ExecutiveSummary({ scenarios, totalBudget, teamSize, tot
           {t('report.investorContextText')}
         </p>
       </div>
+
+      {/* Custom SDLC Mapping — shown only when active */}
+      {hasCustomMapping && (
+        <div className="mt-6 border border-zinc-200 rounded-lg p-4">
+          <h3 className="text-sm font-bold text-zinc-800 mb-2">{t('phaseMapping.reportTitle')}</h3>
+          <p className="text-xs text-zinc-500 mb-3">
+            {t('phaseMapping.description')}
+          </p>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-zinc-200">
+                <th className="text-left text-xs font-medium text-zinc-500 uppercase px-3 py-2">Mapped Phase</th>
+                <th className="text-left text-xs font-medium text-zinc-500 uppercase px-3 py-2">Original Phases</th>
+              </tr>
+            </thead>
+            <tbody>
+              {grouped.realistic.map((g) => (
+                <tr key={g.label} className="border-b border-zinc-100">
+                  <td className="px-3 py-2 font-medium text-zinc-700">{g.label}</td>
+                  <td className="px-3 py-2 text-zinc-600">{g.phases.join(', ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 }

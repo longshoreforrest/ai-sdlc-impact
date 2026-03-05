@@ -17,11 +17,12 @@ import {
   Legend,
 } from 'recharts';
 import { TrendingDown, TrendingUp, Minus } from 'lucide-react';
-import { ScenarioResults, ScenarioType, ScenarioFactMapping, TransformationCosts } from '@/lib/types';
+import { ScenarioResults, ScenarioType, ScenarioFactMapping, TransformationCosts, Phase } from '@/lib/types';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 import { formatEur, formatHours } from '@/lib/formatters';
 import ScenarioSources from './ScenarioSources';
+import { groupPhaseBreakdown, isMappingCustom, GroupedPhaseRow } from '@/lib/phase-mapping';
 
 interface ROIReportProps {
   scenarios: ScenarioResults;
@@ -31,6 +32,7 @@ interface ROIReportProps {
   totalFactCount?: number;
   timeframeYears?: number;
   transformationCosts?: TransformationCosts;
+  phaseMapping?: Record<Phase, string>;
 }
 
 const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; modelKey: TranslationKey; color: string; bgClass: string; icon: React.ReactNode }> = {
@@ -41,44 +43,52 @@ const SCENARIO_META: Record<ScenarioType, { labelKey: TranslationKey; modelKey: 
 
 const PHASE_COLORS = ['#f59e0b', '#8b5cf6', '#06b6d4', '#3b82f6', '#10b981', '#f97316'];
 
-export default function ROIReport({ scenarios, totalBudget, teamSize, factMapping, totalFactCount, timeframeYears = 1, transformationCosts }: ROIReportProps) {
+export default function ROIReport({ scenarios, totalBudget, teamSize, factMapping, totalFactCount, timeframeYears = 1, transformationCosts, phaseMapping }: ROIReportProps) {
   const { t } = useTranslation();
   const timeframeSuffix = timeframeYears > 1 ? ` (${timeframeYears} ${t('calculator.years')})` : '';
   const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
+  const hasCustomMapping = isMappingCustom(phaseMapping);
+
+  // Group phase breakdowns by mapping
+  const grouped = useMemo(() => ({
+    pessimistic: groupPhaseBreakdown(scenarios.pessimistic.phaseBreakdown, phaseMapping),
+    realistic: groupPhaseBreakdown(scenarios.realistic.phaseBreakdown, phaseMapping),
+    optimistic: groupPhaseBreakdown(scenarios.optimistic.phaseBreakdown, phaseMapping),
+  }), [scenarios, phaseMapping]);
 
   // Determine chart scale: use millions if max value >= 1M, otherwise thousands
   const maxSavings = Math.max(
-    ...scenarios.optimistic.phaseBreakdown.map((p) => Math.abs(p.costSavings))
+    ...grouped.optimistic.map((p) => Math.abs(p.costSavings))
   );
   const useMillions = maxSavings >= 1_000_000;
   const divisor = useMillions ? 1_000_000 : 1_000;
   const scaleSuffix = useMillions ? 'M' : 'K';
 
-  const chartData = scenarios.realistic.phaseBreakdown.map((p, i) => ({
-    phase: p.phase,
-    pessimistic: Math.round(scenarios.pessimistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
-    realistic: Math.round(scenarios.realistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
-    optimistic: Math.round(scenarios.optimistic.phaseBreakdown[i].costSavings / divisor * 10) / 10,
+  const chartData = grouped.realistic.map((p, i) => ({
+    phase: p.label,
+    pessimistic: Math.round(grouped.pessimistic[i].costSavings / divisor * 10) / 10,
+    realistic: Math.round(grouped.realistic[i].costSavings / divisor * 10) / 10,
+    optimistic: Math.round(grouped.optimistic[i].costSavings / divisor * 10) / 10,
   }));
 
   // Pie chart data: cost savings per phase per scenario
   const pieData = useMemo(() => {
     return scenarioKeys.map((key) => ({
       key,
-      data: scenarios[key].phaseBreakdown
+      data: grouped[key]
         .filter((p) => p.included && p.costSavings > 0)
-        .map((p) => ({ name: p.phase, value: p.costSavings })),
+        .map((p) => ({ name: p.label, value: p.costSavings })),
     }));
-  }, [scenarios]);
+  }, [grouped]);
 
   // Inhouse vs Outsourced savings per scenario
   const inhouseData = useMemo(() => {
     const hasOutsourced = scenarioKeys.some((key) =>
-      scenarios[key].phaseBreakdown.some((p) => p.included && p.inhouseRatio < 1)
+      grouped[key].some((p) => p.included && p.inhouseRatio < 1)
     );
     if (!hasOutsourced) return null;
     return scenarioKeys.map((key) => {
-      const breakdown = scenarios[key].phaseBreakdown;
+      const breakdown = grouped[key];
       const inhouseTotal = breakdown.reduce((s, p) => s + (p.included ? p.costSavings * p.inhouseRatio : 0), 0);
       const outsourcedTotal = breakdown.reduce((s, p) => s + (p.included ? p.costSavings * (1 - p.inhouseRatio) : 0), 0);
       return {
@@ -87,7 +97,7 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
         outsourced: Math.round(outsourcedTotal / divisor * 10) / 10,
       };
     });
-  }, [scenarios, divisor, t]);
+  }, [grouped, divisor, t]);
 
   // Multi-year projection: cumulative net ROI over 10 years
   const projectionData = useMemo(() => {
@@ -435,17 +445,22 @@ export default function ROIReport({ scenarios, totalBudget, teamSize, factMappin
             </tr>
           </thead>
           <tbody>
-            {scenarios.realistic.phaseBreakdown.map((row, i) => (
-              <tr key={row.phase} className="border-b border-border/50 hover:bg-surface-hover transition-colors">
+            {grouped.realistic.map((row, i) => (
+              <tr key={row.label} className="border-b border-border/50 hover:bg-surface-hover transition-colors">
                 <td className={`px-4 py-3 font-medium ${!row.included ? 'opacity-40 line-through' : ''}`}>
-                  {row.phase}
+                  {row.label}
+                  {hasCustomMapping && row.phases.length > 1 && (
+                    <span className="ml-2 text-xs text-muted font-normal no-underline">
+                      ({row.phases.join(' + ')})
+                    </span>
+                  )}
                   {!row.included && (
                     <span className="ml-2 text-xs text-muted no-underline">{t('common.excluded')}</span>
                   )}
                 </td>
                 <td className="px-4 py-3 text-center tabular-nums text-muted">{(row.weight * 100).toFixed(0)}%</td>
                 {scenarioKeys.map((key) => {
-                  const s = scenarios[key].phaseBreakdown[i];
+                  const s = grouped[key][i];
                   return (
                     <td key={key} className="px-4 py-3 text-right tabular-nums">
                       <span style={{ color: SCENARIO_META[key].color }}>{s.medianImpact}%</span>

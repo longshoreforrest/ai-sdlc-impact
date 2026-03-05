@@ -113,6 +113,7 @@ export interface CalculatorInputs {
   scenarioConfigs: ScenarioConfigs;
   transformationCosts: TransformationCosts;
   timeframeYears: number;
+  phaseMapping?: Record<Phase, string>; // custom SDLC mapping — phases with same target get grouped
 }
 
 export type ScenarioType = 'pessimistic' | 'realistic' | 'optimistic';

@@ -16,6 +16,7 @@ import ScenarioSection from '@/components/report/ScenarioSection';
 import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
 import ROIConfig from '@/components/report/ROIConfig';
 import CalculationFormulas from '@/components/report/CalculationFormulas';
+import CalculationTransparency from '@/components/report/CalculationTransparency';
 import SourceAppendix from '@/components/report/SourceAppendix';
 
 function buildDefaultInputs(scenarioConfigs: CalculatorInputs['scenarioConfigs']): CalculatorInputs {
@@ -249,6 +250,13 @@ export default function ReportPage() {
           </h2>
 
           <CalculationFormulas />
+
+          <CalculationTransparency
+            inputs={inputs}
+            scenarios={scenarios}
+            factMapping={factMapping}
+            allFacts={facts}
+          />
 
           <div className="text-sm text-zinc-600 leading-relaxed space-y-3 mt-8">
             {t('report.disclaimerText').split('\n').filter(Boolean).map((para, i) => (

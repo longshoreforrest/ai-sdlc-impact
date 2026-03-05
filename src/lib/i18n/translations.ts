@@ -151,6 +151,14 @@ const en = {
   'calculator.scenarioTimeframes': 'Scenario Timeframes',
   'calculator.scenarioTimeframesHint': '(select source years per scenario)',
 
+  // Phase Mapping
+  'phaseMapping.title': 'SDLC Phase Mapping',
+  'phaseMapping.customized': 'Customized',
+  'phaseMapping.description': 'Map the standard 6 SDLC phases to your organization\'s lifecycle model. Phases mapped to the same name will be grouped in ROI calculations and reports.',
+  'phaseMapping.preview': 'Grouped Result',
+  'phaseMapping.reset': 'Reset to defaults',
+  'phaseMapping.reportTitle': 'Custom SDLC Mapping',
+
   // ROI Report
   'roi.totalBudget': 'Total Budget',
   'roi.developers': 'developers',
@@ -833,6 +841,14 @@ const fi: typeof en = {
   'calculator.sdlcPhasesHint': '(kytke p\u00e4\u00e4lle/pois)',
   'calculator.scenarioTimeframes': 'Skenaarioiden aikaraami',
   'calculator.scenarioTimeframesHint': '(valitse l\u00e4hdevuodet skenaarioittain)',
+
+  // Phase Mapping
+  'phaseMapping.title': 'SDLC-vaiheiden kartoitus',
+  'phaseMapping.customized': 'Mukautettu',
+  'phaseMapping.description': 'Kartoita standardit 6 SDLC-vaihetta organisaatiosi elinkaarimalliin. Samalle nimelle kartoitetut vaiheet ryhmitell\u00e4\u00e4n ROI-laskelmissa ja raporteissa.',
+  'phaseMapping.preview': 'Ryhmitelty tulos',
+  'phaseMapping.reset': 'Palauta oletukset',
+  'phaseMapping.reportTitle': 'Mukautettu SDLC-kartoitus',
 
   // ROI Report
   'roi.totalBudget': 'Kokonaisbudjetti',

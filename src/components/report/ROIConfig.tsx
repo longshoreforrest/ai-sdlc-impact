@@ -4,6 +4,7 @@ import { CalculatorInputs } from '@/lib/types';
 import { formatEur } from '@/lib/formatters';
 import { PHASES } from '@/lib/mock-data';
 import { useTranslation } from '@/lib/i18n';
+import { isMappingCustom, groupPhaseBreakdown } from '@/lib/phase-mapping';
 
 interface ROIConfigProps {
   inputs: CalculatorInputs;
@@ -94,6 +95,31 @@ export default function ROIConfig({ inputs }: ROIConfigProps) {
           </p>
         </div>
       </div>
+
+      {/* Custom SDLC Phase Mapping */}
+      {isMappingCustom(inputs.phaseMapping) && (
+        <div className="mt-6">
+          <h3 className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-2">
+            {t('phaseMapping.reportTitle')}
+          </h3>
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-zinc-200">
+                <th className="text-left text-xs font-medium text-zinc-500 py-1.5">Original Phase</th>
+                <th className="text-left text-xs font-medium text-zinc-500 py-1.5">Mapped To</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PHASES.map((phase) => (
+                <tr key={phase} className="border-b border-zinc-100">
+                  <td className="py-1.5 text-zinc-600">{phase}</td>
+                  <td className="py-1.5 font-medium text-zinc-700">{inputs.phaseMapping?.[phase] ?? phase}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Transformation Costs */}
       <div className="mt-6">

@@ -12,6 +12,8 @@ import InputForm from '@/components/calculator/InputForm';
 import ROIReport from '@/components/calculator/ROIReport';
 import ExportButton from '@/components/ExportButton';
 import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
+import PhaseMappingConfigurator from '@/components/calculator/PhaseMappingConfigurator';
+import { getDefaultPhaseMapping } from '@/lib/phase-mapping';
 
 function computeDefaultTransformationCosts(): TransformationCosts {
   return {
@@ -40,6 +42,7 @@ export default function CalculatorPage() {
     scenarioConfigs,
     transformationCosts: computeDefaultTransformationCosts(),
     timeframeYears: 1,
+    phaseMapping: getDefaultPhaseMapping(),
   });
 
   // Sync scenario configs from context when they change
@@ -119,6 +122,12 @@ export default function CalculatorPage() {
       {/* Scenario Configurator (collapsed by default) */}
       <ScenarioConfigurator defaultOpen={false} />
 
+      {/* Phase Mapping (collapsed by default) */}
+      <PhaseMappingConfigurator
+        mapping={inputs.phaseMapping ?? getDefaultPhaseMapping()}
+        onChange={(phaseMapping) => setInputs((prev) => ({ ...prev, phaseMapping }))}
+      />
+
       {/* Two-column layout */}
       <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Inputs (1/3) */}
@@ -139,6 +148,7 @@ export default function CalculatorPage() {
             totalFactCount={totalFactCount}
             timeframeYears={inputs.timeframeYears}
             transformationCosts={inputs.transformationCosts}
+            phaseMapping={inputs.phaseMapping}
           />
         </div>
       </div>
