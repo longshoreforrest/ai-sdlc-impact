@@ -88,9 +88,11 @@ export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioCon
   function getScenarioCounts(scenario: ScenarioType): { factCount: number; sourceCount: number } {
     const config = configs[scenario];
     const allowedCategories = config.sourceCategories ?? [...DEFAULT_SOURCE_CATEGORIES];
+    const includeBusinessFacts = config.includeBusinessFacts ?? false;
     const matched = facts.filter(
       (f) => {
         if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
+        if (!includeBusinessFacts && f.scope === 'business') return false;
         const cat = getSourceCategory(f.source);
         const filterCat: SourceCategoryFilter = cat ?? 'other';
         return allowedCategories.includes(filterCat);
@@ -209,6 +211,26 @@ export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioCon
                       })}
                     </div>
                   </div>
+
+                  {/* Include Business Facts toggle */}
+                  <label className="flex items-center gap-2 text-xs text-foreground cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={configs[key].includeBusinessFacts ?? false}
+                      onChange={(e) =>
+                        setConfigs({
+                          ...configs,
+                          [key]: {
+                            ...configs[key],
+                            includeBusinessFacts: e.target.checked,
+                          },
+                        })
+                      }
+                      className="rounded border-border"
+                      style={{ accentColor: style.color }}
+                    />
+                    {t('scenario.includeBusinessFacts')}
+                  </label>
 
                   {/* Adoption Factor slider */}
                   <div>

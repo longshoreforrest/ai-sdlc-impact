@@ -191,6 +191,10 @@ export default function AnalyticsPage() {
       count,
     }));
 
+    // Facts by scope
+    const sdlcFacts = facts.filter((f) => f.scope !== 'business').length;
+    const businessFacts = facts.filter((f) => f.scope === 'business').length;
+
     // Year × Phase cross-tabulation
     const yearPhaseMatrix = PHASES.map((phase) => {
       const row: Record<string, number | string> = { phase };
@@ -281,6 +285,8 @@ export default function AnalyticsPage() {
       byDataType,
       byPhase,
       byCategory,
+      sdlcFacts,
+      businessFacts,
       yearPhaseMatrix,
       yearDataTypeMatrix,
       maxYearPhase,
@@ -383,7 +389,7 @@ export default function AnalyticsPage() {
       {/* A) Hero Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: t('analytics.totalFacts'), value: stats.totalFacts },
+          { label: t('analytics.totalFacts'), value: stats.totalFacts, detail: `${stats.sdlcFacts} SDLC · ${stats.businessFacts} Business` },
           { label: t('analytics.uniqueSources'), value: stats.uniqueSources },
           { label: t('analytics.yearSpan'), value: stats.yearSpan },
           {
@@ -401,6 +407,9 @@ export default function AnalyticsPage() {
             <p className="text-2xl font-bold text-foreground mt-1">
               {card.value}
             </p>
+            {'detail' in card && card.detail && (
+              <p className="text-xs text-muted mt-1">{card.detail}</p>
+            )}
           </div>
         ))}
       </div>

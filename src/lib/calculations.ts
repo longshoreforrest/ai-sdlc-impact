@@ -253,9 +253,11 @@ export function calculateConfiguredScenarios(
     const config = inputs.scenarioConfigs[key];
     const adoptionFactor = config.adoptionFactor ?? 1.0;
     const allowedCategories = config.sourceCategories ?? DEFAULT_SOURCE_CATEGORIES;
+    const includeBusinessFacts = config.includeBusinessFacts ?? false;
     const filtered = allFacts.filter(
       (f) => {
         if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
+        if (!includeBusinessFacts && f.scope === 'business') return false;
         const cat = getSourceCategory(f.source);
         const filterCat: SourceCategoryFilter = cat ?? 'other';
         return allowedCategories.includes(filterCat);

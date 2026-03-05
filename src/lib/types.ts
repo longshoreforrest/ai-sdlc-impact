@@ -4,6 +4,8 @@ export type DataType = 'empirical' | 'survey' | 'vendor' | 'anecdotal' | 'info';
 
 export type TemporalEra = 'all' | 'early' | 'agentic';
 
+export type FactScope = 'sdlc' | 'business';
+
 export interface Fact {
   id: string;
   phase: Phase;
@@ -16,6 +18,7 @@ export interface Fact {
   description: string;
   sampleSize?: string;
   credibility: 1 | 2 | 3; // 1=low, 2=medium, 3=high
+  scope?: FactScope; // 'sdlc' (default) or 'business' — business = operational process improvements, not SDLC
 }
 
 export interface PhaseStats {
@@ -60,6 +63,7 @@ export interface ScenarioConfig {
   dataTypes: DataType[];
   sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'salesforce' | 'other')[];
   adoptionFactor?: number; // β: organizational adoption multiplier (0.1–1.5)
+  includeBusinessFacts?: boolean; // false by default — only SDLC facts used in calculations
 }
 
 export interface METRConfig {

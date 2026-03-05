@@ -31,12 +31,15 @@ const dataTypeBadgeColors: Record<DataType, string> = {
   info: 'bg-zinc-500/20 text-zinc-400',
 };
 
+type ScopeFilter = 'all' | 'sdlc' | 'business';
+
 interface SourceFilters {
   years: number[];
   dataTypes: DataType[];
   phases: Phase[];
   hasLink: 'all' | 'yes' | 'no';
   category: 'all' | SourceCategory;
+  scope: ScopeFilter;
   dateRange: [string, string];
 }
 
@@ -60,6 +63,7 @@ const defaultFilters: SourceFilters = {
   dataTypes: [...DATA_TYPES],
   phases: [...PHASES],
   hasLink: 'all',
+  scope: 'all',
   category: 'all',
   dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE],
 };
@@ -125,6 +129,9 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
     ? categoryParam as SourceCategory
     : 'all';
 
+  const scopeParam = searchParams.get('scope');
+  const scope: ScopeFilter = scopeParam === 'sdlc' || scopeParam === 'business' ? scopeParam : 'all';
+
   return {
     filters: {
       years: years.length > 0 ? years : [...ALL_YEARS],
@@ -132,6 +139,7 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
       phases: phases.length > 0 ? phases : [...PHASES],
       hasLink: 'all',
       category,
+      scope,
       dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE] as [string, string],
     },
     fromDashboard: true,
@@ -249,6 +257,10 @@ function SourcesPageContent() {
     setFilters((prev) => ({ ...prev, category: value }));
   }, []);
 
+  const setScope = useCallback((value: ScopeFilter) => {
+    setFilters((prev) => ({ ...prev, scope: value }));
+  }, []);
+
   const resetFilters = useCallback(() => {
     setFilters(defaultFilters);
     setSearchQuery('');
@@ -261,6 +273,7 @@ function SourcesPageContent() {
     filters.phases.length === PHASES.length &&
     filters.hasLink === 'all' &&
     filters.category === 'all' &&
+    filters.scope === 'all' &&
     filters.dateRange[0] === GLOBAL_MIN_DATE &&
     filters.dateRange[1] === GLOBAL_MAX_DATE &&
     searchQuery === '';
@@ -270,10 +283,12 @@ function SourcesPageContent() {
       if (!filters.years.includes(f.year)) return false;
       if (!filters.dataTypes.includes(f.dataType)) return false;
       if (!filters.phases.includes(f.phase)) return false;
+      if (filters.scope === 'sdlc' && f.scope === 'business') return false;
+      if (filters.scope === 'business' && f.scope !== 'business') return false;
       if (f.publishDate && (f.publishDate < filters.dateRange[0] || f.publishDate > filters.dateRange[1])) return false;
       return true;
     });
-  }, [filters.years, filters.dataTypes, filters.phases, filters.dateRange]);
+  }, [filters.years, filters.dataTypes, filters.phases, filters.scope, filters.dateRange]);
 
   const totalSources = useMemo(() => buildSources(facts).length, []);
 
@@ -417,6 +432,22 @@ function SourcesPageContent() {
             </ToggleButton>
             <ToggleButton active={filters.category === 'salesforce'} onClick={() => setCategory('salesforce')}>
               {t('sources.salesforce')}
+            </ToggleButton>
+          </div>
+        </div>
+
+        {/* Scope */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.scope')}</span>
+          <div className="flex gap-1">
+            <ToggleButton active={filters.scope === 'all'} onClick={() => setScope('all')}>
+              {t('sources.all')}
+            </ToggleButton>
+            <ToggleButton active={filters.scope === 'sdlc'} onClick={() => setScope('sdlc')}>
+              SDLC
+            </ToggleButton>
+            <ToggleButton active={filters.scope === 'business'} onClick={() => setScope('business')}>
+              Business
             </ToggleButton>
           </div>
         </div>
@@ -602,6 +633,11 @@ function SourcesPageContent() {
                               <span className={`px-2 py-0.5 text-xs rounded-md ${dataTypeBadgeColors[fact.dataType]}`}>
                                 {fact.dataType}
                               </span>
+                              {fact.scope === 'business' && (
+                                <span className="px-2 py-0.5 text-xs rounded-md bg-yellow-500/20 text-yellow-600">
+                                  Business
+                                </span>
+                              )}
                               <span className="px-2 py-0.5 text-xs rounded-md bg-zinc-100 text-muted">
                                 {fact.phase}
                               </span>

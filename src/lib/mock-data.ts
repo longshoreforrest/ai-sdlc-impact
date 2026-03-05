@@ -1447,6 +1447,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Content creation time reduced by 91% when combining AI generation with human oversight, enabling rapid production of strategic documents, proposals, and business analyses.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'r2-str-4',
@@ -1925,6 +1926,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'DevOps market projected to grow from $14.95B (2025) to $37.33B by 2029. AI-driven deployment automation, monitoring, and incident response driving 2.5x market expansion.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'r2-ops-8',
@@ -2970,6 +2972,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Financial business insights reduce time spent analyzing cost center reports by 50% and summarizing/documenting them by 65%.',
     credibility: 2,
+    scope: 'business',
   },
 
   {
@@ -3021,6 +3024,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Goal creation time reduced by up to 60% for managers and employees (SuccessFactors). HR ticket resolution 35% faster; volume of HR tickets reduced by up to 60%.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-7c',
@@ -3033,6 +3037,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Understanding regulations: up to 70% time savings with Joule. System localization translation costs reduced by up to 90%.',
     credibility: 2,
+    scope: 'business',
   },
 
   {
@@ -3072,6 +3077,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Cash Management Agent saves finance professionals up to 70% of time spent on manual reconciliation.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-8b',
@@ -3084,6 +3090,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Enterprise Service Management achieves up to 50% increase in shared service staff productivity; reduction in repeat cases of up to 30%.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-8c',
@@ -3120,6 +3127,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Operational speedup example: reducing time for analyzing payment run logs from up to 1 hour to 10 minutes (83% reduction).',
     credibility: 2,
+    scope: 'business',
   },
 
   {
@@ -3133,6 +3141,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'AI-assisted mobile execution (Service & Asset Manager): 50% technician productivity increase and 75% job completion error cost reduction.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-8g',
@@ -3145,6 +3154,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Quality certificate processing (SAP Document AI): 70% reduction in certificate processing time and 70% decrease in revenue loss.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-8h',
@@ -3184,6 +3194,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Accounting Accruals Agent: 80% reduction in calculation effort and 50% in review/posting. Cash Management Agent: 70% overall effort reduction.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-9c',
@@ -3480,6 +3491,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Accenture: billing efficiency expected to improve by 32%, setup times cut in half. Managing nearly 1M annual invoices across 40,000+ contracts. Doubled rate of automatic payment processing using embedded AI in SAP Cash Application.',
     credibility: 2,
+    scope: 'business',
   },
 
   {
@@ -3493,6 +3505,7 @@ export const facts: Fact[] = [
     dataType: 'anecdotal',
     description: 'Chemical & consumer goods company: efficiency gains up to 1,000 hours monthly, manual effort reduction over 500 hours/month through AI-powered document workflows on SAP BTP.',
     credibility: 2,
+    scope: 'business',
   },
 
   // Source 26: IDC Study — SAP BTP ROI
@@ -3507,6 +3520,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'IDC study: 516% ROI over three years when using SAP BTP for integration, automation, and innovation. Native AI integration with SAP systems dramatically reduces friction.',
     credibility: 2,
+    scope: 'business',
   },
 
   // Source 27: WalkMe — Digital Adoption for SAP
@@ -3521,6 +3535,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'WalkMe (SAP company) reduces onboarding times with interactive AI-powered guidance for S/4HANA, SuccessFactors, Ariba, and Concur. Reduces need for extensive training programs.',
     credibility: 2,
+    scope: 'business',
   },
 
   // Source 28: SAP Build Work Zone — AI Content Creation
@@ -3535,6 +3550,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'SAP Build Work Zone: time to produce external-facing blog reduced from 6 hours to 1 hour (83% reduction). Rapid creation of high-quality content enabled by AI.',
     credibility: 2,
+    scope: 'business',
   },
 
   {
@@ -3548,6 +3564,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Field Service Dispatcher Agent: 50% increase in dispatcher productivity and 8% reduction in erroneous technician assignments.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-28c',
@@ -3560,6 +3577,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Maintenance Planner Agent: 40% increase in productivity and 1% reduction in unplanned downtime.',
     credibility: 2,
+    scope: 'business',
   },
   {
     id: 'sap-28d',
@@ -3572,6 +3590,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Accounts Receivable Agent: 75% effort reduction analyzing AR items. 1% reduction in DSO and 2% reduction in uncollectible write-offs.',
     credibility: 2,
+    scope: 'business',
   },
 
   // Source 29: KPMG and SAP Global Partnership
