@@ -126,6 +126,8 @@ const en = {
   'analytics.colPhases': 'Phases',
   'analytics.colTypes': 'Types',
   'analytics.colAvgImpact': 'Avg Impact',
+  'analytics.filters': 'Filters',
+  'analytics.showingFacts': 'Showing {{count}} of {{total}} facts',
 
   // Calculator
   'calculator.title': 'Business Case Calculator',
@@ -817,6 +819,8 @@ const fi: typeof en = {
   'analytics.colPhases': 'Vaiheet',
   'analytics.colTypes': 'Tyypit',
   'analytics.colAvgImpact': 'Ka. vaikutus',
+  'analytics.filters': 'Suodattimet',
+  'analytics.showingFacts': 'N\u00e4ytet\u00e4\u00e4n {{count}} / {{total}} faktaa',
 
   // Calculator
   'calculator.title': 'Business Case -laskuri',

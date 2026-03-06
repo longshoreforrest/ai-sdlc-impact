@@ -1,12 +1,14 @@
 'use client';
 
 import { RotateCcw } from 'lucide-react';
-import { Phase, DataType, FilterState } from '@/lib/types';
+import { Phase, DataType, BenefitType, SourceCategoryKey, FilterState } from '@/lib/types';
 import { PHASES, ALL_YEARS } from '@/lib/mock-data';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
 const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
+const ALL_CATEGORIES: SourceCategoryKey[] = ['scientific', 'social-media', 'sap', 'salesforce', 'other'];
+const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
 
 const dataTypeLabelKeys: Record<DataType, TranslationKey> = {
   empirical: 'common.empirical',
@@ -16,11 +18,28 @@ const dataTypeLabelKeys: Record<DataType, TranslationKey> = {
   info: 'common.info',
 };
 
+const categoryLabelKeys: Record<SourceCategoryKey, TranslationKey> = {
+  scientific: 'sources.scientific',
+  'social-media': 'sources.socialMedia',
+  sap: 'sources.sap',
+  salesforce: 'sources.salesforce',
+  other: 'scenario.categoryOther',
+};
+
+const benefitTypeLabelKeys: Record<BenefitType, TranslationKey> = {
+  efficiency: 'sources.benefitType_efficiency',
+  cost: 'sources.benefitType_cost',
+  other: 'sources.benefitType_other',
+};
+
 interface FilterBarProps {
   filters: FilterState;
   toggleYear: (year: number) => void;
   toggleDataType: (dt: DataType) => void;
   togglePhase: (phase: Phase) => void;
+  toggleCategory: (cat: SourceCategoryKey) => void;
+  setScope: (scope: FilterState['scope']) => void;
+  toggleBenefitType: (bt: BenefitType) => void;
   resetFilters: () => void;
 }
 
@@ -52,6 +71,9 @@ export default function FilterBar({
   toggleYear,
   toggleDataType,
   togglePhase,
+  toggleCategory,
+  setScope,
+  toggleBenefitType,
   resetFilters,
 }: FilterBarProps) {
   const { t } = useTranslation();
@@ -101,6 +123,54 @@ export default function FilterBar({
               onClick={() => togglePhase(phase)}
             >
               {phase}
+            </ToggleButton>
+          ))}
+        </div>
+      </div>
+
+      {/* Category */}
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.category')}</span>
+        <div className="flex gap-1">
+          {ALL_CATEGORIES.map((cat) => (
+            <ToggleButton
+              key={cat}
+              active={filters.categories.includes(cat)}
+              onClick={() => toggleCategory(cat)}
+            >
+              {t(categoryLabelKeys[cat])}
+            </ToggleButton>
+          ))}
+        </div>
+      </div>
+
+      {/* Scope */}
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.scope')}</span>
+        <div className="flex gap-1">
+          {(['all', 'sdlc', 'business'] as const).map((s) => (
+            <ToggleButton
+              key={s}
+              active={filters.scope === s}
+              onClick={() => setScope(s)}
+            >
+              {s === 'all' ? 'All' : s === 'sdlc' ? 'SDLC' : 'Business'}
+            </ToggleButton>
+          ))}
+        </div>
+      </div>
+
+      {/* Benefit Type */}
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.benefitType')}</span>
+        <div className="flex gap-1">
+          {ALL_BENEFIT_TYPES.map((bt) => (
+            <ToggleButton
+              key={bt}
+              active={filters.benefitTypes.includes(bt)}
+              onClick={() => toggleBenefitType(bt)}
+            >
+              {t(benefitTypeLabelKeys[bt])}
             </ToggleButton>
           ))}
         </div>

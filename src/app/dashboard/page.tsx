@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Fact, Phase, ScenarioType } from '@/lib/types';
+import { Fact, Phase, ScenarioType, BenefitType, SourceCategoryKey, FilterState } from '@/lib/types';
 import { useFilteredFacts } from '@/hooks/useFilteredFacts';
 import { useScenario } from '@/contexts/ScenarioContext';
 import { useTranslation } from '@/lib/i18n';
@@ -27,6 +27,9 @@ export default function DashboardPage() {
     toggleDataType,
     togglePhase,
     setEra,
+    toggleCategory,
+    setScope,
+    toggleBenefitType,
     resetFilters,
     applyScenarioFilters,
   } = useFilteredFacts();
@@ -68,6 +71,21 @@ export default function DashboardPage() {
     if (activeScenario) setActiveScenario(null);
     togglePhase(phase);
   }, [activeScenario, setActiveScenario, togglePhase]);
+
+  const handleToggleCategory = useCallback((cat: SourceCategoryKey) => {
+    if (activeScenario) setActiveScenario(null);
+    toggleCategory(cat);
+  }, [activeScenario, setActiveScenario, toggleCategory]);
+
+  const handleSetScope = useCallback((scope: FilterState['scope']) => {
+    if (activeScenario) setActiveScenario(null);
+    setScope(scope);
+  }, [activeScenario, setActiveScenario, setScope]);
+
+  const handleToggleBenefitType = useCallback((bt: BenefitType) => {
+    if (activeScenario) setActiveScenario(null);
+    toggleBenefitType(bt);
+  }, [activeScenario, setActiveScenario, toggleBenefitType]);
 
   const handleResetFilters = useCallback(() => {
     if (activeScenario) setActiveScenario(null);
@@ -115,6 +133,9 @@ export default function DashboardPage() {
         toggleYear={handleToggleYear}
         toggleDataType={handleToggleDataType}
         togglePhase={handleTogglePhase}
+        toggleCategory={handleToggleCategory}
+        setScope={handleSetScope}
+        toggleBenefitType={handleToggleBenefitType}
         resetFilters={handleResetFilters}
       />
 

@@ -54,11 +54,16 @@ export interface EraComparison {
   delta: number;
 }
 
+export type SourceCategoryKey = 'scientific' | 'social-media' | 'sap' | 'salesforce' | 'other';
+
 export interface FilterState {
   years: number[];
   dataTypes: DataType[];
   phases: Phase[];
   era: TemporalEra;
+  categories: SourceCategoryKey[];
+  scope: 'all' | 'sdlc' | 'business';
+  benefitTypes: BenefitType[];
 }
 
 export interface ScenarioConfig {
