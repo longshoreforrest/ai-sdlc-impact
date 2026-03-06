@@ -24,6 +24,7 @@ import type { SourceCategory } from '@/lib/sources';
 import type { DataType, Phase, BenefitType } from '@/lib/types';
 import type { TranslationKey } from '@/lib/i18n';
 import ExportButton from '@/components/ExportButton';
+import FactBrowser from '@/components/analytics/FactBrowser';
 import { useTranslation } from '@/lib/i18n';
 
 const dataTypeColors: Record<DataType, string> = {
@@ -718,6 +719,9 @@ export default function AnalyticsPage() {
           </div>
         ))}
       </div>
+
+      {/* Fact Browser */}
+      <FactBrowser facts={filteredFacts} />
 
       {/* E) Impact Trends Over Time */}
       <div className="bg-surface border border-border rounded-xl p-5">

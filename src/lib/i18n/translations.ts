@@ -129,6 +129,13 @@ const en = {
   'analytics.colAvgImpact': 'Avg Impact',
   'analytics.filters': 'Filters',
   'analytics.showingFacts': 'Showing {{count}} of {{total}} facts',
+  'analytics.fb.title': 'Fact Browser',
+  'analytics.fb.xAxis': 'X-Axis',
+  'analytics.fb.colorBy': 'Color',
+  'analytics.fb.xDate': 'Date',
+  'analytics.fb.credibility': 'Credibility',
+  'analytics.fb.yLabel': 'Impact %',
+  'analytics.fb.hint': 'Hover over a point to see details. Click to pin it below the chart.',
 
   // Calculator
   'calculator.title': 'Business Case Calculator',
@@ -823,6 +830,13 @@ const fi: typeof en = {
   'analytics.colAvgImpact': 'Ka. vaikutus',
   'analytics.filters': 'Suodattimet',
   'analytics.showingFacts': 'N\u00e4ytet\u00e4\u00e4n {{count}} / {{total}} faktaa',
+  'analytics.fb.title': 'Faktaselain',
+  'analytics.fb.xAxis': 'X-akseli',
+  'analytics.fb.colorBy': 'V\u00e4ri',
+  'analytics.fb.xDate': 'P\u00e4iv\u00e4m\u00e4\u00e4r\u00e4',
+  'analytics.fb.credibility': 'Luotettavuus',
+  'analytics.fb.yLabel': 'Vaikutus %',
+  'analytics.fb.hint': 'Vie hiiri pisteen p\u00e4\u00e4lle n\u00e4hd\u00e4ksesi tiedot. Klikkaa kiinnitt\u00e4\u00e4ksesi kaavion alle.',
 
   // Calculator
   'calculator.title': 'Business Case -laskuri',
