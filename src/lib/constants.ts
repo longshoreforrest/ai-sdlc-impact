@@ -57,8 +57,8 @@ export type SourceCategoryFilter = 'social-media' | 'scientific' | 'sap' | 'sale
 
 export const ALL_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'sap', 'salesforce', 'other'];
 
-/** Default source categories for scenarios (SAP and Salesforce excluded) */
-export const DEFAULT_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'other'];
+/** Default source categories for scenarios (SAP excluded) */
+export const DEFAULT_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'salesforce', 'other'];
 
 // ── Tooling cost ──
 
