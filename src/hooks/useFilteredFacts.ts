@@ -8,6 +8,7 @@ import { getSourceCategory } from '@/lib/sources';
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
 const ALL_CATEGORIES: SourceCategoryKey[] = ['scientific', 'social-media', 'sap', 'salesforce', 'other'];
+const DEFAULT_CATEGORIES: SourceCategoryKey[] = ['scientific', 'social-media', 'salesforce', 'other'];
 const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
 
 export function useFilteredFacts() {
@@ -16,7 +17,7 @@ export function useFilteredFacts() {
     dataTypes: [...ALL_DATA_TYPES],
     phases: [...PHASES],
     era: 'all',
-    categories: [...ALL_CATEGORIES],
+    categories: [...DEFAULT_CATEGORIES],
     scope: 'all',
     benefitTypes: [...ALL_BENEFIT_TYPES],
   });
@@ -136,7 +137,7 @@ export function useFilteredFacts() {
       dataTypes: [...ALL_DATA_TYPES],
       phases: [...PHASES],
       era: 'all',
-      categories: [...ALL_CATEGORIES],
+      categories: [...DEFAULT_CATEGORIES],
       scope: 'all',
       benefitTypes: [...ALL_BENEFIT_TYPES],
     });

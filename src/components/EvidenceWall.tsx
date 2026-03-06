@@ -1,7 +1,7 @@
 'use client';
 
 import { Fact, DataType } from '@/lib/types';
-import { ExternalLink } from 'lucide-react';
+import { Quote, ExternalLink } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
 interface EvidenceWallProps {
@@ -62,9 +62,16 @@ export default function EvidenceWall({ facts, onSelectFact }: EvidenceWallProps)
               </div>
               <CredibilityDots level={fact.credibility} />
             </div>
-            <p className="text-sm text-foreground line-clamp-2 mb-3">
-              {fact.description}
-            </p>
+            {fact.quote ? (
+              <blockquote className="text-sm text-foreground line-clamp-3 mb-3 pl-3 border-l-2 border-accent/40 italic">
+                <Quote className="w-3 h-3 inline-block text-accent/50 mr-1 -mt-0.5" />
+                {fact.quote}
+              </blockquote>
+            ) : (
+              <p className="text-sm text-foreground line-clamp-2 mb-3">
+                {fact.description}
+              </p>
+            )}
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted">{fact.source} · {fact.year}</span>
               <span className="text-lg font-bold tabular-nums text-accent">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   BarChart,
@@ -15,17 +15,16 @@ import {
   Cell,
   Legend,
 } from 'recharts';
-import { facts, PHASE_WEIGHTS } from '@/lib/mock-data';
+import { ChevronDown, RotateCcw, Search, X } from 'lucide-react';
+import { facts } from '@/lib/mock-data';
 import { PHASES, ALL_YEARS } from '@/lib/mock-data';
-import { computeTrendData, calculateConfiguredScenarios } from '@/lib/calculations';
-import { getSourceCategory } from '@/lib/sources';
-import type { SourceCategoryFilter } from '@/lib/constants';
-import type { DataType, Phase, CalculatorInputs, ScenarioType } from '@/lib/types';
-import { useScenario } from '@/contexts/ScenarioContext';
-import ExportButton from '@/components/ExportButton';
-import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
-import { useTranslation } from '@/lib/i18n';
+import { computeTrendData } from '@/lib/calculations';
+import { getSourceCategory, buildSources } from '@/lib/sources';
+import type { SourceCategory } from '@/lib/sources';
+import type { DataType, Phase, BenefitType } from '@/lib/types';
 import type { TranslationKey } from '@/lib/i18n';
+import ExportButton from '@/components/ExportButton';
+import { useTranslation } from '@/lib/i18n';
 
 const dataTypeColors: Record<DataType, string> = {
   empirical: '#10b981',
@@ -59,6 +58,71 @@ const PHASE_COLORS: Record<Phase, string> = {
 };
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
+const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap', 'salesforce'];
+const BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+
+type ScopeFilter = 'all' | 'sdlc' | 'business';
+
+interface AnalyticsFilters {
+  years: number[];
+  dataTypes: DataType[];
+  phases: Phase[];
+  hasLink: 'all' | 'yes' | 'no';
+  category: 'all' | SourceCategory;
+  scope: ScopeFilter;
+  benefitTypes: BenefitType[];
+  dateRange: [string, string];
+  search: string;
+}
+
+const ALL_PUBLISH_DATES = facts.map((f) => f.publishDate).filter(Boolean).sort();
+const GLOBAL_MIN_DATE = ALL_PUBLISH_DATES[0] || '2023-01-01';
+const GLOBAL_MAX_DATE = ALL_PUBLISH_DATES[ALL_PUBLISH_DATES.length - 1] || '2026-12-31';
+
+function dateToDays(d: string): number {
+  return Math.floor(new Date(d + 'T00:00:00Z').getTime() / 86400000);
+}
+function daysToDate(days: number): string {
+  return new Date(days * 86400000).toISOString().slice(0, 10);
+}
+
+const GLOBAL_MIN_DAYS = dateToDays(GLOBAL_MIN_DATE);
+const GLOBAL_MAX_DAYS = dateToDays(GLOBAL_MAX_DATE);
+
+const defaultFilters: AnalyticsFilters = {
+  years: [...ALL_YEARS],
+  dataTypes: [...ALL_DATA_TYPES],
+  phases: [...PHASES],
+  hasLink: 'all',
+  scope: 'all',
+  benefitTypes: [...BENEFIT_TYPES],
+  category: 'all',
+  dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE],
+  search: '',
+};
+
+function FilterToggleButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1.5 text-xs rounded-md transition-colors border ${
+        active
+          ? 'bg-accent-dim text-accent border-accent/30'
+          : 'bg-surface text-muted border-border hover:text-foreground hover:border-muted'
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
 
 const categoryColors: Record<string, string> = {
   scientific: '#06b6d4',
@@ -76,29 +140,131 @@ const categoryLabelKeys: Record<string, string> = {
   other: 'scenario.categoryOther',
 };
 
-const SCENARIO_COLORS: Record<ScenarioType, string> = {
-  pessimistic: '#ef4444',
-  realistic: '#f59e0b',
-  optimistic: '#10b981',
-};
-
-const SCENARIO_LABEL_KEYS: Record<ScenarioType, TranslationKey> = {
-  pessimistic: 'roi.pessimistic',
-  realistic: 'roi.realistic',
-  optimistic: 'roi.optimistic',
-};
 
 export default function AnalyticsPage() {
   const router = useRouter();
   const { t } = useTranslation();
-  const { configs: scenarioConfigs } = useScenario();
   const contentRef = useRef<HTMLDivElement>(null);
   const [selectedPhases, setSelectedPhases] = useState<Phase[]>([...PHASES]);
   const [selectedDataTypes, setSelectedDataTypes] = useState<DataType[]>([...ALL_DATA_TYPES]);
+  const [filters, setFilters] = useState<AnalyticsFilters>(defaultFilters);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const dtKeys: Record<DataType, TranslationKey> = {
+    empirical: 'common.empirical',
+    survey: 'common.survey',
+    vendor: 'common.vendor',
+    anecdotal: 'common.anecdotal',
+    info: 'common.info',
+  };
+
+  const toggleFilterYear = useCallback((year: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      years: prev.years.includes(year) ? prev.years.filter((y) => y !== year) : [...prev.years, year].sort(),
+    }));
+  }, []);
+
+  const toggleFilterDataType = useCallback((dt: DataType) => {
+    setFilters((prev) => ({
+      ...prev,
+      dataTypes: prev.dataTypes.includes(dt) ? prev.dataTypes.filter((d) => d !== dt) : [...prev.dataTypes, dt],
+    }));
+  }, []);
+
+  const toggleFilterPhase = useCallback((phase: Phase) => {
+    setFilters((prev) => ({
+      ...prev,
+      phases: prev.phases.includes(phase) ? prev.phases.filter((p) => p !== phase) : [...prev.phases, phase],
+    }));
+  }, []);
+
+  const toggleFilterBenefitType = useCallback((bt: BenefitType) => {
+    setFilters((prev) => ({
+      ...prev,
+      benefitTypes: prev.benefitTypes.includes(bt) ? prev.benefitTypes.filter((b) => b !== bt) : [...prev.benefitTypes, bt],
+    }));
+  }, []);
+
+  const setFilterCategory = useCallback((value: 'all' | SourceCategory) => {
+    setFilters((prev) => ({ ...prev, category: value }));
+  }, []);
+
+  const setFilterScope = useCallback((value: ScopeFilter) => {
+    setFilters((prev) => ({ ...prev, scope: value }));
+  }, []);
+
+  const setFilterHasLink = useCallback((value: 'all' | 'yes' | 'no') => {
+    setFilters((prev) => ({ ...prev, hasLink: value }));
+  }, []);
+
+  const resetFilters = useCallback(() => {
+    setFilters(defaultFilters);
+  }, []);
+
+  const isFilterDefault =
+    filters.years.length === ALL_YEARS.length &&
+    filters.dataTypes.length === ALL_DATA_TYPES.length &&
+    filters.phases.length === PHASES.length &&
+    filters.hasLink === 'all' &&
+    filters.category === 'all' &&
+    filters.scope === 'all' &&
+    filters.benefitTypes.length === BENEFIT_TYPES.length &&
+    filters.dateRange[0] === GLOBAL_MIN_DATE &&
+    filters.dateRange[1] === GLOBAL_MAX_DATE &&
+    filters.search === '';
+
+  const activeFilterCount = [
+    filters.years.length < ALL_YEARS.length,
+    filters.dataTypes.length < ALL_DATA_TYPES.length,
+    filters.phases.length < PHASES.length,
+    filters.hasLink !== 'all',
+    filters.category !== 'all',
+    filters.scope !== 'all',
+    filters.benefitTypes.length < BENEFIT_TYPES.length,
+    filters.dateRange[0] !== GLOBAL_MIN_DATE || filters.dateRange[1] !== GLOBAL_MAX_DATE,
+    filters.search !== '',
+  ].filter(Boolean).length;
+
+  // Filter facts based on filter state
+  const filteredFacts = useMemo(() => {
+    let result = facts.filter((f) => {
+      if (!filters.years.includes(f.year)) return false;
+      if (!filters.dataTypes.includes(f.dataType)) return false;
+      if (!filters.phases.includes(f.phase)) return false;
+      if (filters.scope === 'sdlc' && f.scope === 'business') return false;
+      if (filters.scope === 'business' && f.scope !== 'business') return false;
+      const bt = f.benefitType ?? 'efficiency';
+      if (!filters.benefitTypes.includes(bt)) return false;
+      if (f.publishDate && (f.publishDate < filters.dateRange[0] || f.publishDate > filters.dateRange[1])) return false;
+      return true;
+    });
+
+    // Apply source-level filters (hasLink, category, search) by building sources first
+    if (filters.hasLink !== 'all' || filters.category !== 'all' || filters.search) {
+      const sources = buildSources(result);
+      let filteredSources = sources;
+      if (filters.hasLink === 'yes') filteredSources = filteredSources.filter((s) => !!s.url);
+      if (filters.hasLink === 'no') filteredSources = filteredSources.filter((s) => !s.url);
+      if (filters.category !== 'all') filteredSources = filteredSources.filter((s) => s.category === filters.category);
+      if (filters.search.trim()) {
+        const q = filters.search.toLowerCase();
+        filteredSources = filteredSources.filter((s) =>
+          s.name.toLowerCase().includes(q) ||
+          s.description.toLowerCase().includes(q) ||
+          s.facts.some((f) => f.description.toLowerCase().includes(q))
+        );
+      }
+      const allowedSourceNames = new Set(filteredSources.map((s) => s.name));
+      result = result.filter((f) => allowedSourceNames.has(f.source));
+    }
+
+    return result;
+  }, [filters]);
 
   const trendFacts = useMemo(
-    () => facts.filter((f) => selectedDataTypes.includes(f.dataType)),
-    [selectedDataTypes]
+    () => filteredFacts.filter((f) => selectedDataTypes.includes(f.dataType)),
+    [filteredFacts, selectedDataTypes]
   );
 
   const trendData = useMemo(() => {
@@ -119,51 +285,19 @@ export default function AnalyticsPage() {
     });
   }, [trendData]);
 
-  // Build default calculator inputs to compute scenario ROI from current scenario configs
-  const scenarioResults = useMemo(() => {
-    const defaultItBudget = 50_000_000;
-    const defaultAvgSalary = 55_000;
-    const defaultInputs: CalculatorInputs = {
-      teamSize: Math.round(defaultItBudget / defaultAvgSalary),
-      avgSalary: defaultAvgSalary,
-      hoursPerYear: 1600,
-      itBudget: defaultItBudget,
-      includedPhases: [...PHASES],
-      phaseWeights: PHASE_WEIGHTS as Record<Phase, number>,
-      inhouseRatios: { Discovery: 1, Design: 1, Spec: 1, Dev: 0.2, QA: 1, 'Release & Ops': 1 } as Record<Phase, number>,
-      scenarioConfigs,
-      transformationCosts: { consulting: 1_050_000, training: 525_000, internal: 525_000 },
-      timeframeYears: 1,
-    };
-    return calculateConfiguredScenarios(defaultInputs, facts);
-  }, [scenarioConfigs]);
-
-  const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
-
-  // Chart data: impact % grouped by scenario, with phases as bars
-  const impactByPhaseData = useMemo(() => {
-    return scenarioKeys.map((key) => {
-      const row: Record<string, string | number> = { scenario: t(SCENARIO_LABEL_KEYS[key]) };
-      for (const phase of PHASES) {
-        const breakdown = scenarioResults.scenarios[key].phaseBreakdown.find((p) => p.phase === phase);
-        row[phase] = breakdown ? breakdown.medianImpact : 0;
-      }
-      return row;
-    });
-  }, [scenarioResults, t]);
-
   const stats = useMemo(() => {
-    const totalFacts = facts.length;
-    const uniqueSources = new Set(facts.map((f) => f.source)).size;
-    const years = facts.map((f) => f.year);
-    const yearSpan = `${Math.min(...years)}–${Math.max(...years)}`;
-    const avgCredibility =
-      facts.reduce((sum, f) => sum + f.credibility, 0) / totalFacts;
+    const totalFacts = filteredFacts.length;
+    const uniqueSources = new Set(filteredFacts.map((f) => f.source)).size;
+    const years = filteredFacts.map((f) => f.year);
+    const yearSpan = years.length > 0 ? `${Math.min(...years)}–${Math.max(...years)}` : '—';
+    const avgCredibility = totalFacts > 0
+      ? filteredFacts.reduce((sum, f) => sum + f.credibility, 0) / totalFacts
+      : 0;
 
     // Facts by year
     const byYear = ALL_YEARS.map((year) => ({
       year: String(year),
-      count: facts.filter((f) => f.year === year).length,
+      count: filteredFacts.filter((f) => f.year === year).length,
     }));
 
     // Facts by data type
@@ -171,18 +305,18 @@ export default function AnalyticsPage() {
     const byDataType = dataTypes.map((dt) => ({
       dataType: dt,
       label: dt.charAt(0).toUpperCase() + dt.slice(1),
-      count: facts.filter((f) => f.dataType === dt).length,
+      count: filteredFacts.filter((f) => f.dataType === dt).length,
     }));
 
     // Facts by phase
     const byPhase = PHASES.map((phase) => ({
       phase,
-      count: facts.filter((f) => f.phase === phase).length,
+      count: filteredFacts.filter((f) => f.phase === phase).length,
     }));
 
     // Facts by source category
     const categoryCounts: Record<string, number> = { scientific: 0, 'social-media': 0, sap: 0, salesforce: 0, other: 0 };
-    facts.forEach((f) => {
+    filteredFacts.forEach((f) => {
       const cat = getSourceCategory(f.source) ?? 'other';
       categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
     });
@@ -192,14 +326,14 @@ export default function AnalyticsPage() {
     }));
 
     // Facts by scope
-    const sdlcFacts = facts.filter((f) => f.scope !== 'business').length;
-    const businessFacts = facts.filter((f) => f.scope === 'business').length;
+    const sdlcFacts = filteredFacts.filter((f) => f.scope !== 'business').length;
+    const businessFacts = filteredFacts.filter((f) => f.scope === 'business').length;
 
     // Year × Phase cross-tabulation
     const yearPhaseMatrix = PHASES.map((phase) => {
       const row: Record<string, number | string> = { phase };
       ALL_YEARS.forEach((year) => {
-        row[String(year)] = facts.filter(
+        row[String(year)] = filteredFacts.filter(
           (f) => f.phase === phase && f.year === year
         ).length;
       });
@@ -213,7 +347,7 @@ export default function AnalyticsPage() {
         rawDataType: dt,
       };
       ALL_YEARS.forEach((year) => {
-        row[String(year)] = facts.filter(
+        row[String(year)] = filteredFacts.filter(
           (f) => f.dataType === dt && f.year === year
         ).length;
       });
@@ -233,7 +367,7 @@ export default function AnalyticsPage() {
 
     // Credibility by phase
     const credByPhase = PHASES.map((phase) => {
-      const phaseFacts = facts.filter((f) => f.phase === phase);
+      const phaseFacts = filteredFacts.filter((f) => f.phase === phase);
       return {
         phase,
         low: phaseFacts.filter((f) => f.credibility === 1).length,
@@ -252,7 +386,7 @@ export default function AnalyticsPage() {
         totalImpact: number;
       }
     >();
-    facts.forEach((f) => {
+    filteredFacts.forEach((f) => {
       const entry = sourceMap.get(f.source) || {
         count: 0,
         phases: new Set<string>(),
@@ -294,7 +428,7 @@ export default function AnalyticsPage() {
       credByPhase,
       topSources,
     };
-  }, []);
+  }, [filteredFacts]);
 
   function drillDown(params: Record<string, string>) {
     const search = new URLSearchParams(params).toString();
@@ -349,40 +483,211 @@ export default function AnalyticsPage() {
         <ExportButton targetRef={contentRef} title={t('analytics.title')} />
       </div>
 
-      {/* Scenario Configurator */}
-      <ScenarioConfigurator />
+      {/* Collapsible Filters */}
+      <div className="bg-surface border border-border rounded-xl overflow-hidden">
+        <button
+          onClick={() => setFiltersOpen((prev) => !prev)}
+          className="w-full flex items-center justify-between px-5 py-3 hover:bg-surface-hover transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-foreground">{t('common.filters')}</span>
+            {!isFilterDefault && (
+              <span className="px-2 py-0.5 text-xs rounded-full bg-accent/20 text-accent font-medium">
+                {activeFilterCount}
+              </span>
+            )}
+            {!isFilterDefault && (
+              <span className="text-xs text-muted">
+                ({filteredFacts.length} / {facts.length} {t('common.facts')})
+              </span>
+            )}
+          </div>
+          <ChevronDown className={`w-4 h-4 text-muted transition-transform ${filtersOpen ? 'rotate-180' : ''}`} />
+        </button>
 
-      {/* Scenario Comparison Charts */}
-      <div className="bg-surface border border-border rounded-xl p-5">
-        <h2 className="text-sm font-semibold text-foreground mb-4">
-          {t('analytics.impactByPhase')}
-        </h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={impactByPhaseData} margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" vertical={false} />
-            <XAxis dataKey="scenario" tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} />
-            <YAxis tick={{ fill: '#71717a', fontSize: 12 }} axisLine={{ stroke: '#d4d4d8' }} tickLine={false} tickFormatter={(v: number) => `${v}%`} />
-            <Tooltip
-              content={({ active, payload, label }) => {
-                if (!active || !payload?.length) return null;
-                return (
-                  <div className="rounded-lg border text-xs" style={{ backgroundColor: '#18181b', border: '1px solid #27272a', padding: '8px 12px' }}>
-                    <p style={{ color: '#a1a1aa', marginBottom: 4 }}>{label}</p>
-                    {payload.map((entry) => (
-                      <p key={entry.dataKey as string} style={{ color: entry.color }}>
-                        {entry.name}: {entry.value}%
-                      </p>
-                    ))}
+        {filtersOpen && (
+          <div className="px-5 pb-5 pt-2 border-t border-border/50">
+            {/* Search */}
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
+              <input
+                type="text"
+                value={filters.search}
+                onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+                placeholder={t('sources.searchPlaceholder')}
+                className="w-full pl-10 pr-10 py-2.5 text-sm bg-background border border-border rounded-xl text-foreground placeholder:text-muted focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-colors"
+              />
+              {filters.search && (
+                <button
+                  onClick={() => setFilters((prev) => ({ ...prev, search: '' }))}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-surface-hover text-muted hover:text-foreground transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6">
+              {/* Years */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('common.year')}</span>
+                <div className="flex gap-1">
+                  {ALL_YEARS.map((year) => (
+                    <FilterToggleButton key={year} active={filters.years.includes(year)} onClick={() => toggleFilterYear(year)}>
+                      {year}
+                    </FilterToggleButton>
+                  ))}
+                </div>
+              </div>
+
+              {/* Data Types */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('common.type')}</span>
+                <div className="flex gap-1">
+                  {ALL_DATA_TYPES.map((dt) => (
+                    <FilterToggleButton key={dt} active={filters.dataTypes.includes(dt)} onClick={() => toggleFilterDataType(dt)}>
+                      {t(dtKeys[dt])}
+                    </FilterToggleButton>
+                  ))}
+                </div>
+              </div>
+
+              {/* Phases */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('common.phase')}</span>
+                <div className="flex gap-1">
+                  {PHASES.map((phase) => (
+                    <FilterToggleButton key={phase} active={filters.phases.includes(phase)} onClick={() => toggleFilterPhase(phase)}>
+                      {phase}
+                    </FilterToggleButton>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.category')}</span>
+                <div className="flex gap-1">
+                  <FilterToggleButton active={filters.category === 'all'} onClick={() => setFilterCategory('all')}>
+                    {t('sources.all')}
+                  </FilterToggleButton>
+                  <FilterToggleButton active={filters.category === 'scientific'} onClick={() => setFilterCategory('scientific')}>
+                    {t('sources.scientific')}
+                  </FilterToggleButton>
+                  <FilterToggleButton active={filters.category === 'social-media'} onClick={() => setFilterCategory('social-media')}>
+                    {t('sources.socialMedia')}
+                  </FilterToggleButton>
+                  <FilterToggleButton active={filters.category === 'sap'} onClick={() => setFilterCategory('sap')}>
+                    {t('sources.sap')}
+                  </FilterToggleButton>
+                  <FilterToggleButton active={filters.category === 'salesforce'} onClick={() => setFilterCategory('salesforce')}>
+                    {t('sources.salesforce')}
+                  </FilterToggleButton>
+                </div>
+              </div>
+
+              {/* Scope */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.scope')}</span>
+                <div className="flex gap-1">
+                  <FilterToggleButton active={filters.scope === 'all'} onClick={() => setFilterScope('all')}>
+                    {t('sources.all')}
+                  </FilterToggleButton>
+                  <FilterToggleButton active={filters.scope === 'sdlc'} onClick={() => setFilterScope('sdlc')}>
+                    SDLC
+                  </FilterToggleButton>
+                  <FilterToggleButton active={filters.scope === 'business'} onClick={() => setFilterScope('business')}>
+                    Business
+                  </FilterToggleButton>
+                </div>
+              </div>
+
+              {/* Benefit Type */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.benefitType')}</span>
+                <div className="flex gap-1">
+                  {BENEFIT_TYPES.map((bt) => (
+                    <FilterToggleButton key={bt} active={filters.benefitTypes.includes(bt)} onClick={() => toggleFilterBenefitType(bt)}>
+                      {t(`sources.benefitType_${bt}` as TranslationKey)}
+                    </FilterToggleButton>
+                  ))}
+                </div>
+              </div>
+
+              {/* Has Link */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('sources.link')}</span>
+                <div className="flex gap-1">
+                  {(['all', 'yes', 'no'] as const).map((v) => (
+                    <FilterToggleButton key={v} active={filters.hasLink === v} onClick={() => setFilterHasLink(v)}>
+                      {v === 'all' ? t('sources.any') : v === 'yes' ? t('sources.hasLink') : t('sources.noLink')}
+                    </FilterToggleButton>
+                  ))}
+                </div>
+              </div>
+
+              {/* Reset */}
+              {!isFilterDefault && (
+                <button
+                  onClick={resetFilters}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-muted hover:text-foreground transition-colors"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  {t('common.reset')}
+                </button>
+              )}
+
+              {/* Date Range Slider */}
+              <div className="w-full pt-3 border-t border-border/50">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-muted font-medium uppercase tracking-wider shrink-0">{t('sources.dateRange')}</span>
+                  <span className="text-xs text-accent tabular-nums font-medium shrink-0">{filters.dateRange[0]}</span>
+                  <div className="relative flex-1 h-8 min-w-[200px]">
+                    <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-1 bg-border rounded-full" />
+                    <div
+                      className="absolute top-1/2 -translate-y-1/2 h-1 bg-accent/40 rounded-full"
+                      style={{
+                        left: `${GLOBAL_MAX_DAYS > GLOBAL_MIN_DAYS ? ((dateToDays(filters.dateRange[0]) - GLOBAL_MIN_DAYS) / (GLOBAL_MAX_DAYS - GLOBAL_MIN_DAYS)) * 100 : 0}%`,
+                        right: `${GLOBAL_MAX_DAYS > GLOBAL_MIN_DAYS ? 100 - ((dateToDays(filters.dateRange[1]) - GLOBAL_MIN_DAYS) / (GLOBAL_MAX_DAYS - GLOBAL_MIN_DAYS)) * 100 : 0}%`,
+                      }}
+                    />
+                    <input
+                      type="range"
+                      min={GLOBAL_MIN_DAYS}
+                      max={GLOBAL_MAX_DAYS}
+                      step={1}
+                      value={dateToDays(filters.dateRange[0])}
+                      onChange={(e) => {
+                        const d = daysToDate(Number(e.target.value));
+                        setFilters((prev) => ({
+                          ...prev,
+                          dateRange: [d <= prev.dateRange[1] ? d : prev.dateRange[1], prev.dateRange[1]],
+                        }));
+                      }}
+                      className="absolute inset-0 w-full appearance-none bg-transparent pointer-events-none z-10 [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer"
+                    />
+                    <input
+                      type="range"
+                      min={GLOBAL_MIN_DAYS}
+                      max={GLOBAL_MAX_DAYS}
+                      step={1}
+                      value={dateToDays(filters.dateRange[1])}
+                      onChange={(e) => {
+                        const d = daysToDate(Number(e.target.value));
+                        setFilters((prev) => ({
+                          ...prev,
+                          dateRange: [prev.dateRange[0], d >= prev.dateRange[0] ? d : prev.dateRange[0]],
+                        }));
+                      }}
+                      className="absolute inset-0 w-full appearance-none bg-transparent pointer-events-none z-20 [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:cursor-pointer"
+                    />
                   </div>
-                );
-              }}
-            />
-            <Legend iconSize={10} wrapperStyle={{ fontSize: '11px', color: '#a1a1aa' }} />
-            {PHASES.map((phase) => (
-              <Bar key={phase} dataKey={phase} name={phase} fill={PHASE_COLORS[phase]} fillOpacity={0.7} radius={[2, 2, 0, 0]} />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
+                  <span className="text-xs text-accent tabular-nums font-medium shrink-0">{filters.dateRange[1]}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div ref={contentRef} className="space-y-8">

@@ -186,6 +186,23 @@ function SourcesPageContent() {
     setSuggestionCount(getSourceSuggestions().length);
   }, []);
 
+  // Auto-expand matching sources when navigated with search param
+  useEffect(() => {
+    const searchParam = searchParams.get('search');
+    if (searchParam) {
+      const q = searchParam.toLowerCase();
+      const allSources = buildSources(facts);
+      const matching = allSources.filter((s) =>
+        s.name.toLowerCase().includes(q) ||
+        s.description.toLowerCase().includes(q) ||
+        s.facts.some((f) => f.description.toLowerCase().includes(q))
+      );
+      if (matching.length > 0) {
+        setExpandedSources(new Set(matching.map((s) => s.name)));
+      }
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const toggleExpand = useCallback((name: string) => {
     setExpandedSources((prev) => {
       const next = new Set(prev);
@@ -658,6 +675,11 @@ function SourcesPageContent() {
                             <p className="text-sm text-foreground leading-relaxed">
                               {fact.description}
                             </p>
+                            {fact.quote && (
+                              <blockquote className="mt-2 pl-3 border-l-2 border-accent/40 text-xs text-muted italic leading-relaxed">
+                                &ldquo;{fact.quote}&rdquo;
+                              </blockquote>
+                            )}
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-1.5 text-xs">
                               <span className="text-muted">
                                 <span className="uppercase tracking-wider font-medium">{t('common.type')}</span>{' '}

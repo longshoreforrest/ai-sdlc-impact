@@ -22,6 +22,7 @@ export interface Fact {
   credibility: 1 | 2 | 3; // 1=low, 2=medium, 3=high
   scope?: FactScope; // 'sdlc' (default) or 'business' — business = operational process improvements, not SDLC
   benefitType?: BenefitType; // 'efficiency' (default), 'cost', or 'other'
+  quote?: string; // Direct quote from the original source
 }
 
 export interface PhaseStats {
