@@ -506,6 +506,34 @@ const en = {
   'help.fromUsers.f2': '<strong>Source Suggestions</strong> \u2014 Review suggested data sources with their URL, description, SDLC phase, data type, and impact percentage.',
   'help.fromUsers.f3': '<strong>Status Filtering</strong> \u2014 Filter by "Pending Review" or "All" to focus on items that need attention.',
 
+  // Help: AI Tools section
+  'help.toc.aiTools': 'AI Tools Comparison',
+  'help.aiTools.p1': 'The AI Tools page provides a comprehensive comparison of AI development and productivity tools across compliance, security, and SDLC capabilities. It is organized into three tabs.',
+  'help.aiTools.tabs': 'Tabs:',
+  'help.aiTools.t1': '<strong>Tool Profiles</strong> \u2014 A card grid showing all configured AI tools with their vendor, pricing, description, and SDLC phase applicability bars. Click any card to open an edit dialog where you can adjust the tool\u2019s name, vendor, description, costs, URL, and phase applicability weights (0\u2013100%). You can also add custom tools or reset all profiles to defaults.',
+  'help.aiTools.t2': '<strong>Radar Chart</strong> \u2014 An interactive radar (spider) chart with two data modes: <em>Compliance & Costs</em> (C1\u2013C4 dimensions scored 1\u20134) and <em>SDLC Phase Applicability</em> (0\u2013100% per phase). Toggle between "Dimensions as axes" and "Tools as axes" for different perspectives. Use filter chips to show/hide individual tools, dimensions, or phases. Click a legend item to highlight a single series.',
+  'help.aiTools.t3': '<strong>Compliance & Costs</strong> \u2014 A detailed enterprise readiness assessment table scoring each tool across four dimensions: Security & Compliance (C1), Data Privacy (C2), Enterprise Readiness (C3), and Cost & Licensing (C4). Each cell contains a 1\u20134 score with bullet-point details. A Documentation row provides direct links to vendor trust, security, privacy, and pricing pages.',
+  'help.aiTools.exports': 'Export capabilities:',
+  'help.aiTools.e1': '<strong>Excel</strong> \u2014 Three-sheet workbook with compliance scores, compliance details with bullets, and SDLC phase applicability',
+  'help.aiTools.e2': '<strong>PowerPoint</strong> \u2014 Professional three-slide deck with title slide, compliance table, and SDLC applicability table with color-coded score indicators',
+  'help.aiTools.e3': '<strong>HTML</strong> \u2014 Self-contained styled HTML file with both tables, suitable for sharing or embedding',
+  'help.aiTools.p2': 'Tool profile changes are persisted in your browser\u2019s localStorage and shared with the Tool Business Case Calculator.',
+
+  // Help: Tool Business Case Calculator section
+  'help.toc.toolCalculator': 'Tool Business Case Calculator',
+  'help.toolCalculator.p1': 'The Tool Business Case Calculator estimates the return on investment for specific AI tools by combining SDLC phase evidence with actual tool licensing costs and phase applicability weights.',
+  'help.toolCalculator.params': 'Organization Parameters:',
+  'help.toolCalculator.pm1': '<strong>Team Size</strong> \u2014 Number of developers who would use the tool',
+  'help.toolCalculator.pm2': '<strong>Average Salary</strong> \u2014 Annual salary per developer (\u20ac/year)',
+  'help.toolCalculator.pm3': '<strong>Productive Hours/Year</strong> \u2014 Billable/productive hours per developer per year',
+  'help.toolCalculator.features': 'Features:',
+  'help.toolCalculator.f1': '<strong>Tool Selection</strong> \u2014 Choose up to 3 tools to compare side-by-side from the available tool profiles',
+  'help.toolCalculator.f2': '<strong>Business Case Results</strong> \u2014 For each selected tool: annual tool cost, annual savings, net savings, hours saved, payback period (months), and ROI multiple',
+  'help.toolCalculator.f3': '<strong>Phase Impact Breakdown</strong> \u2014 Shows how evidence-based impact is weighted by each tool\u2019s phase applicability, with a per-phase breakdown table',
+  'help.toolCalculator.f4': '<strong>Side-by-Side Comparison</strong> \u2014 When 2+ tools are selected, a comparison table highlights the best values across all metrics',
+  'help.toolCalculator.f5': '<strong>Scenario Integration</strong> \u2014 Results respect the active scenario configuration (Pessimistic, Realistic, Optimistic) from the Scenario Configurator',
+  'help.toolCalculator.p2': 'The tool profiles (name, vendor, cost, phase weights) are managed on the AI Tools page and shared via localStorage.',
+
   // Help: Language section
   'help.language.p1': 'The application supports <strong>English</strong> and <strong>Finnish</strong>. Switch languages using the <strong>EN / FI</strong> buttons at the bottom of the sidebar. Your language preference is saved in your browser and persists across sessions. All application text, labels, descriptions, and help content are fully translated in both languages.',
 
@@ -743,6 +771,15 @@ const en = {
   'tools.phaseApplicability': 'Phase Applicability Weights',
   'tools.addProfile': 'Add Custom Tool',
   'tools.removeProfile': 'Remove this tool',
+
+  // AI Tools page
+  'sidebar.aiTools': 'AI Tools',
+  'aiTools.title': 'AI Tools — Comparison',
+  'aiTools.subtitle': 'Radar comparison and compliance assessment across AI development and productivity tools.',
+  'aiTools.exportExcel': 'Excel',
+  'aiTools.exportPptx': 'PowerPoint',
+  'aiTools.exportHtml': 'HTML',
+  'aiTools.exporting': 'Exporting…',
 };
 
 const fi: typeof en = {
@@ -1251,6 +1288,34 @@ const fi: typeof en = {
   'help.fromUsers.f2': '<strong>L\u00e4hde-ehdotukset</strong> \u2014 Tarkastele ehdotettuja datal\u00e4hteit\u00e4 URL-osoitteineen, kuvauksineen, SDLC-vaiheineen, datatyyppeineen ja vaikutusprosentteineen.',
   'help.fromUsers.f3': '<strong>Tilasuodatus</strong> \u2014 Suodata "Odottaa katselmointia" tai "Kaikki" keskitty\u00e4ksesi huomiota vaativiin kohteisiin.',
 
+  // Help: AI Tools section
+  'help.toc.aiTools': 'AI-ty\u00f6kaluvertailu',
+  'help.aiTools.p1': 'AI-ty\u00f6kalut-sivu tarjoaa kattavan vertailun AI-kehitys- ja tuottavuusty\u00f6kaluista vaatimustenmukaisuuden, turvallisuuden ja SDLC-kyvykkyyksien osalta. Se on j\u00e4rjestetty kolmeen v\u00e4lilehteen.',
+  'help.aiTools.tabs': 'V\u00e4lilehdet:',
+  'help.aiTools.t1': '<strong>Ty\u00f6kaluprofiilit</strong> \u2014 Korttin\u00e4kym\u00e4 kaikista konfiguroiduista AI-ty\u00f6kaluista, jossa n\u00e4kyy toimittaja, hinnoittelu, kuvaus ja SDLC-vaihesoveltuvuuspalkit. Klikkaa korttia muokataksesi ty\u00f6kalun tietoja, kustannuksia ja vaihepainoja (0\u2013100%). Voit my\u00f6s lis\u00e4t\u00e4 mukautettuja ty\u00f6kaluja tai palauttaa oletusarvot.',
+  'help.aiTools.t2': '<strong>Tutkakaavio</strong> \u2014 Interaktiivinen tutkakaavio kahdella datatilalla: <em>Vaatimustenmukaisuus ja kustannukset</em> (C1\u2013C4, pisteet 1\u20134) ja <em>SDLC-vaihesoveltuvuus</em> (0\u2013100%). Vaihda n\u00e4kym\u00e4\u00e4 "Dimensiot akseleina" ja "Ty\u00f6kalut akseleina" v\u00e4lill\u00e4. K\u00e4yt\u00e4 suodatinsiruja ty\u00f6kalujen, dimensioiden tai vaiheiden n\u00e4ytt\u00e4miseen/piilottamiseen.',
+  'help.aiTools.t3': '<strong>Vaatimustenmukaisuus ja kustannukset</strong> \u2014 Yksityiskohtainen yritysvalmiusarviointi, joka pisteyttt\u00e4\u00e4 kunkin ty\u00f6kalun nelj\u00e4ll\u00e4 dimensiolla: Turvallisuus ja vaatimustenmukaisuus (C1), Tietosuoja (C2), Yritysvalmius (C3) ja Kustannukset ja lisensointi (C4). Dokumentaatiorivi tarjoaa suorat linkit toimittajien turvallisuus-, tietosuoja- ja hinnoittelusivuille.',
+  'help.aiTools.exports': 'Vientitoiminnot:',
+  'help.aiTools.e1': '<strong>Excel</strong> \u2014 Kolmen v\u00e4lilehden ty\u00f6kirja vaatimustenmukaisuuspisteill\u00e4, yksityiskohdilla ja SDLC-vaihesoveltuvuudella',
+  'help.aiTools.e2': '<strong>PowerPoint</strong> \u2014 Ammattimainen kolmen dian esitys otsikkodialla, vaatimustenmukaisuustaulukolla ja SDLC-taulukolla v\u00e4rikoodatuilla pisteill\u00e4',
+  'help.aiTools.e3': '<strong>HTML</strong> \u2014 Itsen\u00e4inen tyylitelty HTML-tiedosto molemmilla taulukoilla, sopii jakamiseen tai upottamiseen',
+  'help.aiTools.p2': 'Ty\u00f6kaluprofiilien muutokset tallennetaan selaimen localStorageen ja jaetaan Ty\u00f6kalukohtaisen business case -laskurin kanssa.',
+
+  // Help: Tool Business Case Calculator section
+  'help.toc.toolCalculator': 'Ty\u00f6kalukohtainen business case -laskuri',
+  'help.toolCalculator.p1': 'Ty\u00f6kalukohtainen business case -laskuri arvioi tiettyjen AI-ty\u00f6kalujen sijoitetun p\u00e4\u00e4oman tuottoa yhdist\u00e4m\u00e4ll\u00e4 SDLC-vaihen\u00e4yt\u00f6n todellisiin lisenssikustannuksiin ja vaihesoveltuvuuspainoihin.',
+  'help.toolCalculator.params': 'Organisaation parametrit:',
+  'help.toolCalculator.pm1': '<strong>Tiimikoko</strong> \u2014 Ty\u00f6kalua k\u00e4ytt\u00e4vien kehitt\u00e4jien lukum\u00e4\u00e4r\u00e4',
+  'help.toolCalculator.pm2': '<strong>Keskim\u00e4\u00e4r\u00e4inen palkka</strong> \u2014 Vuosipalkka kehitt\u00e4j\u00e4\u00e4 kohden (\u20ac/vuosi)',
+  'help.toolCalculator.pm3': '<strong>Tuottavat tunnit/vuosi</strong> \u2014 Laskutettavat/tuottavat tunnit kehitt\u00e4j\u00e4\u00e4 kohden vuodessa',
+  'help.toolCalculator.features': 'Ominaisuudet:',
+  'help.toolCalculator.f1': '<strong>Ty\u00f6kalun valinta</strong> \u2014 Valitse enint\u00e4\u00e4n 3 ty\u00f6kalua rinnakkaisvertailuun',
+  'help.toolCalculator.f2': '<strong>Business case -tulokset</strong> \u2014 Jokaiselle ty\u00f6kalulle: vuotuinen ty\u00f6kalukustannus, vuotuinen s\u00e4\u00e4st\u00f6, nettos\u00e4\u00e4st\u00f6, s\u00e4\u00e4stetyt tunnit, takaisinmaksuaika (kuukausia) ja ROI-kerroin',
+  'help.toolCalculator.f3': '<strong>Vaihevaikutuserittely</strong> \u2014 N\u00e4ytt\u00e4\u00e4 miten n\u00e4ytt\u00f6pohjainen vaikutus painotetaan ty\u00f6kalun vaihesoveltuvuudella',
+  'help.toolCalculator.f4': '<strong>Rinnakkaisvertailu</strong> \u2014 Kun 2+ ty\u00f6kalua on valittu, vertailutaulukko korostaa parhaat arvot',
+  'help.toolCalculator.f5': '<strong>Skenaariointegraatio</strong> \u2014 Tulokset noudattavat aktiivista skenaariokonfiguraatiota (Pessimistinen, Realistinen, Optimistinen)',
+  'help.toolCalculator.p2': 'Ty\u00f6kaluprofiilit (nimi, toimittaja, kustannus, vaihepainot) hallitaan AI-ty\u00f6kalut-sivulla ja jaetaan localStoragen kautta.',
+
   // Help: Language section
   'help.language.p1': 'Sovellus tukee <strong>englantia</strong> ja <strong>suomea</strong>. Vaihda kielt\u00e4 sivupalkin alaosassa olevista <strong>EN / FI</strong> -painikkeista. Kielivalintasi tallennetaan selaimeesi ja s\u00e4ilyy istuntojen v\u00e4lill\u00e4. Kaikki sovelluksen teksti, otsikot, kuvaukset ja ohjesisältö on t\u00e4ysin k\u00e4\u00e4nnetty molemmilla kielill\u00e4.',
 
@@ -1488,6 +1553,15 @@ const fi: typeof en = {
   'tools.phaseApplicability': 'Vaiheen soveltuvuuspainot',
   'tools.addProfile': 'Lis\u00e4\u00e4 mukautettu ty\u00f6kalu',
   'tools.removeProfile': 'Poista t\u00e4m\u00e4 ty\u00f6kalu',
+
+  // AI Tools page
+  'sidebar.aiTools': 'AI-ty\u00f6kalut',
+  'aiTools.title': 'AI-ty\u00f6kalut \u2014 Vertailu',
+  'aiTools.subtitle': 'Tutkavertailu ja vaatimustenmukaisuusarviointi AI-kehitys- ja tuottavuusty\u00f6kaluista.',
+  'aiTools.exportExcel': 'Excel',
+  'aiTools.exportPptx': 'PowerPoint',
+  'aiTools.exportHtml': 'HTML',
+  'aiTools.exporting': 'Vie...',
 };
 
 export type TranslationKey = keyof typeof en;

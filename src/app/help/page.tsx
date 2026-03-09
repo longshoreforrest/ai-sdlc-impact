@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, BarChart3, PieChart, Calculator, BookOpen, Lightbulb, Plus, HelpCircle, Activity, FileText, Settings, Users, Globe } from 'lucide-react';
+import { ChevronDown, ChevronUp, BarChart3, PieChart, Calculator, BookOpen, Lightbulb, Plus, HelpCircle, Activity, FileText, Settings, Users, Globe, Layers, Wrench } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
 interface SectionProps {
@@ -37,6 +37,8 @@ export default function HelpPage() {
     { id: 'welcome', label: t('help.toc.welcome') },
     { id: 'dashboard', label: t('help.toc.dashboard') },
     { id: 'analytics', label: t('help.toc.analytics') },
+    { id: 'ai-tools', label: t('help.toc.aiTools') },
+    { id: 'tool-calculator', label: t('help.toc.toolCalculator') },
     { id: 'calculator', label: t('help.toc.calculator') },
     { id: 'report', label: t('help.toc.report') },
     { id: 'sources', label: t('help.toc.sources') },
@@ -129,6 +131,42 @@ export default function HelpPage() {
             <li dangerouslySetInnerHTML={{ __html: t('help.analytics.c8') }} />
           </ul>
           <p className="text-muted" dangerouslySetInnerHTML={{ __html: t('help.analytics.p2') }} />
+        </Section>
+
+        <Section id="ai-tools" title={t('help.toc.aiTools')} icon={Layers}>
+          <p dangerouslySetInnerHTML={{ __html: t('help.aiTools.p1') }} />
+          <h4 className="font-semibold mt-2">{t('help.aiTools.tabs')}</h4>
+          <ul className="list-disc list-inside space-y-1.5 text-muted">
+            <li dangerouslySetInnerHTML={{ __html: t('help.aiTools.t1') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.aiTools.t2') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.aiTools.t3') }} />
+          </ul>
+          <h4 className="font-semibold mt-2">{t('help.aiTools.exports')}</h4>
+          <ul className="list-disc list-inside space-y-1.5 text-muted">
+            <li dangerouslySetInnerHTML={{ __html: t('help.aiTools.e1') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.aiTools.e2') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.aiTools.e3') }} />
+          </ul>
+          <p className="text-muted" dangerouslySetInnerHTML={{ __html: t('help.aiTools.p2') }} />
+        </Section>
+
+        <Section id="tool-calculator" title={t('help.toc.toolCalculator')} icon={Wrench}>
+          <p dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.p1') }} />
+          <h4 className="font-semibold mt-2">{t('help.toolCalculator.params')}</h4>
+          <ul className="list-disc list-inside space-y-1.5 text-muted">
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.pm1') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.pm2') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.pm3') }} />
+          </ul>
+          <h4 className="font-semibold mt-2">{t('help.toolCalculator.features')}</h4>
+          <ul className="list-disc list-inside space-y-1.5 text-muted">
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.f1') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.f2') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.f3') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.f4') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.f5') }} />
+          </ul>
+          <p className="text-muted" dangerouslySetInnerHTML={{ __html: t('help.toolCalculator.p2') }} />
         </Section>
 
         <Section id="calculator" title={t('help.toc.calculator')} icon={Calculator}>

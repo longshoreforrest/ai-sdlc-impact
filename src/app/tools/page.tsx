@@ -11,10 +11,9 @@ import { ToolProfile } from '@/lib/types';
 import ToolCard from '@/components/tools/ToolCard';
 import ToolResults from '@/components/tools/ToolResults';
 import ToolComparison from '@/components/tools/ToolComparison';
-import ToolProfileConfigurator from '@/components/tools/ToolProfileConfigurator';
 import ScenarioConfigurator from '@/components/analytics/ScenarioConfigurator';
 
-const MAX_SELECTED = 3;
+const MAX_SELECTED = 5;
 const STORAGE_KEY = 'tool-profiles';
 
 function loadProfiles(): ToolProfile[] {
@@ -47,20 +46,6 @@ export default function ToolsPage() {
     setProfiles(loadProfiles());
   }, []);
 
-  // Persist to localStorage on change
-  const handleProfilesChange = (updated: ToolProfile[]) => {
-    setProfiles(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  };
-
-  const resetProfiles = () => {
-    const defaults = [...TOOL_PROFILES];
-    setProfiles(defaults);
-    localStorage.removeItem(STORAGE_KEY);
-    // Remove selections that no longer exist
-    setSelectedIds((prev) => prev.filter((id) => defaults.some((p) => p.id === id)));
-  };
-
   const toggleTool = (id: string) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : prev.length < MAX_SELECTED ? [...prev, id] : prev
@@ -90,13 +75,6 @@ export default function ToolsPage() {
 
       {/* Scenario Configurator (collapsed) */}
       <ScenarioConfigurator open={showConfigurator} onOpenChange={setShowConfigurator} />
-
-      {/* Tool Profile Configurator (collapsed) */}
-      <ToolProfileConfigurator
-        profiles={profiles}
-        onChange={handleProfilesChange}
-        onReset={resetProfiles}
-      />
 
       {/* Input parameters */}
       <div className="bg-surface rounded-xl border border-border p-5">
@@ -174,6 +152,7 @@ export default function ToolsPage() {
           {t('tools.noToolSelected')}
         </div>
       )}
+
     </div>
   );
 }
