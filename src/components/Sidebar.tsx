@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BarChart3, Calculator, Activity, BookOpen, PieChart, Home, HelpCircle, MessageSquare, Globe, FileText, Menu, X } from 'lucide-react';
+import { BarChart3, Calculator, Activity, BookOpen, PieChart, Home, HelpCircle, MessageSquare, Globe, FileText, Menu, X, Wrench } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
@@ -12,6 +12,7 @@ const navItems: { href: string; labelKey: TranslationKey; icon: React.ElementTyp
   { href: '/analytics', labelKey: 'sidebar.dataSourceAnalytics', icon: PieChart },
   { href: '/dashboard', labelKey: 'sidebar.sdlcAnalytics', icon: BarChart3 },
   { href: '/calculator', labelKey: 'sidebar.roiCalculator', icon: Calculator },
+  { href: '/tools', labelKey: 'sidebar.toolCalculator', icon: Wrench },
   { href: '/report', labelKey: 'sidebar.report', icon: FileText },
   { href: '/sources', labelKey: 'sidebar.dataSources', icon: BookOpen },
   { href: '/from-users', labelKey: 'sidebar.fromUsers', icon: MessageSquare },

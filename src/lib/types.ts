@@ -152,3 +152,14 @@ export interface ScenarioResults {
   realistic: ROIResult;
   optimistic: ROIResult;
 }
+
+export interface ToolProfile {
+  id: string;
+  name: string;
+  vendor: string;
+  description: string;
+  url: string;
+  costPerSeatMonthly: number;
+  fixedMonthlyCost: number;
+  phaseApplicability: Record<Phase, number>; // 0.0–1.0 per phase
+}
