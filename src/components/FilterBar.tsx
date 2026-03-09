@@ -1,6 +1,7 @@
 'use client';
 
-import { RotateCcw } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { RotateCcw, HelpCircle, X } from 'lucide-react';
 import { Phase, DataType, BenefitType, SourceCategoryKey, FilterState } from '@/lib/types';
 import { PHASES, ALL_YEARS } from '@/lib/mock-data';
 import { useTranslation } from '@/lib/i18n';
@@ -67,6 +68,47 @@ function ToggleButton({
   );
 }
 
+function FilterHelpPopup({ onClose }: { onClose: () => void }) {
+  const { t } = useTranslation();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose(); }
+    function handleClick(e: MouseEvent) { if (ref.current && !ref.current.contains(e.target as Node)) onClose(); }
+    document.addEventListener('keydown', handleKey);
+    document.addEventListener('mousedown', handleClick);
+    return () => { document.removeEventListener('keydown', handleKey); document.removeEventListener('mousedown', handleClick); };
+  }, [onClose]);
+
+  const items: TranslationKey[] = [
+    'help.filters.f_year', 'help.filters.f_datatype', 'help.filters.f_phase',
+    'help.filters.f_category', 'help.filters.f_scope', 'help.filters.f_benefit',
+    'help.filters.f_era', 'help.filters.f_reset',
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-black/40 fade-in">
+      <div ref={ref} className="bg-surface border border-border rounded-xl shadow-xl w-full max-w-lg max-h-[70vh] overflow-y-auto slide-in">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-border">
+          <h3 className="text-sm font-semibold">{t('help.toc.filters')}</h3>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-surface-hover text-muted hover:text-foreground transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="px-5 py-4 text-sm leading-relaxed space-y-3">
+          <p dangerouslySetInnerHTML={{ __html: t('help.filters.p1') }} />
+          <ul className="list-disc list-inside space-y-2 text-muted">
+            {items.map((key) => (
+              <li key={key} dangerouslySetInnerHTML={{ __html: t(key) }} />
+            ))}
+          </ul>
+          <p className="text-muted" dangerouslySetInnerHTML={{ __html: t('help.filters.p2') }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function FilterBar({
   filters,
   toggleYear,
@@ -78,9 +120,10 @@ export default function FilterBar({
   resetFilters,
 }: FilterBarProps) {
   const { t } = useTranslation();
+  const [showHelp, setShowHelp] = useState(false);
 
   return (
-    <div className="flex flex-wrap items-center gap-6 p-4 bg-surface rounded-xl border border-border">
+    <div className="flex flex-wrap items-center gap-6 p-4 bg-surface rounded-xl border border-border relative">
       {/* Years */}
       <div className="flex items-center gap-2">
         <span className="text-xs text-muted font-medium uppercase tracking-wider">{t('common.year')}</span>
@@ -185,6 +228,17 @@ export default function FilterBar({
         <RotateCcw className="w-3 h-3" />
         {t('common.reset')}
       </button>
+
+      {/* Help */}
+      <button
+        onClick={() => setShowHelp(true)}
+        className="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-accent-dim transition-colors"
+        title={t('help.toc.filters')}
+      >
+        <HelpCircle className="w-4 h-4" />
+      </button>
+
+      {showHelp && <FilterHelpPopup onClose={() => setShowHelp(false)} />}
     </div>
   );
 }

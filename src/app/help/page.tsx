@@ -226,13 +226,18 @@ export default function HelpPage() {
         <Section id="filters" title={t('help.toc.filters')} icon={HelpCircle}>
           <p dangerouslySetInnerHTML={{ __html: t('help.filters.p1') }} />
           <h4 className="font-semibold mt-2">{t('help.filters.types')}</h4>
-          <ul className="list-disc list-inside space-y-1.5 text-muted">
-            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f1') }} />
-            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f2') }} />
-            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f3') }} />
-            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f4') }} />
+          <ul className="list-disc list-inside space-y-2 text-muted">
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_year') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_datatype') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_phase') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_category') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_scope') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_benefit') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_era') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_search') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('help.filters.f_reset') }} />
           </ul>
-          <p className="text-muted" dangerouslySetInnerHTML={{ __html: t('help.filters.p2') }} />
+          <p className="text-muted mt-2" dangerouslySetInnerHTML={{ __html: t('help.filters.p2') }} />
         </Section>
 
         <Section id="data" title={t('help.toc.data')} icon={Activity}>
