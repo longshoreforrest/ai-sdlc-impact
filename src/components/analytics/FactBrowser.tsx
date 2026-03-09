@@ -18,7 +18,7 @@ import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
 type XDimension = 'publishDate' | 'year' | 'phase' | 'benefitType' | 'credibility';
-type ColorDimension = 'dataType' | 'phase' | 'scope' | 'benefitType' | 'credibility';
+type ColorDimension = 'dataType' | 'phase' | 'scope' | 'benefitType' | 'credibility' | 'year';
 
 const PHASE_ORDER: Phase[] = ['Discovery', 'Design', 'Spec', 'Dev', 'QA', 'Release & Ops'];
 const PHASE_INDEX: Record<string, number> = Object.fromEntries(PHASE_ORDER.map((p, i) => [p, i]));
@@ -57,6 +57,12 @@ const COLOR_PALETTES: Record<ColorDimension, Record<string, string>> = {
     '2': '#f59e0b',
     '3': '#10b981',
   },
+  year: {
+    '2023': '#ef4444',
+    '2024': '#f59e0b',
+    '2025': '#3b82f6',
+    '2026': '#10b981',
+  },
 };
 
 function getColorKey(fact: Fact, dim: ColorDimension): string {
@@ -66,6 +72,7 @@ function getColorKey(fact: Fact, dim: ColorDimension): string {
     case 'scope': return fact.scope ?? 'sdlc';
     case 'benefitType': return fact.benefitType ?? 'efficiency';
     case 'credibility': return String(fact.credibility);
+    case 'year': return String(fact.year);
   }
 }
 
@@ -117,6 +124,7 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
     { value: 'scope', label: t('sources.scope') },
     { value: 'benefitType', label: t('sources.benefitType') },
     { value: 'credibility', label: t('analytics.fb.credibility') },
+    { value: 'year', label: t('common.year') },
   ];
 
   const colorLabelKeys: Record<ColorDimension, Record<string, TranslationKey | null>> = {
@@ -136,6 +144,7 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
       other: 'sources.benefitType_other',
     },
     credibility: { '1': null, '2': null, '3': null },
+    year: { '2023': null, '2024': null, '2025': null, '2026': null },
   };
 
   // Group facts by color key
