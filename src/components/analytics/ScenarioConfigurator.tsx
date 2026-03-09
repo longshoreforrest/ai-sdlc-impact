@@ -16,12 +16,13 @@ import { getSourceCategory } from '@/lib/sources';
 import type { TranslationKey } from '@/lib/i18n/translations';
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
-const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'adoption', 'other'];
 const DEFAULT_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost'];
 
 const BENEFIT_TYPE_SHORT: Record<BenefitType, string> = {
   efficiency: 'Eff',
   cost: 'Cost',
+  adoption: 'Adopt',
   other: 'Other',
 };
 

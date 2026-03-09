@@ -6,7 +6,7 @@ export type TemporalEra = 'all' | 'early' | 'agentic';
 
 export type FactScope = 'sdlc' | 'business';
 
-export type BenefitType = 'efficiency' | 'cost' | 'other';
+export type BenefitType = 'efficiency' | 'cost' | 'adoption' | 'other';
 
 export interface Fact {
   id: string;

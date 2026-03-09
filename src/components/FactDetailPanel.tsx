@@ -189,6 +189,7 @@ export default function FactDetailPanel({ fact, onClose }: FactDetailPanelProps)
                       <span className={`inline-block px-2 py-0.5 rounded-md ${
                         (f.benefitType ?? 'efficiency') === 'efficiency' ? 'bg-indigo-500/20 text-indigo-400'
                         : f.benefitType === 'cost' ? 'bg-green-500/20 text-green-600'
+                        : f.benefitType === 'adoption' ? 'bg-amber-500/20 text-amber-500'
                         : 'bg-zinc-500/20 text-zinc-500'
                       }`}>
                         {t(`sources.benefitType_${f.benefitType ?? 'efficiency'}` as TranslationKey)}

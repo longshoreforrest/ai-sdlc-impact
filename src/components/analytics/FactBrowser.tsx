@@ -17,11 +17,14 @@ import type { Fact, DataType, Phase, BenefitType } from '@/lib/types';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 
-type XDimension = 'publishDate' | 'year' | 'phase' | 'credibility';
+type XDimension = 'publishDate' | 'year' | 'phase' | 'benefitType' | 'credibility';
 type ColorDimension = 'dataType' | 'phase' | 'scope' | 'benefitType' | 'credibility';
 
 const PHASE_ORDER: Phase[] = ['Discovery', 'Design', 'Spec', 'Dev', 'QA', 'Release & Ops'];
 const PHASE_INDEX: Record<string, number> = Object.fromEntries(PHASE_ORDER.map((p, i) => [p, i]));
+
+const BENEFIT_TYPE_ORDER: BenefitType[] = ['efficiency', 'cost', 'adoption', 'other'];
+const BENEFIT_TYPE_INDEX: Record<string, number> = Object.fromEntries(BENEFIT_TYPE_ORDER.map((b, i) => [b, i]));
 
 const COLOR_PALETTES: Record<ColorDimension, Record<string, string>> = {
   dataType: {
@@ -46,6 +49,7 @@ const COLOR_PALETTES: Record<ColorDimension, Record<string, string>> = {
   benefitType: {
     efficiency: '#6366f1',
     cost: '#10b981',
+    adoption: '#f59e0b',
     other: '#a1a1aa',
   },
   credibility: {
@@ -73,6 +77,8 @@ function getXValue(fact: Fact, dim: XDimension): number {
       return fact.year;
     case 'phase':
       return PHASE_INDEX[fact.phase] ?? 0;
+    case 'benefitType':
+      return BENEFIT_TYPE_INDEX[fact.benefitType ?? 'efficiency'] ?? 0;
     case 'credibility':
       return fact.credibility;
   }
@@ -101,6 +107,7 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
     { value: 'publishDate', label: t('analytics.fb.xDate') },
     { value: 'year', label: t('common.year') },
     { value: 'phase', label: t('common.phase') },
+    { value: 'benefitType', label: t('sources.benefitType') },
     { value: 'credibility', label: t('analytics.fb.credibility') },
   ];
 
@@ -125,6 +132,7 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
     benefitType: {
       efficiency: 'sources.benefitType_efficiency',
       cost: 'sources.benefitType_cost',
+      adoption: 'sources.benefitType_adoption',
       other: 'sources.benefitType_other',
     },
     credibility: { '1': null, '2': null, '3': null },
@@ -136,7 +144,7 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
     const palette = COLOR_PALETTES[colorDim];
 
     // Jitter ranges for categorical X-axes
-    const jitterRange = xDim === 'phase' ? 0.35 : xDim === 'year' ? 0.3 : xDim === 'credibility' ? 0.25 : 0;
+    const jitterRange = xDim === 'phase' ? 0.35 : xDim === 'benefitType' ? 0.35 : xDim === 'year' ? 0.3 : xDim === 'credibility' ? 0.25 : 0;
 
     for (const fact of facts) {
       const key = getColorKey(fact, colorDim);
@@ -162,6 +170,10 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
           return String(Math.round(value));
         case 'phase':
           return PHASE_ORDER[Math.round(value)] ?? '';
+        case 'benefitType': {
+          const labels = ['Efficiency', 'Cost', 'Adoption', 'Other'];
+          return labels[Math.round(value)] ?? '';
+        }
         case 'credibility':
           return ['', 'Low', 'Med', 'High'][Math.round(value)] ?? '';
       }
@@ -173,6 +185,8 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
     switch (xDim) {
       case 'phase':
         return [-0.5, PHASE_ORDER.length - 0.5];
+      case 'benefitType':
+        return [-0.5, BENEFIT_TYPE_ORDER.length - 0.5];
       case 'credibility':
         return [0.5, 3.5];
       case 'year': {
@@ -190,6 +204,8 @@ export default function FactBrowser({ facts }: FactBrowserProps) {
     switch (xDim) {
       case 'phase':
         return PHASE_ORDER.map((_, i) => i);
+      case 'benefitType':
+        return BENEFIT_TYPE_ORDER.map((_, i) => i);
       case 'credibility':
         return [1, 2, 3];
       case 'year':

@@ -9,7 +9,7 @@ import { getSourceCategory } from '@/lib/sources';
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal'];
 const ALL_CATEGORIES: SourceCategoryKey[] = ['scientific', 'social-media', 'sap', 'salesforce', 'other'];
 const DEFAULT_CATEGORIES: SourceCategoryKey[] = ['scientific', 'social-media', 'salesforce', 'other'];
-const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'adoption', 'other'];
 
 export function useFilteredFacts() {
   const [filters, setFilters] = useState<FilterState>({

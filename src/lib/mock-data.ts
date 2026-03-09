@@ -79,7 +79,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Global survey: only 12% of AI projects have reached full enterprise-wide deployment, despite increasing investment. Adoption metric — no productivity measurements provided.',
     credibility: 2,
-    benefitType: 'other',
+    benefitType: 'adoption',
     quote: 'Only 12% of AI projects have reached full enterprise-wide deployment.',
   },
   {
@@ -344,7 +344,7 @@ export const facts: Fact[] = [
     description: 'Stack Overflow 2024: 76% of developers using or planning to use AI tools (up from 70%). 81% cite increased productivity as primary benefit. 62% currently using AI tools. Adoption/satisfaction survey — no measured productivity metrics.',
     sampleSize: '65,000+ developers',
     credibility: 3,
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
   {
     id: 'dev-4',
@@ -372,7 +372,7 @@ export const facts: Fact[] = [
     description: 'JetBrains 2024: 49% regularly use ChatGPT for development (not 56% as previously stated), 73% have tried AI coding. Nearly 80% of companies allow third-party AI tools. Adoption survey — no productivity measurements.',
     sampleSize: '23,262 developers',
     credibility: 3,
-    benefitType: 'other',
+    benefitType: 'adoption',
     quote: '57% of developers believe AI coding tools help them improve their coding language skills — which is the top benefit they see.',
   },
   {
@@ -483,7 +483,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'GitHub Octoverse 2024: AI is the #1 emerging tool in developer workflows. Reports qualitative statements about shipping faster and creative problem-solving. Source provides no specific "55%" productivity figure — actual data points to 8-15% range.',
     credibility: 2,
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
   {
     id: 'dev-14',
@@ -524,7 +524,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Systematic secondary study of AI adoption in testing: expectations vs reality. Paper concludes that actual productivity gains are LIMITED compared to vendor claims. The "20-30%" figure is not a finding of the paper — it reports gaps between expectations and reality.',
     credibility: 3,
-    benefitType: 'other',
+    benefitType: 'adoption',
     quote: 'There is an emerging conflict between expectations and reality, and a need for clarity and understanding of the potential and limitations of AI.',
   },
   {
@@ -743,7 +743,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'CNCF annual survey on cloud-native ecosystem adoption trends. Reports AI tool adoption patterns but no specific productivity or time savings metrics. The "38%" figure does not appear in the source.',
     credibility: 2,
-    benefitType: 'other',
+    benefitType: 'adoption',
     quote: 'Developers show the most resistance to using AI for high-responsibility, systemic tasks like Deployment and monitoring (76% don’t plan to).',
   },
   {
@@ -835,7 +835,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner predicts >80% of enterprises will deploy GenAI by 2026. Adoption forecast only — no productivity metrics. The "20% improvement" claim does not appear in this source.',
     credibility: 2,
-    benefitType: 'other',
+    benefitType: 'adoption',
     quote: 'By 2026, more than 80% of enterprises will have used generative AI APIs or models, and/or deployed GenAI-enabled applications in production environments, up from less than 5% in 2023.',
   },
   {
@@ -850,7 +850,7 @@ export const facts: Fact[] = [
     description: 'One-third of organizations use GenAI regularly in at least one function. The "22%" figure refers to percentage of respondents who regularly use gen AI at work — a usage statistic, not a revenue or productivity metric.',
     sampleSize: '1,684 respondents',
     credibility: 3,
-    benefitType: 'other',
+    benefitType: 'adoption',
     quote: 'One-third of survey respondents say their organizations are using gen AI regularly in at least one business function.',
   },
   {
@@ -864,7 +864,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Deloitte enterprise survey on GenAI adoption. Publicly accessible content contains adoption rate statistics only (85% text generation, 63% code generation). The "28% faster decision-making" claim could not be verified in the source.',
     credibility: 2,
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
   {
     id: 'dr-str-7',
@@ -891,7 +891,7 @@ export const facts: Fact[] = [
     description: 'Gartner Top Predictions for 2025: covers organizational flattening (20%), AI code assistants (90% by 2028), and ethical AI incidents (40% fewer). The "35% strategic planning cycle reduction" does not appear in this source.',
     credibility: 2,
     quote: 'Through 2026, 20% of organizations will use AI to flatten their organizational structure, eliminating more than half of current middle management positions.',
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
 
   // === DESIGN — Deep Research ===
@@ -1057,7 +1057,7 @@ export const facts: Fact[] = [
     description: 'GitHub customer story for Accenture: 95% enjoy coding more, 67% use Copilot daily, 96% success rate. Satisfaction/engagement metrics only — no specific "10% throughput improvement" figure appears in this source.',
     sampleSize: 'Enterprise-wide deployment',
     credibility: 2,
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
   {
     id: 'dr-dev-4',
@@ -1620,7 +1620,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '~65% of organizations now regularly use generative AI, nearly doubling from 33% in 2023. Adoption metric reflecting mainstream enterprise AI integration.',
     credibility: 3,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
     quote: 'Generative AI adoption has soared, with 65% of organizations reporting regular use in at least one business function \u2014 nearly doubling from 33% in 2023.',
   },
   {
@@ -1635,7 +1635,7 @@ export const facts: Fact[] = [
     description: 'Gartner predicts 75% of enterprise software engineers will use AI code assistants by 2028, up from <10% in early 2023. Critical for strategic workforce and tooling planning.',
     credibility: 3,
     quote: 'By 2028, 75% of enterprise software engineers will use AI code assistants, up from less than 10% in early 2023.',
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
 
   // === DESIGN — Round 2 (5) ===
@@ -1916,7 +1916,7 @@ export const facts: Fact[] = [
     description: 'Trust paradox: 84% of developers use AI tools (up from 70% in 2023), but trust in AI accuracy dropped to 29% (from 43%). Positive sentiment fell from 77% (2023) to 60% (2025).',
     sampleSize: '49,000+ developers',
     credibility: 3,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
     quote: 'Developers show the most resistance to using AI for high-responsibility systemic tasks like Deployment and monitoring (76% don’t plan to).',
   },
   {
@@ -1945,7 +1945,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '75% of QA organizations identify AI testing as strategic priority, but only 16% have adopted it (65–70% still in pilot). Large gap between aspiration and actual implementation.',
     credibility: 2,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
   {
     id: 'r2-qa-2',
@@ -1958,7 +1958,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Fortune 500 AI testing adoption at 45%, startups lead at 62%. 35% of enterprise budgets shifting to AI testing platforms. 80% predicted AI-augmented testing tools by 2027.',
     credibility: 2,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
   {
     id: 'r2-qa-3',
@@ -2010,7 +2010,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: '80% of software teams plan to use AI in testing by 2025. Gartner projects 80% enterprise AI-augmented testing tools by 2027 and 33% agentic AI in enterprise software by 2028.',
     credibility: 2,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
   {
     id: 'r2-qa-7',
@@ -2109,7 +2109,7 @@ export const facts: Fact[] = [
     description: '54% of I&O leaders adopting AI for cost optimization. Top barriers: lack of budget (50%) and integration difficulties (48%). Strategic investment, not bolt-on adoption, drives ROI.',
     sampleSize: '253 I&O leaders',
     credibility: 3,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
   {
     id: 'r2-ops-6',
@@ -2137,7 +2137,7 @@ export const facts: Fact[] = [
     description: 'DevOps market projected to grow from $14.95B (2025) to $37.33B by 2029. AI-driven deployment automation, monitoring, and incident response driving 2.5x market expansion.',
     credibility: 2,
     scope: 'business',
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
   {
     id: 'r2-ops-8',
@@ -2150,7 +2150,7 @@ export const facts: Fact[] = [
     dataType: 'survey',
     description: 'Gartner projects 33% of enterprise software will incorporate agentic AI by 2028 (up from <1% in 2024). Autonomous deployment, monitoring, and incident response agents emerging.',
     credibility: 3,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
 
   // === SOCIAL MEDIA — Extreme Productivity Claims (Verified Posts) ===
@@ -2815,7 +2815,7 @@ export const facts: Fact[] = [
     dataType: 'vendor',
     description: 'Gartner predicts 40% of enterprise apps will have task-specific AI agents by end of 2026, up from <5% in 2025. Agentic AI could drive ~30% of enterprise app software revenue ($450B+) by 2035. But warns 40%+ of agentic AI projects will be cancelled by 2027.',
     credibility: 2,
-    benefitType: 'efficiency',
+    benefitType: 'adoption',
   },
 
   // =============================================
@@ -4000,7 +4000,7 @@ export const facts: Fact[] = [
     description: 'SAPinsider: in 2023 only 14% said AI influenced their RISE with SAP decision; by 2024 that jumped to 42%, showing rapid AI adoption shift. SAP targeting 400+ AI features including Joule Agents by end of 2025.',
     credibility: 2,
     quote: 'In 2023, only 14% of respondents reported their thinking on RISE with SAP was being affected by the business AI capabilities. This year that number was 42%.',
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
 
   // Source 32: Infosys — GenAI for SAP S/4HANA Testing
@@ -4046,7 +4046,7 @@ export const facts: Fact[] = [
     dataType: 'info',
     description: 'Gartner 2025 RPA Magic Quadrant: RPA market grew 18% reaching $3.8B. SAP recognized as Challenger. 750% increase in client inquiries about agentic automation between Q2-Q4 2024.',
     credibility: 3,
-    benefitType: 'other',
+    benefitType: 'adoption',
   },
 
   // Source 35: Business AI — SAP Reimagines How Enterprises Run

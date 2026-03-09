@@ -8,7 +8,7 @@ import type { TranslationKey } from '@/lib/i18n';
 
 const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
 const ALL_CATEGORIES: SourceCategoryKey[] = ['scientific', 'social-media', 'sap', 'salesforce', 'other'];
-const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+const ALL_BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'adoption', 'other'];
 
 const dataTypeLabelKeys: Record<DataType, TranslationKey> = {
   empirical: 'common.empirical',
@@ -29,6 +29,7 @@ const categoryLabelKeys: Record<SourceCategoryKey, TranslationKey> = {
 const benefitTypeLabelKeys: Record<BenefitType, TranslationKey> = {
   efficiency: 'sources.benefitType_efficiency',
   cost: 'sources.benefitType_cost',
+  adoption: 'sources.benefitType_adoption',
   other: 'sources.benefitType_other',
 };
 

@@ -60,7 +60,7 @@ const PHASE_COLORS: Record<Phase, string> = {
 
 const ALL_DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
 const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap', 'salesforce'];
-const BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'other'];
+const BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'adoption', 'other'];
 
 type ScopeFilter = 'all' | 'sdlc' | 'business';
 
