@@ -9,6 +9,7 @@
   --color-muted: #71717a;
 
   --color-impact-high: #059669;
+  --color-impact-good: #16a34a;
   --color-impact-mid: #d97706;
   --color-impact-low: #dc2626;
 
@@ -47,6 +48,10 @@ body {
 /* Glow effects */
 .card-glow-green {
   box-shadow: 0 0 20px rgba(5, 150, 105, 0.1), inset 0 1px 0 rgba(5, 150, 105, 0.08);
+}
+
+.card-glow-dark-green {
+  box-shadow: 0 0 20px rgba(22, 163, 74, 0.1), inset 0 1px 0 rgba(22, 163, 74, 0.08);
 }
 
 .card-glow-amber {

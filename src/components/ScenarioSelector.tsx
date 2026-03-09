@@ -10,6 +10,7 @@ import type { TranslationKey } from '@/lib/i18n/translations';
 interface ScenarioSelectorProps {
   onActivate: (scenario: ScenarioType) => void;
   onDeactivate: () => void;
+  onConfigure?: () => void;
 }
 
 function formatYearLabel(years: number[]): string {
@@ -55,7 +56,7 @@ const SCENARIO_STYLES: Record<ScenarioType, {
   },
 };
 
-export default function ScenarioSelector({ onActivate, onDeactivate }: ScenarioSelectorProps) {
+export default function ScenarioSelector({ onActivate, onDeactivate, onConfigure }: ScenarioSelectorProps) {
   const { configs, activeScenario } = useScenario();
   const { t } = useTranslation();
   const router = useRouter();
@@ -104,7 +105,7 @@ export default function ScenarioSelector({ onActivate, onDeactivate }: ScenarioS
         })}
       </div>
       <button
-        onClick={() => router.push('/analytics#scenarios')}
+        onClick={() => onConfigure ? onConfigure() : router.push('/analytics#scenarios')}
         className="px-3 py-1.5 text-xs rounded-md border border-accent/30 bg-accent-dim text-accent hover:bg-accent/20 transition-colors font-medium"
       >
         {t('scenario.configure')}

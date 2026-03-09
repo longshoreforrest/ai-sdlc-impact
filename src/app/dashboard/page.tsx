@@ -61,6 +61,7 @@ export default function DashboardPage() {
   const { t } = useTranslation();
   const [selectedFact, setSelectedFact] = useState<Fact | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [configuratorOpen, setConfiguratorOpen] = useState(false);
 
   // Scenario impact-by-phase chart data
   const scenarioResults = useMemo(() => {
@@ -190,10 +191,10 @@ export default function DashboardPage() {
       </div>
 
       {/* Scenario Configurator (collapsed by default) */}
-      <ScenarioConfigurator defaultOpen={false} />
+      <ScenarioConfigurator open={configuratorOpen} onOpenChange={setConfiguratorOpen} />
 
       {/* Scenario Selector */}
-      <ScenarioSelector onActivate={handleScenarioActivate} onDeactivate={handleScenarioDeactivate} />
+      <ScenarioSelector onActivate={handleScenarioActivate} onDeactivate={handleScenarioDeactivate} onConfigure={() => setConfiguratorOpen(true)} />
 
       <div ref={contentRef} className="space-y-6">
       {/* Filters */}

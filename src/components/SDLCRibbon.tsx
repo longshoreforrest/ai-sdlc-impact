@@ -9,8 +9,9 @@ interface SDLCRibbonProps {
 }
 
 function getImpactColor(mean: number): { bg: string; text: string; glow: string } {
-  if (mean >= 50) return { bg: 'bg-impact-high/20', text: 'text-impact-high', glow: 'card-glow-green' };
-  if (mean >= 30) return { bg: 'bg-impact-mid/20', text: 'text-impact-mid', glow: 'card-glow-amber' };
+  if (mean >= 40) return { bg: 'bg-impact-high/20', text: 'text-impact-high', glow: 'card-glow-green' };
+  if (mean >= 25) return { bg: 'bg-impact-good/20', text: 'text-impact-good', glow: 'card-glow-dark-green' };
+  if (mean >= 12) return { bg: 'bg-impact-mid/20', text: 'text-impact-mid', glow: 'card-glow-amber' };
   return { bg: 'bg-impact-low/20', text: 'text-impact-low', glow: 'card-glow-red' };
 }
 
@@ -42,7 +43,7 @@ export default function SDLCRibbon({ phaseStats, onPhaseClick }: SDLCRibbonProps
             <div className="mt-3 h-1.5 bg-zinc-200 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
-                  stats.mean >= 50 ? 'bg-impact-high' : stats.mean >= 30 ? 'bg-impact-mid' : 'bg-impact-low'
+                  stats.mean >= 40 ? 'bg-impact-high' : stats.mean >= 25 ? 'bg-impact-good' : stats.mean >= 12 ? 'bg-impact-mid' : 'bg-impact-low'
                 }`}
                 style={{ width: `${Math.min(stats.mean, 100)}%` }}
               />

@@ -58,12 +58,21 @@ const SCENARIO_STYLES: Record<ScenarioType, { labelKey: TranslationKey; modelKey
 
 interface ScenarioConfiguratorProps {
   defaultOpen?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export default function ScenarioConfigurator({ defaultOpen = true }: ScenarioConfiguratorProps) {
+export default function ScenarioConfigurator({ defaultOpen = true, open, onOpenChange }: ScenarioConfiguratorProps) {
   const { configs, setConfigs, resetToDefaults } = useScenario();
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+
+  // Support both controlled (open/onOpenChange) and uncontrolled (defaultOpen) modes
+  const isOpen = open !== undefined ? open : internalOpen;
+  const setIsOpen = (v: boolean) => {
+    if (onOpenChange) onOpenChange(v);
+    else setInternalOpen(v);
+  };
 
   const scenarioKeys: ScenarioType[] = ['pessimistic', 'realistic', 'optimistic'];
 
