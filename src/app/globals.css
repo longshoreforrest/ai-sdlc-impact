@@ -95,6 +95,20 @@ body {
   }
 }
 
+/* Pinnable data points — highlight when improvement panel is open */
+/* Add data-pin-label attribute to make any element pinnable */
+body:has([data-improvement-open]) [data-pin-label] {
+  cursor: crosshair !important;
+  outline: 2px dashed transparent;
+  outline-offset: 2px;
+  border-radius: 4px;
+  transition: outline-color 0.15s, background-color 0.15s;
+}
+body:has([data-improvement-open]) [data-pin-label]:hover {
+  outline-color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.08);
+}
+
 /* Print styles */
 @media print {
   aside, .print\:hidden {

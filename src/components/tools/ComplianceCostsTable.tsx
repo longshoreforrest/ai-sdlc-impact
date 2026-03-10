@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { ChevronDown, ChevronUp, Shield, ExternalLink } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { ChevronDown, ChevronUp, Shield, ExternalLink, RotateCw } from 'lucide-react';
 
 // ── Score types ──
 type Score = 1 | 2 | 3 | 4;
@@ -26,7 +26,8 @@ const TOOLS: ComplianceTool[] = [
   { id: 'claude-code', name: 'Claude Code', sub: 'Agentic CLI + IDE extension', category: 'agentic' },
   { id: 'codex-app', name: 'Codex App', sub: 'Desktop multi-agent', category: 'agentic' },
   { id: 'copilot-pro', name: 'GitHub Copilot Pro', sub: 'IDE + coding agent', category: 'agentic' },
-  { id: 'ide-group', name: 'VS Code / Cursor / Windsurf', sub: 'AI-assisted IDE', category: 'ide' },
+  { id: 'cursor', name: 'Cursor', sub: 'AI-native code editor', category: 'ide' },
+  { id: 'windsurf', name: 'Windsurf', sub: 'AI IDE (ex-Codeium)', category: 'ide' },
   { id: 'ms-copilot', name: 'MS Copilot', sub: 'M365 AI', category: 'enterprise' },
   { id: 'antigravity', name: 'Google Antigravity', sub: 'Agent-first AI IDE', category: 'agentic' },
   { id: 'claude-cowork', name: 'Claude Cowork', sub: 'Desktop app', category: 'general' },
@@ -96,11 +97,16 @@ const REF_LINKS: Record<string, RefLink[]> = {
     { category: 'Security', label: 'GitHub Security', url: 'https://github.com/security' },
     { category: 'Privacy', label: 'Copilot Business Privacy', url: 'https://docs.github.com/en/site-policy/privacy-policies/github-copilot-business-privacy-statement' },
   ],
-  'ide-group': [
-    { category: 'Pricing', label: 'Cursor Pricing', url: 'https://www.cursor.com/pricing' },
-    { category: 'Pricing', label: 'Windsurf Pricing', url: 'https://windsurf.com/pricing' },
+  'cursor': [
     { category: 'Security', label: 'Cursor Security', url: 'https://www.cursor.com/security' },
     { category: 'Privacy', label: 'Cursor Privacy Mode', url: 'https://docs.cursor.com/account/privacy' },
+    { category: 'Pricing', label: 'Cursor Pricing', url: 'https://www.cursor.com/pricing' },
+  ],
+  'windsurf': [
+    { category: 'Trust', label: 'Codeium Trust Center', url: 'https://codeium.com/trust' },
+    { category: 'Security', label: 'Codeium Security', url: 'https://codeium.com/security' },
+    { category: 'Pricing', label: 'Windsurf Pricing', url: 'https://windsurf.com/pricing' },
+    { category: 'Enterprise', label: 'Windsurf Enterprise', url: 'https://windsurf.com/enterprise' },
   ],
   'ms-copilot': [
     { category: 'Trust', label: 'Microsoft Trust Center', url: 'https://www.microsoft.com/en-us/trust-center' },
@@ -123,9 +129,9 @@ const REF_LINKS: Record<string, RefLink[]> = {
 
 const DIMENSIONS: Dimension[] = [
   {
-    id: 'C1',
-    name: 'Security & Compliance',
-    desc: 'SOC 2, ISO 27001, GDPR, certifications',
+    id: 'S1',
+    name: 'Security Certifications',
+    desc: 'SOC 2, ISO 27001, GDPR, FedRAMP, penetration testing',
     tools: {
       'claude-code': {
         score: 4, best: true,
@@ -139,18 +145,22 @@ const DIMENSIONS: Dimension[] = [
         score: 4, best: true,
         bullets: ['SOC 2 Type II via GitHub / Microsoft', 'ISO 27001 and ISO 27018 certified', 'FedRAMP authorised via Azure backbone'],
       },
-      'ide-group': {
+      'cursor': {
         score: 3,
-        bullets: ['Cursor: SOC 2 Type II certified', 'Windsurf: SOC 2 Type II + FedRAMP High certified', 'VS Code relies on upstream model provider compliance'],
+        bullets: ['SOC 2 Type II certified (trust.cursor.com)', 'GDPR & CCPA compliant; AES-256 at rest, TLS 1.2+ in transit', 'Annual third-party penetration testing'],
+      },
+      'windsurf': {
+        score: 4, best: true,
+        bullets: ['SOC 2 Type II + ISO 27001 certified', 'FedRAMP High authorized; HIPAA BAA available', 'GDPR compliant; annual third-party pen testing'],
       },
       'ms-copilot': {
         score: 4, best: true,
         bullets: ['SOC 2 Type II, ISO 27001, ISO 27018 via Microsoft', 'FedRAMP High, HIPAA, GxP compliant', 'Broadest certification portfolio across all tools'],
       },
       'antigravity': {
-        score: 1,
-        bullets: ['No published certifications yet (public preview)', 'No SOC 2, ISO 27001, or FedRAMP', 'Documented security vulnerabilities persist across sessions'],
-        chip: { type: 'barrier', text: 'No compliance certifications — sandbox use only' },
+        score: 3,
+        bullets: ['Inherits Google Cloud SOC 2 Type II, ISO 27001 infrastructure', 'Enterprise tier: AES-256 at rest, TLS 1.3 in transit', 'FedRAMP Moderate via GCP backbone; GDPR compliant'],
+        chip: { type: 'barrier', text: 'Product-level security vulnerabilities documented at launch — monitor fixes' },
       },
       'claude-cowork': {
         score: 4, best: true,
@@ -159,46 +169,9 @@ const DIMENSIONS: Dimension[] = [
     },
   },
   {
-    id: 'C2',
-    name: 'Data Privacy',
-    desc: 'Training opt-out, data retention, data residency',
-    tools: {
-      'claude-code': {
-        score: 4, best: true,
-        bullets: ['Zero-retention API by default \u2014 no training on inputs', 'Data stays in-session, not stored server-side', 'EU data residency available'],
-      },
-      'codex-app': {
-        score: 3,
-        bullets: ['Business data not used for training (API policy)', '30-day data retention on API tier', 'No EU data residency option yet'],
-      },
-      'copilot-pro': {
-        score: 4, best: true,
-        bullets: ['Enterprise: code excluded from training', 'Prompts and suggestions not retained', 'Data residency via Azure region selection'],
-      },
-      'ide-group': {
-        score: 2,
-        bullets: ['Privacy policies vary per IDE vendor', 'Some send context to third-party models', 'Opt-out mechanisms inconsistent'],
-        chip: { type: 'barrier', text: 'Check each vendor\'s data handling policy individually' },
-      },
-      'ms-copilot': {
-        score: 4, best: true,
-        bullets: ['Enterprise data not used for model training', 'Data residency via Azure region \u2014 EU Data Boundary', 'Microsoft Graph respects existing permissions and DLP policies'],
-      },
-      'antigravity': {
-        score: 2,
-        bullets: ['Data retention policies not yet published', 'Unclear training opt-out guarantees', 'No EU data residency option'],
-        chip: { type: 'barrier', text: 'Data handling policies still evolving' },
-      },
-      'claude-cowork': {
-        score: 4, best: true,
-        bullets: ['No training on business data', 'Conversation data not retained beyond session', 'Enterprise DPA covers all usage'],
-      },
-    },
-  },
-  {
-    id: 'C3',
-    name: 'Enterprise Readiness',
-    desc: 'SSO/SAML, audit logging, RBAC, VPC/on-prem',
+    id: 'S2',
+    name: 'Enterprise Infrastructure',
+    desc: 'SSO/SAML, RBAC, audit logging, admin console',
     tools: {
       'claude-code': {
         score: 4, best: true,
@@ -212,10 +185,14 @@ const DIMENSIONS: Dimension[] = [
         score: 4, best: true,
         bullets: ['Full SSO/SAML via GitHub Enterprise + Azure AD', 'Granular RBAC and policy enforcement', 'Audit log API and compliance dashboard'],
       },
-      'ide-group': {
-        score: 1,
-        bullets: ['No centralised enterprise admin console', 'No SSO/SAML or RBAC across IDE AI features', 'Individual developer licensing only'],
-        chip: { type: 'barrier', text: 'No enterprise governance layer' },
+      'cursor': {
+        score: 2,
+        bullets: ['SAML/OIDC SSO with Okta, Entra ID, Google Workspace', 'SCIM 2.0 provisioning; admin dashboard with enforced privacy', 'Limited audit logging — no granular AI interaction logs yet'],
+        chip: { type: 'barrier', text: 'Audit logging gap for regulated enterprises' },
+      },
+      'windsurf': {
+        score: 3,
+        bullets: ['SAML SSO + SCIM provisioning (Okta, Entra ID, Google)', 'Admin console with seat management and usage analytics', 'Full audit logs of AI interactions; RBAC on Enterprise tier'],
       },
       'ms-copilot': {
         score: 4, best: true,
@@ -232,40 +209,42 @@ const DIMENSIONS: Dimension[] = [
     },
   },
   {
-    id: 'C4',
-    name: 'Cost & Licensing',
-    desc: 'Pricing transparency, seat vs usage, enterprise agreements',
+    id: 'S3',
+    name: 'Deployment & Isolation',
+    desc: 'VPC/on-prem options, tenant isolation, network security',
     tools: {
       'claude-code': {
         score: 4, best: true,
-        bullets: ['Per-seat plans (\u20AC20\u2013200/mo) or API pay-per-token pricing', 'Max plan removes rate limits \u2014 sustained agentic SDLC workloads', 'Enterprise agreements via Anthropic sales'],
-        chip: { type: 'value', text: 'Best value for deep agentic coding at scale' },
+        bullets: ['CLI runs locally \u2014 code never leaves machine unless sent to API', 'API traffic encrypted end-to-end', 'Enterprise VPC and private endpoints available'],
       },
       'codex-app': {
-        score: 2,
-        bullets: ['Included in ChatGPT Plus ($20/mo) or Pro ($200/mo)', 'Message-based limits \u2014 heavy agent use hits caps quickly', 'Team plan $25\u201330/seat/mo; Enterprise via sales'],
-        chip: { type: 'barrier', text: 'Message caps constrain sustained agentic workloads' },
+        score: 3,
+        bullets: ['Cloud sandboxed environment per task', 'Enterprise: dedicated compute instances', 'No on-prem or VPC option yet'],
       },
       'copilot-pro': {
-        score: 3,
-        bullets: ['Clear per-seat pricing ($19\u201339/user/month)', 'Enterprise plan with volume discounts', 'Token-credit model limits heavy agentic coding sessions'],
-        chip: { type: 'barrier', text: 'Credit caps constrain sustained agentic SDLC workloads' },
+        score: 4, best: true,
+        bullets: ['Runs via Azure backbone with enterprise network controls', 'GitHub Enterprise Server supports on-prem deployment', 'IP allow-listing and private networking via Azure'],
       },
-      'ide-group': {
+      'cursor': {
+        score: 2,
+        bullets: ['Cloud-only (AWS) — no VPC, on-prem, or air-gapped option', 'Privacy Mode: zero data retention, code not stored or trained on', 'Firecracker-based process isolation for cloud agents'],
+      },
+      'windsurf': {
         score: 3,
-        bullets: ['Per-seat subscription models ($10\u201340/mo)', 'Pricing transparent and published', 'No enterprise volume agreements'],
+        bullets: ['Self-hosted / on-prem fully air-gapped deployment', 'Hybrid mode: code stays in customer tenant, inference in cloud', 'VPC deployment; IP never leaves customer infrastructure'],
       },
       'ms-copilot': {
-        score: 3,
-        bullets: ['M365 Copilot $30/user/month add-on to existing M365 licence', 'Predictable per-seat pricing, enterprise volume discounts', 'Requires M365 E3/E5 base licence \u2014 total cost is higher'],
+        score: 4, best: true,
+        bullets: ['Runs within Microsoft 365 tenant boundary', 'Azure Private Link and Conditional Access', 'Data never leaves tenant compliance boundary'],
       },
       'antigravity': {
-        score: 3,
-        bullets: ['Free public preview \u2014 individual use', 'Team plan ~$30\u201340/user/month via Workspace', 'Enterprise pricing expected mid-2026'],
+        score: 2,
+        bullets: ['Code processed on Google Cloud infrastructure', 'Enterprise tier: dedicated compute instances per account', 'Servers may shift regions under load (Iowa \u2194 Belgium)'],
+        chip: { type: 'barrier', text: 'Data residency may vary under load \u2014 verify for regulated workloads' },
       },
       'claude-cowork': {
         score: 3,
-        bullets: ['Enterprise pricing via Anthropic sales', 'Seat-based for teams, usage-based for API', 'Volume discounts for large deployments'],
+        bullets: ['Cloud-hosted via Anthropic infrastructure', 'Enterprise DPA governs data boundaries', 'No on-prem option; API endpoints encrypted'],
       },
     },
   },
@@ -306,6 +285,21 @@ function Chip({ type, text }: { type: 'barrier' | 'value'; text: string }) {
 export default function ComplianceCostsTable() {
   const [open, setOpen] = useState(true);
   const [showRefs, setShowRefs] = useState(true);
+  const [enabledTools, setEnabledTools] = useState<Set<string>>(() => new Set(TOOLS.map((t) => t.id)));
+
+  const toggleTool = useCallback((id: string) => {
+    setEnabledTools((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        if (next.size > 1) next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }, []);
+
+  const visibleTools = TOOLS.filter((t) => enabledTools.has(t.id));
 
   return (
     <div className="bg-surface rounded-xl border border-border overflow-hidden">
@@ -316,21 +310,51 @@ export default function ComplianceCostsTable() {
       >
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4 text-accent" />
-          <h3 className="text-sm font-semibold">Compliance & Costs &mdash; Enterprise Readiness Assessment</h3>
+          <h3 className="text-sm font-semibold">Security & Compliance &mdash; Enterprise Readiness Assessment</h3>
         </div>
         {open ? <ChevronUp className="w-4 h-4 text-muted" /> : <ChevronDown className="w-4 h-4 text-muted" />}
       </button>
 
       {open && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs" style={{ minWidth: 1100 }}>
+        <div>
+          {/* Tool filter chips */}
+          <div className="px-5 py-2.5 border-b border-border/50 flex flex-wrap items-center gap-1.5">
+            <span className="text-[10px] uppercase tracking-wider font-semibold text-muted mr-1">Tools</span>
+            {TOOLS.map((tool) => {
+              const active = enabledTools.has(tool.id);
+              return (
+                <button
+                  key={tool.id}
+                  onClick={() => toggleTool(tool.id)}
+                  className={`px-2.5 py-1 text-[11px] font-semibold rounded border transition-all ${
+                    active
+                      ? 'border-accent/40 bg-accent-dim/50 text-accent'
+                      : 'border-border border-dashed text-muted/50 hover:text-muted hover:border-muted'
+                  }`}
+                >
+                  {tool.name}
+                </button>
+              );
+            })}
+            {enabledTools.size < TOOLS.length && (
+              <button
+                onClick={() => setEnabledTools(new Set(TOOLS.map((t) => t.id)))}
+                className="text-[10px] text-muted hover:text-accent ml-1"
+              >
+                <RotateCw className="w-3 h-3 inline" /> All
+              </button>
+            )}
+          </div>
+
+          <div className="overflow-x-auto">
+          <table className="w-full text-xs" style={{ minWidth: Math.max(400, visibleTools.length * 160 + 160) }}>
             {/* Column headers */}
             <thead>
               <tr className="border-b border-border">
                 <th className="text-left text-[10px] text-muted font-medium px-3 py-2 w-36 align-bottom">
                   <span className="text-muted text-[9px] uppercase tracking-wider font-semibold">Dimension</span>
                 </th>
-                {TOOLS.map((tool) => {
+                {visibleTools.map((tool) => {
                   const catStyle = CATEGORY_STYLES[tool.category];
                   return (
                     <th key={tool.id} className="px-1.5 py-2 align-bottom" style={{ minWidth: 130 }}>
@@ -363,7 +387,7 @@ export default function ComplianceCostsTable() {
                   </td>
 
                   {/* Tool scores */}
-                  {TOOLS.map((tool) => {
+                  {visibleTools.map((tool) => {
                     const entry = dim.tools[tool.id];
                     if (!entry) return <td key={tool.id} className="px-1.5 py-2" />;
 
@@ -374,7 +398,11 @@ export default function ComplianceCostsTable() {
 
                     return (
                       <td key={tool.id} className="px-1.5 py-1.5 align-top">
-                        <div className={`p-1.5 rounded ${bestHighlight}`}>
+                        <div
+                          className={`p-1.5 rounded ${bestHighlight}`}
+                          data-pin-label={`${dim.name} — ${tool.name}`}
+                          data-pin-value={`Score: ${entry.score}/4 (${SCORE_META[entry.score].label})`}
+                        >
                           <ScoreDots score={entry.score} />
                           <ul className="mt-1 space-y-0.5">
                             {entry.bullets.map((b, i) => (
@@ -409,7 +437,7 @@ export default function ComplianceCostsTable() {
                     </button>
                   </div>
                 </td>
-                {TOOLS.map((tool) => (
+                {visibleTools.map((tool) => (
                   <td key={tool.id} className="px-1.5 py-2 align-top">
                     {showRefs && REF_LINKS[tool.id] && (
                       <div className="space-y-1">
@@ -438,9 +466,10 @@ export default function ComplianceCostsTable() {
           {/* Footer */}
           <div className="bg-zinc-800 px-5 py-2 flex items-center justify-between">
             <p className="text-[10px] text-zinc-400">
-              <span className="text-emerald-300 font-semibold">Scores reflect</span> publicly available certifications, documentation, and pricing pages as of 2025. Verify current status via the vendor links above.
+              <span className="text-emerald-300 font-semibold">Scores reflect</span> publicly available certifications, security documentation, and enterprise features as of 2025. Verify current status via the vendor links above.
             </p>
-            <span className="text-[10px] text-zinc-600 font-mono">C1&ndash;C4</span>
+            <span className="text-[10px] text-zinc-600 font-mono">S1&ndash;S3</span>
+          </div>
           </div>
         </div>
       )}

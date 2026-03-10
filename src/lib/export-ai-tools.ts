@@ -15,41 +15,35 @@ const PHASES: Phase[] = ['Discovery', 'Design', 'Spec', 'Dev', 'QA', 'Release & 
 
 // Bullet data from ComplianceCostsTable — kept in sync
 const COMPLIANCE_BULLETS: Record<string, Record<string, string[]>> = {
-  C1: {
+  S1: {
     'claude-code': ['SOC 2 Type II certified', 'GDPR compliant with DPA available', 'CSA STAR Level 1 listed'],
     'codex-app': ['SOC 2 Type II, ISO 27001, ISO 27017/27018/27701 certified', 'GDPR compliant — DPA available', 'Annual third-party penetration testing'],
     'copilot-pro': ['SOC 2 Type II via GitHub / Microsoft', 'ISO 27001 and ISO 27018 certified', 'FedRAMP authorised via Azure backbone'],
-    'ide-group': ['Cursor: SOC 2 Type II certified', 'Windsurf: SOC 2 Type II + FedRAMP High certified', 'VS Code relies on upstream model provider compliance'],
+    'cursor': ['SOC 2 Type II certified', 'GDPR & CCPA compliant; AES-256 at rest, TLS 1.2+ in transit', 'Annual third-party penetration testing'],
+    'windsurf': ['SOC 2 Type II + ISO 27001 certified', 'FedRAMP High authorized; HIPAA BAA available', 'GDPR compliant; annual third-party pen testing'],
     'ms-copilot': ['SOC 2 Type II, ISO 27001, ISO 27018 via Microsoft', 'FedRAMP High, HIPAA, GxP compliant', 'Broadest certification portfolio across all tools'],
-    'antigravity': ['No published certifications yet (public preview)', 'No SOC 2, ISO 27001, or FedRAMP', 'Documented security vulnerabilities persist across sessions'],
+    'antigravity': ['Inherits Google Cloud SOC 2 Type II, ISO 27001 infrastructure', 'Enterprise tier: AES-256 at rest, TLS 1.3 in transit', 'FedRAMP Moderate via GCP backbone; GDPR compliant'],
     'claude-cowork': ['Inherits Anthropic SOC 2 Type II', 'GDPR compliant with DPA', 'Enterprise security controls built in'],
   },
-  C2: {
-    'claude-code': ['Zero-retention API by default — no training on inputs', 'Data stays in-session, not stored server-side', 'EU data residency available'],
-    'codex-app': ['Business data not used for training (API policy)', '30-day data retention on API tier', 'No EU data residency option yet'],
-    'copilot-pro': ['Enterprise: code excluded from training', 'Prompts and suggestions not retained', 'Data residency via Azure region selection'],
-    'ide-group': ['Privacy policies vary per IDE vendor', 'Some send context to third-party models', 'Opt-out mechanisms inconsistent'],
-    'ms-copilot': ['Enterprise data not used for model training', 'Data residency via Azure region — EU Data Boundary', 'Microsoft Graph respects existing permissions and DLP policies'],
-    'antigravity': ['Data retention policies not yet published', 'Unclear training opt-out guarantees', 'No EU data residency option'],
-    'claude-cowork': ['No training on business data', 'Conversation data not retained beyond session', 'Enterprise DPA covers all usage'],
-  },
-  C3: {
+  S2: {
     'claude-code': ['SSO/SAML via Anthropic Enterprise plan', 'RBAC with granular permission controls', 'Comprehensive audit logging and admin console'],
     'codex-app': ['SSO/SAML via OpenAI Enterprise', 'Team management and usage dashboards', 'RBAC and admin controls improving'],
     'copilot-pro': ['Full SSO/SAML via GitHub Enterprise + Azure AD', 'Granular RBAC and policy enforcement', 'Audit log API and compliance dashboard'],
-    'ide-group': ['No centralised enterprise admin console', 'No SSO/SAML or RBAC across IDE AI features', 'Individual developer licensing only'],
+    'cursor': ['SAML/OIDC SSO with Okta, Entra ID, Google Workspace', 'SCIM 2.0 provisioning; admin dashboard with enforced privacy', 'Limited audit logging — no granular AI interaction logs yet'],
+    'windsurf': ['SAML SSO + SCIM provisioning (Okta, Entra ID, Google)', 'Admin console with seat management and usage analytics', 'Full audit logs of AI interactions; RBAC on Enterprise tier'],
     'ms-copilot': ['Full SSO/SAML via Azure AD / Entra ID', 'Granular RBAC, Conditional Access, Intune policies', 'Unified audit logging in Microsoft Purview'],
     'antigravity': ['Team plan includes SAML SSO', 'Role-based access in Mission Control view', 'No granular audit logging yet'],
     'claude-cowork': ['Teams-integrated access management', 'Usage analytics and admin controls', 'SSO via Anthropic enterprise plan'],
   },
-  C4: {
-    'claude-code': ['Per-seat plans (€20–200/mo) or API pay-per-token pricing', 'Max plan removes rate limits — sustained agentic SDLC workloads', 'Enterprise agreements via Anthropic sales'],
-    'codex-app': ['Included in ChatGPT Plus ($20/mo) or Pro ($200/mo)', 'Message-based limits — heavy agent use hits caps quickly', 'Team plan $25–30/seat/mo; Enterprise via sales'],
-    'copilot-pro': ['Clear per-seat pricing ($19–39/user/month)', 'Enterprise plan with volume discounts', 'Token-credit model limits heavy agentic coding sessions'],
-    'ide-group': ['Per-seat subscription models ($10–40/mo)', 'Pricing transparent and published', 'No enterprise volume agreements'],
-    'ms-copilot': ['M365 Copilot $30/user/month add-on to existing M365 licence', 'Predictable per-seat pricing, enterprise volume discounts', 'Requires M365 E3/E5 base licence — total cost is higher'],
-    'antigravity': ['Free public preview — individual use', 'Team plan ~$30–40/user/month via Workspace', 'Enterprise pricing expected mid-2026'],
-    'claude-cowork': ['Enterprise pricing via Anthropic sales', 'Seat-based for teams, usage-based for API', 'Volume discounts for large deployments'],
+  S3: {
+    'claude-code': ['CLI runs locally — code never leaves machine unless sent to API', 'API traffic encrypted end-to-end', 'Enterprise VPC and private endpoints available'],
+    'codex-app': ['Cloud sandboxed environment per task', 'Enterprise: dedicated compute instances', 'No on-prem or VPC option yet'],
+    'copilot-pro': ['Runs via Azure backbone with enterprise network controls', 'GitHub Enterprise Server supports on-prem deployment', 'IP allow-listing and private networking via Azure'],
+    'cursor': ['Cloud-only (AWS) — no VPC, on-prem, or air-gapped option', 'Privacy Mode: zero data retention, code not stored or trained on', 'Firecracker-based process isolation for cloud agents'],
+    'windsurf': ['Self-hosted / on-prem fully air-gapped deployment', 'Hybrid mode: code stays in customer tenant, inference in cloud', 'VPC deployment; IP never leaves customer infrastructure'],
+    'ms-copilot': ['Runs within Microsoft 365 tenant boundary', 'Azure Private Link and Conditional Access', 'Data never leaves tenant compliance boundary'],
+    'antigravity': ['Code processed on Google Cloud infrastructure', 'Enterprise tier: dedicated compute instances per account', 'Servers may shift regions under load'],
+    'claude-cowork': ['Cloud-hosted via Anthropic infrastructure', 'Enterprise DPA governs data boundaries', 'No on-prem option; API endpoints encrypted'],
   },
 };
 

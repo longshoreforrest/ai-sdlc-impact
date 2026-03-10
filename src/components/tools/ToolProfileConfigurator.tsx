@@ -54,6 +54,8 @@ function ToolCard({
     <div
       className="bg-background rounded-lg border border-border hover:border-accent/30 transition-all group cursor-pointer"
       onClick={onEdit}
+      data-pin-label={`Tool Profile — ${profile.name}`}
+      data-pin-value={`${profile.vendor} · €${profile.costPerSeatMonthly}/mo`}
     >
       <div className="p-4 space-y-3">
         {/* Header */}

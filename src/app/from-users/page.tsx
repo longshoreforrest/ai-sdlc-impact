@@ -232,6 +232,13 @@ function FeatureCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-semibold text-foreground mb-1.5">{feature.title}</h3>
+            {feature.navigationPath && (
+              <div className="flex items-center gap-1 mb-1.5">
+                <span className="text-[10px] text-accent/80 font-medium bg-accent-dim/50 px-2 py-0.5 rounded">
+                  {feature.navigationPath}
+                </span>
+              </div>
+            )}
             <p
               ref={descRef}
               className={`text-sm text-muted leading-relaxed ${descExpanded ? '' : 'line-clamp-2'}`}

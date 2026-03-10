@@ -9,6 +9,10 @@ import {
   COMPLIANCE_DIMENSIONS,
   COMPLIANCE_TOOL_COLORS,
   COMPLIANCE_DIM_COLORS,
+  PRICING_TOOLS,
+  PRICING_DIMENSIONS,
+  PRICING_TOOL_COLORS,
+  PRICING_DIM_COLORS,
 } from '@/lib/compliance-data';
 
 // ── Constants ──
@@ -19,7 +23,7 @@ const PROFILE_TOOL_COLORS: string[] = [
   '#0078d4', '#16a34a', '#9b59b6', '#c47d20', '#3a6fa0', '#e11d48',
 ];
 
-type ChartMode = 'compliance' | 'sdlc';
+type ChartMode = 'compliance' | 'sdlc' | 'pricing';
 type Orientation = 'dims-as-axes' | 'tools-as-axes';
 
 // ── Custom tooltip ──
@@ -61,6 +65,14 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
   );
   const [enabledCompDims, setEnabledCompDims] = useState<Set<string>>(
     () => new Set(COMPLIANCE_DIMENSIONS.map((d) => d.id))
+  );
+
+  // ── Pricing mode state ──
+  const [enabledPricingTools, setEnabledPricingTools] = useState<Set<string>>(
+    () => new Set(PRICING_TOOLS.map((t) => t.id))
+  );
+  const [enabledPricingDims, setEnabledPricingDims] = useState<Set<string>>(
+    () => new Set(PRICING_DIMENSIONS.map((d) => d.id))
   );
 
   // ── SDLC mode state ──
@@ -106,12 +118,18 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
 
   // ── Build chart data ──
   const { chartData, series, maxVal } = useMemo(() => {
-    if (mode === 'compliance') {
-      const activeDims = COMPLIANCE_DIMENSIONS.filter((d) => enabledCompDims.has(d.id));
-      const activeTools = COMPLIANCE_TOOLS.filter((t) => enabledCompTools.has(t.id));
+    if (mode === 'compliance' || mode === 'pricing') {
+      const dimensions = mode === 'compliance' ? COMPLIANCE_DIMENSIONS : PRICING_DIMENSIONS;
+      const tools = mode === 'compliance' ? COMPLIANCE_TOOLS : PRICING_TOOLS;
+      const enabledTools = mode === 'compliance' ? enabledCompTools : enabledPricingTools;
+      const enabledDims = mode === 'compliance' ? enabledCompDims : enabledPricingDims;
+      const toolColors = mode === 'compliance' ? COMPLIANCE_TOOL_COLORS : PRICING_TOOL_COLORS;
+      const dimColors = mode === 'compliance' ? COMPLIANCE_DIM_COLORS : PRICING_DIM_COLORS;
+
+      const activeDims = dimensions.filter((d) => enabledDims.has(d.id));
+      const activeTools = tools.filter((t) => enabledTools.has(t.id));
 
       if (orientation === 'dims-as-axes') {
-        // Axes = dimensions, Series = tools
         const data = activeDims.map((dim) => {
           const row: Record<string, string | number> = { dimension: dim.name };
           for (const tool of activeTools) {
@@ -121,11 +139,10 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
         });
         return {
           chartData: data,
-          series: activeTools.map((t) => ({ key: t.id, name: t.name, color: COMPLIANCE_TOOL_COLORS[t.id] })),
+          series: activeTools.map((t) => ({ key: t.id, name: t.name, color: toolColors[t.id] })),
           maxVal: 4,
         };
       } else {
-        // Axes = tools, Series = dimensions
         const data = activeTools.map((tool) => {
           const row: Record<string, string | number> = { dimension: tool.name };
           for (const dim of activeDims) {
@@ -135,7 +152,7 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
         });
         return {
           chartData: data,
-          series: activeDims.map((d) => ({ key: d.id, name: d.name, color: COMPLIANCE_DIM_COLORS[d.id] })),
+          series: activeDims.map((d) => ({ key: d.id, name: d.name, color: dimColors[d.id] })),
           maxVal: 4,
         };
       }
@@ -182,7 +199,7 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
         };
       }
     }
-  }, [mode, orientation, enabledCompTools, enabledCompDims, enabledSdlcTools, enabledSdlcPhases, profiles]);
+  }, [mode, orientation, enabledCompTools, enabledCompDims, enabledPricingTools, enabledPricingDims, enabledSdlcTools, enabledSdlcPhases, profiles]);
 
   // ── Filter UI helpers ──
   const compToolChips = COMPLIANCE_TOOLS;
@@ -205,7 +222,17 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
                   : 'text-muted bg-background border-border hover:border-muted'
               }`}
             >
-              Compliance & Costs
+              Security & Compliance
+            </button>
+            <button
+              onClick={() => { setMode('pricing'); setHighlightedSeries(null); }}
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${
+                mode === 'pricing'
+                  ? 'text-accent bg-accent-dim border-accent/30'
+                  : 'text-muted bg-background border-border hover:border-muted'
+              }`}
+            >
+              Pricing & Privacy
             </button>
             <button
               onClick={() => { setMode('sdlc'); setHighlightedSeries(null); }}
@@ -229,7 +256,7 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
                   : 'text-muted bg-background border-border hover:border-muted'
               }`}
             >
-              {mode === 'compliance' ? 'Dimensions as axes' : 'Phases as axes'}
+              {mode === 'sdlc' ? 'Phases as axes' : 'Dimensions as axes'}
             </button>
             <button
               onClick={() => { setOrientation('tools-as-axes'); setHighlightedSeries(null); }}
@@ -244,7 +271,61 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
           </div>
 
           {/* Filter chips */}
-          {mode === 'compliance' ? (
+          {mode === 'pricing' ? (
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-muted mr-1 w-12">Tools</span>
+                {PRICING_TOOLS.map((tool) => {
+                  const active = enabledPricingTools.has(tool.id);
+                  return (
+                    <button
+                      key={tool.id}
+                      onClick={() => toggleSet(setEnabledPricingTools, tool.id)}
+                      className={`px-2.5 py-1 text-[11px] font-semibold rounded border transition-all ${
+                        active
+                          ? 'border-accent/40 bg-accent-dim/50 text-accent'
+                          : 'border-border border-dashed text-muted/50 hover:text-muted hover:border-muted'
+                      }`}
+                    >
+                      {tool.name}
+                    </button>
+                  );
+                })}
+                <button
+                  onClick={() => selectAll(setEnabledPricingTools, PRICING_TOOLS.map((t) => t.id))}
+                  className="text-[10px] text-muted hover:text-accent ml-1"
+                >
+                  <RotateCw className="w-3 h-3 inline" /> All
+                </button>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-muted mr-1 w-12">Dims</span>
+                {PRICING_DIMENSIONS.map((dim) => {
+                  const active = enabledPricingDims.has(dim.id);
+                  return (
+                    <button
+                      key={dim.id}
+                      onClick={() => toggleSet(setEnabledPricingDims, dim.id)}
+                      className={`px-2.5 py-1 text-[11px] font-semibold rounded border transition-all ${
+                        active
+                          ? 'border-accent/40 bg-accent-dim/50 text-accent'
+                          : 'border-border border-dashed text-muted/50 hover:text-muted hover:border-muted'
+                      }`}
+                    >
+                      <span className="font-mono text-[9px] opacity-60 mr-1">{dim.id}</span>
+                      {dim.name}
+                    </button>
+                  );
+                })}
+                <button
+                  onClick={() => selectAll(setEnabledPricingDims, PRICING_DIMENSIONS.map((d) => d.id))}
+                  className="text-[10px] text-muted hover:text-accent ml-1"
+                >
+                  <RotateCw className="w-3 h-3 inline" /> All
+                </button>
+              </div>
+            </div>
+          ) : mode === 'compliance' ? (
             <div className="space-y-2">
               {/* Tool filters */}
               <div className="flex flex-wrap items-center gap-1.5">
@@ -360,7 +441,7 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
           {/* Radar chart */}
           {!minAxes ? (
             <div className="text-center py-12 text-muted text-sm italic">
-              Select at least 3 {orientation === 'dims-as-axes' ? (mode === 'compliance' ? 'dimensions' : 'phases') : 'tools'} to display the radar chart.
+              Select at least 3 {orientation === 'dims-as-axes' ? (mode === 'sdlc' ? 'phases' : 'dimensions') : 'tools'} to display the radar chart.
             </div>
           ) : (
             <div className="flex flex-col items-center">
@@ -406,6 +487,8 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
                       highlightedSeries !== null && highlightedSeries !== s.key ? 'opacity-30' : 'opacity-100'
                     }`}
                     style={{ color: s.color }}
+                    data-pin-label={`Radar Chart — ${s.name}`}
+                    data-pin-value={`Mode: ${mode === 'compliance' ? 'Security & Compliance' : mode === 'pricing' ? 'Pricing & Data Privacy' : 'SDLC Phases'}`}
                   >
                     <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ background: s.color }} />
                     {s.name}
@@ -426,7 +509,9 @@ export default function ToolRadarChart({ profiles }: ToolRadarChartProps) {
           {/* Footer note */}
           <div className="text-[10px] text-muted text-center pt-2 border-t border-border/50">
             {mode === 'compliance'
-              ? 'Scores 1\u20134 based on publicly available certifications and documentation (2025). Click a legend item to highlight.'
+              ? 'Scores 1\u20134 based on publicly available security certifications and enterprise infrastructure documentation. Click a legend item to highlight.'
+              : mode === 'pricing'
+              ? 'Scores 1\u20134 based on published pricing, enterprise policies, and data privacy documentation. Click a legend item to highlight.'
               : 'Phase applicability (0\u2013100%) from tool profiles. Click a legend item to highlight.'}
           </div>
     </div>

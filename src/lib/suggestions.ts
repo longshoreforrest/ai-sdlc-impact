@@ -47,6 +47,7 @@ export interface FeatureSuggestion {
   description: string;
   priority: 'nice-to-have' | 'important' | 'critical';
   submitterName?: string;
+  navigationPath?: string;
   status: FeatureStatus;
   createdAt: string;
   implementedAt?: string;

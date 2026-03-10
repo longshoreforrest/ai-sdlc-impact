@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import SuggestFeatureButton from "@/components/SuggestFeatureButton";
 import { LanguageProvider } from "@/lib/i18n";
 import { ScenarioProvider } from "@/contexts/ScenarioContext";
+import { ImprovementProvider } from "@/contexts/ImprovementContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,11 +41,13 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <ScenarioProvider>
-            <Sidebar />
-            <main className="ml-0 md:ml-64 min-h-screen p-4 pt-16 md:p-8">
-              {children}
-            </main>
-            <SuggestFeatureButton />
+            <ImprovementProvider>
+              <Sidebar />
+              <main className="ml-0 md:ml-64 min-h-screen p-4 pt-16 md:p-8">
+                {children}
+              </main>
+              <SuggestFeatureButton />
+            </ImprovementProvider>
           </ScenarioProvider>
         </LanguageProvider>
       </body>

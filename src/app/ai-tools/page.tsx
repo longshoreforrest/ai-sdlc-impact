@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Layers, FileSpreadsheet, Presentation, Globe, Loader2, Settings2, Radar as RadarIcon, Shield } from 'lucide-react';
+import { Layers, FileSpreadsheet, Presentation, Globe, Loader2, Settings2, Radar as RadarIcon, Shield, DollarSign } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { TOOL_PROFILES } from '@/lib/tool-profiles';
 import { ToolProfile } from '@/lib/types';
 import ToolRadarChart from '@/components/tools/ToolRadarChart';
 import ComplianceCostsTable from '@/components/tools/ComplianceCostsTable';
+import EnterprisePricingTable from '@/components/tools/EnterprisePricingTable';
 import ToolProfileConfigurator from '@/components/tools/ToolProfileConfigurator';
 import { exportAiToolsExcel, exportAiToolsPptx, exportAiToolsHtml } from '@/lib/export-ai-tools';
 
@@ -26,20 +27,21 @@ function loadProfiles(): ToolProfile[] {
   return [...TOOL_PROFILES];
 }
 
-type Tab = 'profiles' | 'radar' | 'compliance';
+type Tab = 'profiles' | 'radar' | 'compliance' | 'pricing';
 type ExportFormat = 'excel' | 'pptx' | 'html';
 
 const TABS: { id: Tab; labelKey: string; icon: React.ElementType }[] = [
-  { id: 'profiles', labelKey: 'Tool Profiles', icon: Settings2 },
   { id: 'radar', labelKey: 'Radar Chart', icon: RadarIcon },
-  { id: 'compliance', labelKey: 'Compliance & Costs', icon: Shield },
+  { id: 'compliance', labelKey: 'Security & Compliance', icon: Shield },
+  { id: 'pricing', labelKey: 'Pricing & Data Privacy', icon: DollarSign },
+  { id: 'profiles', labelKey: 'Tool Profiles', icon: Settings2 },
 ];
 
 export default function AiToolsPage() {
   const { t } = useTranslation();
   const [profiles, setProfiles] = useState<ToolProfile[]>(() => [...TOOL_PROFILES]);
   const [exporting, setExporting] = useState<ExportFormat | null>(null);
-  const [activeTab, setActiveTab] = useState<Tab>('profiles');
+  const [activeTab, setActiveTab] = useState<Tab>('radar');
 
   useEffect(() => {
     setProfiles(loadProfiles());
@@ -157,6 +159,10 @@ export default function AiToolsPage() {
 
       {activeTab === 'compliance' && (
         <ComplianceCostsTable />
+      )}
+
+      {activeTab === 'pricing' && (
+        <EnterprisePricingTable />
       )}
     </div>
   );
