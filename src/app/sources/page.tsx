@@ -18,10 +18,13 @@ const categoryBadge: Record<string, { label: string; className: string }> = {
   scientific: { label: 'Scientific Reference', className: 'bg-cyan-500/20 text-cyan-400' },
   sap: { label: 'SAP', className: 'bg-amber-500/20 text-amber-400' },
   salesforce: { label: 'Salesforce', className: 'bg-sky-500/20 text-sky-400' },
+  'ai-tool': { label: 'AI Tool', className: 'bg-violet-500/20 text-violet-400' },
 };
 
 const DATA_TYPES: DataType[] = ['empirical', 'survey', 'vendor', 'anecdotal', 'info'];
-const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap', 'salesforce'];
+const SOURCE_CATEGORIES: SourceCategory[] = ['social-media', 'scientific', 'sap', 'salesforce', 'ai-tool'];
+
+const AI_TOOL_NAMES = ['Claude Code', 'Cursor', 'GitHub Copilot', 'Codex', 'Antigravity', 'Windsurf', 'Gemini CLI'] as const;
 
 const dataTypeBadgeColors: Record<DataType, string> = {
   empirical: 'bg-emerald-500/20 text-emerald-400',
@@ -31,7 +34,7 @@ const dataTypeBadgeColors: Record<DataType, string> = {
   info: 'bg-zinc-500/20 text-zinc-400',
 };
 
-type ScopeFilter = 'all' | 'sdlc' | 'business';
+type ScopeFilter = 'all' | 'sdlc' | 'business' | 'ai-tool';
 
 const BENEFIT_TYPES: BenefitType[] = ['efficiency', 'cost', 'adoption', 'other'];
 
@@ -44,6 +47,7 @@ interface SourceFilters {
   scope: ScopeFilter;
   benefitTypes: BenefitType[];
   dateRange: [string, string];
+  aiTools: string[];
 }
 
 // Date helpers for range slider
@@ -70,6 +74,7 @@ const defaultFilters: SourceFilters = {
   benefitTypes: [...BENEFIT_TYPES],
   category: 'all',
   dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE],
+  aiTools: [...AI_TOOL_NAMES],
 };
 
 function ToggleButton({
@@ -134,7 +139,7 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
     : 'all';
 
   const scopeParam = searchParams.get('scope');
-  const scope: ScopeFilter = scopeParam === 'sdlc' || scopeParam === 'business' ? scopeParam : 'all';
+  const scope: ScopeFilter = scopeParam === 'sdlc' || scopeParam === 'business' || scopeParam === 'ai-tool' ? scopeParam : 'all';
 
   return {
     filters: {
@@ -146,6 +151,7 @@ function parseUrlFilters(searchParams: URLSearchParams): { filters: SourceFilter
       scope,
       benefitTypes: [...BENEFIT_TYPES],
       dateRange: [GLOBAL_MIN_DATE, GLOBAL_MAX_DATE] as [string, string],
+      aiTools: [...AI_TOOL_NAMES],
     },
     fromDashboard: true,
   };
@@ -292,6 +298,22 @@ function SourcesPageContent() {
     }));
   }, []);
 
+  const toggleAiTool = useCallback((tool: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      aiTools: prev.aiTools.includes(tool)
+        ? prev.aiTools.filter((t) => t !== tool)
+        : [...prev.aiTools, tool],
+    }));
+  }, []);
+
+  const toggleAllAiTools = useCallback(() => {
+    setFilters((prev) => ({
+      ...prev,
+      aiTools: prev.aiTools.length === AI_TOOL_NAMES.length ? [] : [...AI_TOOL_NAMES],
+    }));
+  }, []);
+
   const resetFilters = useCallback(() => {
     setFilters(defaultFilters);
     setSearchQuery('');
@@ -308,6 +330,7 @@ function SourcesPageContent() {
     filters.benefitTypes.length === BENEFIT_TYPES.length &&
     filters.dateRange[0] === GLOBAL_MIN_DATE &&
     filters.dateRange[1] === GLOBAL_MAX_DATE &&
+    filters.aiTools.length === AI_TOOL_NAMES.length &&
     searchQuery === '';
 
   const filteredFacts = useMemo(() => {
@@ -315,14 +338,19 @@ function SourcesPageContent() {
       if (!filters.years.includes(f.year)) return false;
       if (!filters.dataTypes.includes(f.dataType)) return false;
       if (!filters.phases.includes(f.phase)) return false;
-      if (filters.scope === 'sdlc' && f.scope === 'business') return false;
+      if (filters.scope === 'sdlc' && (f.scope === 'business' || f.scope === 'ai-tool')) return false;
       if (filters.scope === 'business' && f.scope !== 'business') return false;
+      if (filters.scope === 'ai-tool' && f.scope !== 'ai-tool') return false;
+      // AI tool filter: when not showing all tools, filter by aiTools field
+      if (f.scope === 'ai-tool' && f.aiTools?.length && filters.aiTools.length < AI_TOOL_NAMES.length) {
+        if (!f.aiTools.some((t) => filters.aiTools.includes(t))) return false;
+      }
       const bt = f.benefitType ?? 'efficiency';
       if (!filters.benefitTypes.includes(bt)) return false;
       if (f.publishDate && (f.publishDate < filters.dateRange[0] || f.publishDate > filters.dateRange[1])) return false;
       return true;
     });
-  }, [filters.years, filters.dataTypes, filters.phases, filters.scope, filters.benefitTypes, filters.dateRange]);
+  }, [filters.years, filters.dataTypes, filters.phases, filters.scope, filters.benefitTypes, filters.dateRange, filters.aiTools]);
 
   const totalSources = useMemo(() => buildSources(facts).length, []);
 
@@ -467,6 +495,9 @@ function SourcesPageContent() {
             <ToggleButton active={filters.category === 'salesforce'} onClick={() => setCategory('salesforce')}>
               {t('sources.salesforce')}
             </ToggleButton>
+            <ToggleButton active={filters.category === 'ai-tool'} onClick={() => setCategory('ai-tool')}>
+              AI Tool
+            </ToggleButton>
           </div>
         </div>
 
@@ -483,8 +514,28 @@ function SourcesPageContent() {
             <ToggleButton active={filters.scope === 'business'} onClick={() => setScope('business')}>
               Business
             </ToggleButton>
+            <ToggleButton active={filters.scope === 'ai-tool'} onClick={() => setScope('ai-tool')}>
+              AI Tool
+            </ToggleButton>
           </div>
         </div>
+
+        {/* AI Tool filter (show when scope is ai-tool or all) */}
+        {(filters.scope === 'ai-tool' || filters.scope === 'all') && (
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted font-medium uppercase tracking-wider">AI Tool</span>
+            <div className="flex gap-1">
+              <ToggleButton active={filters.aiTools.length === AI_TOOL_NAMES.length} onClick={toggleAllAiTools}>
+                All
+              </ToggleButton>
+              {AI_TOOL_NAMES.map((tool) => (
+                <ToggleButton key={tool} active={filters.aiTools.includes(tool)} onClick={() => toggleAiTool(tool)}>
+                  {tool}
+                </ToggleButton>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Benefit Type */}
         <div className="flex items-center gap-2">
@@ -692,9 +743,14 @@ function SourcesPageContent() {
                               </span>
                               <span className="text-muted">
                                 <span className="uppercase tracking-wider font-medium">{t('sources.scope')}</span>{' '}
-                                <span className={`inline-block px-2 py-0.5 rounded-md ${fact.scope === 'business' ? 'bg-yellow-500/20 text-yellow-600' : 'bg-blue-500/20 text-blue-400'}`}>
-                                  {fact.scope === 'business' ? 'Business' : 'SDLC'}
+                                <span className={`inline-block px-2 py-0.5 rounded-md ${fact.scope === 'business' ? 'bg-yellow-500/20 text-yellow-600' : fact.scope === 'ai-tool' ? 'bg-violet-500/20 text-violet-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                  {fact.scope === 'business' ? 'Business' : fact.scope === 'ai-tool' ? 'AI Tool' : 'SDLC'}
                                 </span>
+                                {fact.aiTools?.map((tool) => (
+                                  <span key={tool} className="inline-block px-2 py-0.5 rounded-md bg-violet-500/10 text-violet-300 ml-1">
+                                    {tool}
+                                  </span>
+                                ))}
                               </span>
                               <span className="text-muted">
                                 <span className="uppercase tracking-wider font-medium">{t('sources.benefitType')}</span>{' '}

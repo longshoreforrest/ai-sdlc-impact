@@ -39,6 +39,7 @@ const SOURCE_CATEGORY_SHORT: Record<SourceCategoryFilter, string> = {
   'social-media': 'Social',
   sap: 'SAP',
   salesforce: 'SF',
+  'ai-tool': 'AI Tool',
   other: 'Other',
 };
 
@@ -47,6 +48,7 @@ const SOURCE_CATEGORY_LABEL_KEYS: Record<SourceCategoryFilter, TranslationKey> =
   'social-media': 'sources.socialMedia',
   sap: 'sources.sap',
   salesforce: 'sources.salesforce',
+  'ai-tool': 'sources.aiTool' as TranslationKey,
   other: 'scenario.categoryOther',
 };
 

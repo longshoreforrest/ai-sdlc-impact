@@ -259,6 +259,7 @@ export function calculateConfiguredScenarios(
       (f) => {
         if (!config.years.includes(f.year) || !config.dataTypes.includes(f.dataType)) return false;
         if (!includeBusinessFacts && f.scope === 'business') return false;
+        if (f.scope === 'ai-tool') return false; // AI tool comparison facts never enter calculations
         const bt = f.benefitType ?? 'efficiency';
         if (!allowedBenefitTypes.includes(bt)) return false;
         const cat = getSourceCategory(f.source);

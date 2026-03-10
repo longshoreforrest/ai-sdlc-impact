@@ -24,6 +24,7 @@ const categoryLabelKeys: Record<SourceCategoryKey, TranslationKey> = {
   'social-media': 'sources.socialMedia',
   sap: 'sources.sap',
   salesforce: 'sources.salesforce',
+  'ai-tool': 'sources.aiTool' as TranslationKey,
   other: 'scenario.categoryOther',
 };
 

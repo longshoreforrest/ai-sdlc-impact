@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Wrench } from 'lucide-react';
+import { Wrench, Gauge } from 'lucide-react';
 import { useScenario } from '@/contexts/ScenarioContext';
 import { useTranslation } from '@/lib/i18n';
 import { facts } from '@/lib/mock-data';
@@ -40,6 +40,7 @@ export default function ToolsPage() {
   const [avgSalary, setAvgSalary] = useState(55000);
   const [hoursPerYear, setHoursPerYear] = useState(1600);
   const [showConfigurator, setShowConfigurator] = useState(false);
+  const [enableRateLimitWeighting, setEnableRateLimitWeighting] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -57,10 +58,10 @@ export default function ToolsPage() {
       .map((id) => {
         const tool = profiles.find((p) => p.id === id);
         if (!tool) return null;
-        return calculateToolBusinessCase(tool, teamSize, avgSalary, hoursPerYear, scenarioConfigs, facts);
+        return calculateToolBusinessCase(tool, teamSize, avgSalary, hoursPerYear, scenarioConfigs, facts, enableRateLimitWeighting);
       })
       .filter(Boolean) as ToolBusinessCase[];
-  }, [selectedIds, profiles, teamSize, avgSalary, hoursPerYear, scenarioConfigs]);
+  }, [selectedIds, profiles, teamSize, avgSalary, hoursPerYear, scenarioConfigs, enableRateLimitWeighting]);
 
   return (
     <div className="max-w-7xl space-y-6">
@@ -113,6 +114,27 @@ export default function ToolsPage() {
               className="w-full px-3 py-2 text-sm bg-background border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
+        </div>
+
+        {/* Rate Limit Weighting toggle */}
+        <div className="mt-4 pt-4 border-t border-border">
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={enableRateLimitWeighting}
+                onChange={(e) => setEnableRateLimitWeighting(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-9 h-5 bg-border rounded-full peer-checked:bg-accent transition-colors" />
+              <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Gauge className="w-4 h-4 text-muted group-hover:text-foreground transition-colors" />
+              <span className="text-sm font-medium">{t('tools.rateLimitWeighting')}</span>
+            </div>
+            <span className="text-xs text-muted ml-1">{t('tools.rateLimitWeightingDesc')}</span>
+          </label>
         </div>
       </div>
 

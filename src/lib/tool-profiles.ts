@@ -9,6 +9,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://claude.ai',
     costPerSeatMonthly: 100,
     fixedMonthlyCost: 0,
+    rateLimitScore: 4,
     phaseApplicability: {
       Discovery: 0.65,
       Design: 0.75,
@@ -26,6 +27,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://github.com/features/copilot',
     costPerSeatMonthly: 19,
     fixedMonthlyCost: 0,
+    rateLimitScore: 2,
     phaseApplicability: {
       Discovery: 0.2,
       Design: 0.3,
@@ -43,6 +45,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://cursor.com',
     costPerSeatMonthly: 20,
     fixedMonthlyCost: 0,
+    rateLimitScore: 2,
     phaseApplicability: {
       Discovery: 0.2,
       Design: 0.3,
@@ -60,6 +63,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://antigravity.google',
     costPerSeatMonthly: 20,
     fixedMonthlyCost: 0,
+    rateLimitScore: 2,
     phaseApplicability: {
       Discovery: 0.4,
       Design: 0.5,
@@ -77,6 +81,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://openai.com/chatgpt/pricing/',
     costPerSeatMonthly: 25,
     fixedMonthlyCost: 0,
+    rateLimitScore: null,
     phaseApplicability: {
       Discovery: 0.7,
       Design: 0.6,
@@ -94,6 +99,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://openai.com/index/introducing-codex/',
     costPerSeatMonthly: 30,
     fixedMonthlyCost: 0,
+    rateLimitScore: 3,
     phaseApplicability: {
       Discovery: 0.3,
       Design: 0.3,
@@ -111,6 +117,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://windsurf.com',
     costPerSeatMonthly: 15,
     fixedMonthlyCost: 0,
+    rateLimitScore: null,
     phaseApplicability: {
       Discovery: 0.15,
       Design: 0.25,
@@ -128,6 +135,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://www.microsoft.com/en-us/microsoft-365/copilot',
     costPerSeatMonthly: 30,
     fixedMonthlyCost: 0,
+    rateLimitScore: null,
     phaseApplicability: {
       Discovery: 0.6,
       Design: 0.5,
@@ -145,6 +153,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://www.anthropic.com',
     costPerSeatMonthly: 25,
     fixedMonthlyCost: 0,
+    rateLimitScore: null,
     phaseApplicability: {
       Discovery: 0.7,
       Design: 0.6,
@@ -162,6 +171,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: 'https://www.sap.com/products/artificial-intelligence/ai-copilot.html',
     costPerSeatMonthly: 30,
     fixedMonthlyCost: 0,
+    rateLimitScore: null,
     phaseApplicability: {
       Discovery: 0.5,
       Design: 0.6,
@@ -179,6 +189,7 @@ export const TOOL_PROFILES: ToolProfile[] = [
     url: '',
     costPerSeatMonthly: 20,
     fixedMonthlyCost: 0,
+    rateLimitScore: null,
     phaseApplicability: {
       Discovery: 0.3,
       Design: 0.3,

@@ -186,19 +186,20 @@ const ROWS: PricingRow[] = [
     desc: 'Usage caps and throttling for enterprise customers',
     tools: {
       'claude-code': {
-        rating: 'good',
+        rating: 'strong',
         bullets: [
-          'Max plan: "20x more usage than Pro"',
-          'Max: "at least 900 messages every 5 hours"',
-          'Enterprise/API: contractual quotas, not fixed public caps',
+          'Max plan: 20x Pro usage — "at least 900 messages every 5 hours"',
+          'Enterprise/API: custom contractual quotas with no fixed public caps',
+          'Agentic workflows run unthrottled within plan; overages billed transparently',
         ],
+        highlight: 'Highest published limits among coding AI tools',
       },
       'copilot-enterprise': {
-        rating: 'good',
+        rating: 'partial',
         bullets: [
-          'Bundled "included usage" per seat',
-          'Premium request billing for advanced features (e.g. code review)',
-          'Enterprise admins control overage billing',
+          'Bundled "included usage" per seat with premium request billing',
+          'Heavy agentic use (multi-file edits, code review) quickly exhausts included quota',
+          'Overage costs can be unpredictable without proactive admin monitoring',
         ],
       },
       'cursor': {

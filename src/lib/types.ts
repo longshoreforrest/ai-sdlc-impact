@@ -4,7 +4,7 @@ export type DataType = 'empirical' | 'survey' | 'vendor' | 'anecdotal' | 'info';
 
 export type TemporalEra = 'all' | 'early' | 'agentic';
 
-export type FactScope = 'sdlc' | 'business';
+export type FactScope = 'sdlc' | 'business' | 'ai-tool';
 
 export type BenefitType = 'efficiency' | 'cost' | 'adoption' | 'other';
 
@@ -20,8 +20,9 @@ export interface Fact {
   description: string;
   sampleSize?: string;
   credibility: 1 | 2 | 3; // 1=low, 2=medium, 3=high
-  scope?: FactScope; // 'sdlc' (default) or 'business' — business = operational process improvements, not SDLC
+  scope?: FactScope; // 'sdlc' (default), 'business', or 'ai-tool'
   benefitType?: BenefitType; // 'efficiency' (default), 'cost', or 'other'
+  aiTools?: string[]; // AI tools this fact is about (e.g. ['Claude Code', 'Cursor'])
   quote?: string; // Direct quote from the original source
 }
 
@@ -55,7 +56,7 @@ export interface EraComparison {
   delta: number;
 }
 
-export type SourceCategoryKey = 'scientific' | 'social-media' | 'sap' | 'salesforce' | 'other';
+export type SourceCategoryKey = 'scientific' | 'social-media' | 'sap' | 'salesforce' | 'ai-tool' | 'other';
 
 export interface FilterState {
   years: number[];
@@ -63,14 +64,14 @@ export interface FilterState {
   phases: Phase[];
   era: TemporalEra;
   categories: SourceCategoryKey[];
-  scope: 'all' | 'sdlc' | 'business';
+  scope: 'all' | 'sdlc' | 'business' | 'ai-tool';
   benefitTypes: BenefitType[];
 }
 
 export interface ScenarioConfig {
   years: number[];
   dataTypes: DataType[];
-  sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'salesforce' | 'other')[];
+  sourceCategories?: ('social-media' | 'scientific' | 'sap' | 'salesforce' | 'ai-tool' | 'other')[];
   adoptionFactor?: number; // β: organizational adoption multiplier (0.1–1.5)
   includeBusinessFacts?: boolean; // false by default — only SDLC facts used in calculations
   benefitTypes?: BenefitType[]; // default: ['efficiency', 'cost'] — which benefit types to include
@@ -162,4 +163,5 @@ export interface ToolProfile {
   costPerSeatMonthly: number;
   fixedMonthlyCost: number;
   phaseApplicability: Record<Phase, number>; // 0.0–1.0 per phase
+  rateLimitScore?: 1 | 2 | 3 | 4 | null; // P3 score from AI Tools comparison (1–4, null = unknown)
 }

@@ -3,6 +3,7 @@
 import { ToolBusinessCase, Verdict } from '@/lib/tool-calculations';
 import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
+import { Gauge, AlertTriangle } from 'lucide-react';
 
 const VERDICT_COLORS: Record<Verdict, string> = {
   'strong-buy': 'text-emerald-400',
@@ -31,7 +32,9 @@ export default function ToolComparison({ results }: ToolComparisonProps) {
 
   if (results.length < 2) return null;
 
-  const rows: { label: string; values: (string | { text: string; className?: string })[] }[] = [
+  const showRateLimit = results.some((r) => r.rateLimitWeighted);
+
+  const rows: { label: string; values: (string | { text: string; className?: string; icon?: 'gauge' | 'warning' })[] }[] = [
     {
       label: t('tools.annualCost'),
       values: results.map((r) => formatEur(r.scenarios.realistic.annualToolCost)),
@@ -71,6 +74,22 @@ export default function ToolComparison({ results }: ToolComparisonProps) {
     },
   ];
 
+  // Insert rate limit row before verdict if weighting is enabled
+  if (showRateLimit) {
+    rows.splice(rows.length - 1, 0, {
+      label: t('tools.rateLimitScore'),
+      values: results.map((r) => {
+        if (r.rateLimitStatus === 'no-data') {
+          return { text: t('tools.rateLimitNoData'), className: 'text-amber-400', icon: 'warning' as const };
+        }
+        const score = r.tool.rateLimitScore!;
+        const factor = r.rateLimitFactor!;
+        const color = score >= 4 ? 'text-emerald-400' : score >= 3 ? 'text-blue-400' : 'text-amber-400';
+        return { text: `${score}/4 (${Math.round(factor * 100)}%)`, className: color, icon: 'gauge' as const };
+      }),
+    });
+  }
+
   return (
     <div className="bg-surface rounded-xl border border-border overflow-hidden">
       <div className="px-5 py-3 border-b border-border">
@@ -97,7 +116,11 @@ export default function ToolComparison({ results }: ToolComparisonProps) {
                     {typeof val === 'string' ? (
                       val
                     ) : (
-                      <span className={val.className}>{val.text}</span>
+                      <span className={`inline-flex items-center gap-1 ${val.className ?? ''}`}>
+                        {val.icon === 'gauge' && <Gauge className="w-3 h-3" />}
+                        {val.icon === 'warning' && <AlertTriangle className="w-3 h-3" />}
+                        {val.text}
+                      </span>
                     )}
                   </td>
                 ))}

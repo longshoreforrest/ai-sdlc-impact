@@ -49,9 +49,11 @@ export function useFilteredFacts() {
 
     // Scope filter
     if (filters.scope === 'sdlc') {
-      result = result.filter((f) => f.scope !== 'business');
+      result = result.filter((f) => f.scope !== 'business' && f.scope !== 'ai-tool');
     } else if (filters.scope === 'business') {
       result = result.filter((f) => f.scope === 'business');
+    } else if (filters.scope === 'ai-tool') {
+      result = result.filter((f) => f.scope === 'ai-tool');
     }
 
     // Benefit type filter

@@ -53,11 +53,11 @@ export const DATA_TYPE_BADGE_COLORS: Record<DataType, string> = {
 
 // ── Source category constants ──
 
-export type SourceCategoryFilter = 'social-media' | 'scientific' | 'sap' | 'salesforce' | 'other';
+export type SourceCategoryFilter = 'social-media' | 'scientific' | 'sap' | 'salesforce' | 'ai-tool' | 'other';
 
-export const ALL_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'sap', 'salesforce', 'other'];
+export const ALL_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'sap', 'salesforce', 'ai-tool', 'other'];
 
-/** Default source categories for scenarios (SAP excluded) */
+/** Default source categories for scenarios (SAP and ai-tool excluded) */
 export const DEFAULT_SOURCE_CATEGORIES: SourceCategoryFilter[] = ['scientific', 'social-media', 'salesforce', 'other'];
 
 // ── Tooling cost ──

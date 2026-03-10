@@ -5,6 +5,7 @@ import { useTranslation } from '@/lib/i18n';
 import type { TranslationKey } from '@/lib/i18n';
 import { PHASE_COLORS } from '@/lib/constants';
 import { Phase } from '@/lib/types';
+import { Gauge, AlertTriangle } from 'lucide-react';
 
 const VERDICT_STYLES: Record<Verdict, { bg: string; text: string; label: TranslationKey }> = {
   'strong-buy': { bg: 'bg-emerald-500/20', text: 'text-emerald-400', label: 'tools.verdictStrongBuy' },
@@ -23,7 +24,7 @@ interface ToolResultsProps {
 
 export default function ToolResults({ result }: ToolResultsProps) {
   const { t } = useTranslation();
-  const { tool, scenarios, verdict } = result;
+  const { tool, scenarios, verdict, rateLimitWeighted, rateLimitFactor, rateLimitStatus } = result;
   const realistic = scenarios.realistic;
   const verdictStyle = VERDICT_STYLES[verdict];
 
@@ -35,8 +36,23 @@ export default function ToolResults({ result }: ToolResultsProps) {
           <h3 className="text-lg font-bold">{tool.name}</h3>
           <p className="text-xs text-muted">{tool.vendor}</p>
         </div>
-        <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${verdictStyle.bg} ${verdictStyle.text}`}>
-          {t(verdictStyle.label)}
+        <div className="flex flex-col items-end gap-1.5">
+          <div className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${verdictStyle.bg} ${verdictStyle.text}`}>
+            {t(verdictStyle.label)}
+          </div>
+          {rateLimitWeighted && (
+            rateLimitStatus === 'applied' && rateLimitFactor != null ? (
+              <div className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium bg-blue-500/15 text-blue-400 border border-blue-500/20">
+                <Gauge className="w-3 h-3" />
+                <span>P3: {tool.rateLimitScore}/4 ({Math.round(rateLimitFactor * 100)}%)</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium bg-amber-500/15 text-amber-400 border border-amber-500/20">
+                <AlertTriangle className="w-3 h-3" />
+                <span>{t('tools.rateLimitNoData')}</span>
+              </div>
+            )
+          )}
         </div>
       </div>
 
@@ -98,7 +114,12 @@ export default function ToolResults({ result }: ToolResultsProps) {
 
       {/* Applicability weights */}
       <div className="text-xs text-muted">
-        <span className="font-medium">{t('tools.applicabilityNote')}</span>
+        <span className="font-medium">
+          {t('tools.applicabilityNote')}
+          {rateLimitWeighted && rateLimitStatus === 'applied' && rateLimitFactor != null && (
+            <> {t('tools.rateLimitApplied')} ({Math.round(rateLimitFactor * 100)}%).</>
+          )}
+        </span>
       </div>
     </div>
   );

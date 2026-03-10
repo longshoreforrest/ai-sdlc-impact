@@ -1,6 +1,6 @@
 import { DataType, Fact } from './types';
 
-export type SourceCategory = 'social-media' | 'scientific' | 'sap' | 'salesforce' | null;
+export type SourceCategory = 'social-media' | 'scientific' | 'sap' | 'salesforce' | 'ai-tool' | null;
 
 const SOCIAL_MEDIA_PREFIXES = ['X/Twitter', 'LinkedIn'];
 const SCIENTIFIC_PREFIXES = [
@@ -18,6 +18,38 @@ const SCIENTIFIC_EXACT = [
 ];
 const SAP_PREFIXES = ['SAP'];
 const SALESFORCE_PREFIXES = ['Salesforce'];
+const AI_TOOL_EXACT = [
+  'Anthropic — Claude 3.7 Sonnet and Claude Code',
+  'GitHub Blog — Copilot Coding Agent',
+  'OpenAI — Introducing Codex',
+  'Render Blog — AI Coding Agents Benchmark',
+  'Cursor — Cursor 2.0 and Composer',
+  'Cursor — Cloud Agents',
+  'Google Blog — Gemini 3 / Antigravity Launch',
+  'Google — Gemini 3 for Developers',
+  'Anthropic — Claude Opus 4.5',
+  'Cursor — Semantic Search',
+  'GitHub Changelog — Claude and Codex on GitHub',
+  'GitHub Changelog — Model Picker for Copilot Agent',
+  'OpenAI — SWE-bench Verified Limitations',
+  'GitHub Blog — Agent HQ',
+  'IDE-Bench Paper (arXiv)',
+  'DEV Community — Cursor vs Copilot vs Claude Code',
+  'Lushbinary — AI Coding Agents 2026',
+  'Scale AI — SWE-Bench Pro Leaderboard',
+  'AIMultiple — AI Coding Benchmark',
+  'SonarSource — State of Code Report 2025',
+  'Stack Overflow Developer Survey 2025 — AI Tools',
+  'Anthropic — 2026 Agentic Coding Trends Report',
+  'Builder.io — Codex vs Claude Code',
+  'MorphLLM — Claude Code vs Copilot',
+  'MorphLLM — 15 AI Coding Agents Tested',
+  'MorphLLM — Terminal-Bench 2.0',
+  'Faros AI — Best AI Coding Agents 2026',
+  'LogRocket — AI Dev Tool Power Rankings',
+  'Panto AI — AI Coding Assistant Statistics',
+  'Milvus — AI Code Review Debate Benchmark',
+];
 
 export function getSourceCategory(name: string): SourceCategory {
   if (SOCIAL_MEDIA_PREFIXES.some((p) => name.startsWith(p))) return 'social-media';
@@ -26,6 +58,7 @@ export function getSourceCategory(name: string): SourceCategory {
   if (SCIENTIFIC_PREFIXES.some((p) => name.startsWith(p))) return 'scientific';
   if (SCIENTIFIC_CONTAINS.some((s) => name.includes(s))) return 'scientific';
   if (SCIENTIFIC_EXACT.includes(name)) return 'scientific';
+  if (AI_TOOL_EXACT.includes(name)) return 'ai-tool';
   return null;
 }
 
@@ -219,6 +252,38 @@ export const sourceDescriptions: Record<string, string> = {
   'X/Twitter \u2014 @levelsio \u2014 2025 Vibe Coding Game Jam': 'Pieter Levels organized the first Vibe Coding Game Jam (March 2025): 7-day deadline, 80%+ code must be AI-generated. Demonstrated community-scale AI-first development adoption.',
   'LinkedIn \u2014 Alex Finn (AI-Powered SaaS)': 'Alex Finn\'s LinkedIn post documenting his journey from content creator to solo SaaS founder: quit his job, built a $315K/year app with Claude Code and zero programming background.',
   'LinkedIn \u2014 Addy Osmani (Vibe Coding vs AI-Assisted Engineering)': 'Addy Osmani, Google Chrome engineering lead, distinguishes professional AI-assisted engineering from casual vibe coding. Argues for specs, architecture, and code review even with AI tools.',
+
+  // AI Tool Comparison Sources
+  'Anthropic \u2014 Claude 3.7 Sonnet and Claude Code': 'Anthropic\'s product announcement introducing Claude Code as a terminal-based agentic coding tool for delegating substantial engineering tasks. Defines Claude Code\'s CLI-first autonomy position.',
+  'GitHub Blog \u2014 Copilot Coding Agent': 'GitHub\'s announcement of the Copilot coding agent that runs in background via GitHub Actions, starts from issues or VS Code, and pushes work to draft PRs.',
+  'OpenAI \u2014 Introducing Codex': 'OpenAI\'s launch of Codex as a cloud software engineering agent working on many tasks in parallel, each in its own sandbox.',
+  'Render Blog \u2014 AI Coding Agents Benchmark': 'Render\'s independent engineering benchmark: Cursor scored highest (8.0), Claude Code best for prototypes (6.8), Codex UX lagged (6.0).',
+  'Cursor \u2014 Cursor 2.0 and Composer': 'Cursor\'s announcement of parallel agents via worktrees, where multiple models attempt the same problem and the best result is selected.',
+  'Cursor \u2014 Cloud Agents': 'Cursor\'s cloud agents feature enabling many agents to run simultaneously without the laptop being online.',
+  'Google Blog \u2014 Gemini 3 / Antigravity Launch': 'Google\'s launch of Antigravity as an agent-first development platform where agents have direct access to editor, terminal, and browser.',
+  'Google \u2014 Gemini 3 for Developers': 'Google developer post: Gemini 3 Pro scores 54.2% on Terminal-Bench 2.0. Antigravity positioned as higher-level orchestration surface.',
+  'Anthropic \u2014 Claude Opus 4.5': 'Opus 4.5 at medium effort matches Sonnet 4.5\'s best SWE-bench score using 76% fewer output tokens.',
+  'Cursor \u2014 Semantic Search': 'Cursor research: semantic search gives 12.5% higher average answer accuracy, increases code retention, reduces dissatisfied follow-ups.',
+  'GitHub Changelog \u2014 Claude and Codex on GitHub': 'GitHub adds Claude and Codex as partner agents, included in Copilot subscriptions. GitHub becomes an agent hub.',
+  'GitHub Changelog \u2014 Model Picker for Copilot Agent': 'Copilot agent supports Claude Opus 4.5/4.6, Sonnet 4.5/4.6, GPT-5.x Codex. Default: Claude Sonnet 4.6.',
+  'OpenAI \u2014 SWE-bench Verified Limitations': 'OpenAI argues SWE-bench Verified is contaminated. Frontier progress: 74.9% \u2192 80.9% in 6 months. Recommends SWE-bench Pro.',
+  'GitHub Blog \u2014 Agent HQ': 'Users can assign work to Copilot, Claude, Codex, or all three to compare results inside GitHub.',
+  'IDE-Bench Paper (arXiv)': 'Academic benchmark framework evaluating models as IDE agents with structured tool ecosystems.',
+  'DEV Community \u2014 Cursor vs Copilot vs Claude Code': 'Community-style production-workflow comparison. Useful as practitioner sentiment.',
+  'Lushbinary \u2014 AI Coding Agents 2026': 'Broad cross-tool comparison covering pricing, features, and agentic behavior across major coding agents.',
+  'Scale AI \u2014 SWE-Bench Pro Leaderboard': 'Harder SWE-Bench Pro: GPT-5 (23.3%) and Claude Opus 4.1 (23.1%) lead. Massive drop from Verified scores.',
+  'AIMultiple \u2014 AI Coding Benchmark': 'Full-stack benchmark (~600 checks/agent): Cursor + Claude Opus 4.6 = 0.751 (highest). IDE agents occupy 5/6 top spots.',
+  'SonarSource \u2014 State of Code Report 2025': 'Survey (n=1,149): 64% of devs used agentic AI, 42% of committed code is AI-generated or assisted.',
+  'Stack Overflow Developer Survey 2025 \u2014 AI Tools': 'Survey (n=49,000): OpenAI 81%, Claude 45% among pro devs, Copilot 40% tried.',
+  'Anthropic \u2014 2026 Agentic Coding Trends Report': 'Multi-agent workflows moving from experiment to everyday tool across development teams.',
+  'Builder.io \u2014 Codex vs Claude Code': 'Head-to-head: Claude Code used 5.5x fewer tokens (33K vs 188K) with zero errors vs Cursor\'s errors.',
+  'MorphLLM \u2014 Claude Code vs Copilot': 'Claude Code 80.8% SWE-bench; Copilot CLI GA Feb 2026. Best strategy: combine both tools.',
+  'MorphLLM \u2014 15 AI Coding Agents Tested': 'Claude Code best reasoning; Codex fastest terminal (77.3% TermBench); Cursor best IDE.',
+  'MorphLLM \u2014 Terminal-Bench 2.0': 'Codex CLI 77.3% (highest), Claude Opus 4.5 ~59%, GPT-5.1 ~58.1%, Gemini 3 Pro ~54.2%.',
+  'Faros AI \u2014 Best AI Coding Agents 2026': '85% of devs use AI tools; Cursor is baseline comparison; Claude Code excels at complex tasks.',
+  'LogRocket \u2014 AI Dev Tool Power Rankings': 'Claude Opus 4.6 ranked #1 overall; Antigravity revolutionary but declining.',
+  'Panto AI \u2014 AI Coding Assistant Statistics': 'Daily AI users merge ~60% more PRs; only 15% of devs have not adopted AI assistants.',
+  'Milvus \u2014 AI Code Review Debate Benchmark': 'Best single model caught 53% of bugs; adversarial debate raised to 80%. Claude widest coverage.',
 };
 
 export function buildSources(filteredFacts: Fact[]): SourceEntry[] {

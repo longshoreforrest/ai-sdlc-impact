@@ -101,7 +101,7 @@ export const PRICING_DIMENSIONS: ComplianceDimension[] = [
   {
     id: 'P3', name: 'Rate Limits', desc: 'Usage caps and throttling for enterprise',
     scores: {
-      'claude-code': 3, 'copilot-enterprise': 3, 'cursor': 2, 'antigravity': 2, 'codex': 3,
+      'claude-code': 4, 'copilot-enterprise': 2, 'cursor': 2, 'antigravity': 2, 'codex': 3,
     },
   },
   {
